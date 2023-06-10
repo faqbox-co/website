@@ -15,6 +15,8 @@ function isData(obj: any): obj is IData {
 
 export async function getFaqData(username: string): Promise<IFaq | null> {
   if (!username) return null;
+
+  await connect();
   
   const faqs = await faqModel.findOne({
     username: username,
@@ -49,8 +51,6 @@ export async function getFaqData(username: string): Promise<IFaq | null> {
 }
 
 async function getFaq(req: NextApiRequest, res: NextApiResponse<APIResponse>) {
-  await connect();
-
   const query = req.query;
   let user = query.user;
 
