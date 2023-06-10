@@ -34,7 +34,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState("faqbocs-monochrome");
   const [title, setTitle] = useState("My FAQ");
   const [image, setImage] = useState("");
-  const [hasImage, setHasImage] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   let sessionData = useMemo(() => {
@@ -69,7 +68,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           if (!parsed.ok) return;
           setCurrentData(parsed.message);
           setData(parsed.message.data);
-          setHasImage(parsed.message.image ? true : false);
           setTheme(parsed.message.theme);
           setTitle(parsed.message.title);
           if (!parsed.message.image) setLoading(false);
@@ -81,7 +79,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   }, [sessionData, router.asPath, currentData.username]);
 
   useEffect(() => {
-    if (!hasImage) return;
+    if (!currentData.image) return;
     const session = sessionData as CustomSession;
     if (!session) return;
     if (!session.username) return;
@@ -103,7 +101,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           setLoading(false);
         });
     });
-  }, [sessionData, hasImage, currentData.image]);
+  }, [sessionData, currentData.image]);
 
   return (
     <DataContext.Provider
