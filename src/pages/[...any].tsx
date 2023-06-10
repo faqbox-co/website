@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Faqbocs from "@/components/Faqbocs";
 import notFound from "../assets/notfound.jpg";
+import { getFaqData } from "@/database/faq";
 
 type ResProp = {
   result: { status: "NOT_FOUND" | "FOUND"; data: any; url: string };
@@ -82,7 +83,6 @@ function PageNotFound({ result }: ResProp) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const query = ctx.query;
   const url = `https://${ctx.req.headers.host}/api/images${ctx.resolvedUrl}`;
-  const host = process.env.NEXTAUTH_URL!;
 
   if (!Array.isArray(query) && !query.any) {
     return {
@@ -99,12 +99,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let user = "";
   if (Array.isArray(query)) user = query[0];
   else user = query.any![0] as string;
+  const data = await getFaqData(user);
 
-  const resp = await fetch(`${host}/api/faq/${user}`.trim());
-  const text = await resp.text();
-  const parsed = JSON.parse(text);
-
-  if (!parsed.ok) {
+  if (!data) {
     return {
       props: {
         result: {
@@ -120,7 +117,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       result: {
         status: "FOUND",
-        data: parsed.message,
+        data: JSON.parse(JSON.stringify(data)),
         url,
       },
     },

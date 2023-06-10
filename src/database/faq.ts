@@ -13,34 +13,15 @@ function isData(obj: any): obj is IData {
   return "id" in obj && "q" in obj && "a" in obj;
 }
 
-async function getFaq(req: NextApiRequest, res: NextApiResponse<APIResponse>) {
-  await connect();
-
-  const query = req.query;
-  let user = query.user;
-
-  if (!user) {
-    return res
-      .status(400)
-      .send({ ok: false, description: "Bad Request: user not specified." });
-  }
-
-  if (!Array.isArray(user)) {
-    return res.status(400).send({
-      ok: false,
-      description: "Bad Request: Invalid query.",
-    });
-  }
-
+export async function getFaqData(username: string): Promise<IFaq | null> {
+  if (!username) return null;
+  
   const faqs = await faqModel.findOne({
-    username: user[0],
+    username: username,
   });
 
   if (!faqs) {
-    return res.status(404).send({
-      ok: false,
-      description: "Requested data not found.",
-    });
+    return null;
   }
 
   let ret: IFaq = {
@@ -64,9 +45,40 @@ async function getFaq(req: NextApiRequest, res: NextApiResponse<APIResponse>) {
     });
   });
 
+  return ret;
+}
+
+async function getFaq(req: NextApiRequest, res: NextApiResponse<APIResponse>) {
+  await connect();
+
+  const query = req.query;
+  let user = query.user;
+
+  if (!user) {
+    return res
+      .status(400)
+      .send({ ok: false, description: "Bad Request: user not specified." });
+  }
+
+  if (!Array.isArray(user)) {
+    return res.status(400).send({
+      ok: false,
+      description: "Bad Request: Invalid query.",
+    });
+  }
+
+  const faqs = await getFaqData(user[0]);
+
+  if (!faqs) {
+    return res.status(404).send({
+      ok: false,
+      description: "Requested data not found.",
+    });
+  }
+
   return res.status(200).send({
     ok: true,
-    message: { ...ret, username: user[0] },
+    message: { ...faqs },
   });
 }
 
@@ -142,8 +154,8 @@ async function createFaq(
         await pnew.save();
       } else {
         await pfound.updateOne({
-          data: body.image
-        })
+          data: body.image,
+        });
       }
 
       datas.image = `/api/images/${token.username}`;
