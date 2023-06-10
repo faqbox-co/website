@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ReactCollapse--collapse {
+  transition: height 300ms;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror p:last-child {
+  margin: 0;
+}
+
+.paragraph:empty::before {
+  content: '';
+  display: inline-block;
+}
+
+.hidden-scrollbar {
+  -ms-overflow-style: none;
+  /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  /* for Firefox */
+  overflow-y: scroll;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* for Chrome, Safari, and Opera */
+}
+
+.list-order li p {
+  margin-bottom: 3px;
+}
+
+.list-order li:last-child p {
+  margin-bottom: 8px;
+}
+
+.square-spin-2 {
+  --size: 60px;
+  --stroke-width: calc(var(--size) / 6);
+  --color: #60a5fa;
+  --animation-timing-function: linear;
+  --animation-duration: 2s;
+  width: var(--size);
+  height: var(--size);
+  background-image:
+    radial-gradient(circle at var(--stroke-width) var(--stroke-width), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%),
+    radial-gradient(circle at calc(100% - var(--stroke-width)) var(--stroke-width), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%),
+    radial-gradient(circle at calc(100% - var(--stroke-width)) calc(100% - var(--stroke-width)), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%),
+    radial-gradient(circle at var(--stroke-width) calc(100% - var(--stroke-width)), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%);
+  animation: var(--animation-timing-function) var(--animation-duration) infinite square-spin-2-animation;
+}
+
+@keyframes square-spin-2-animation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

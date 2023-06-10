@@ -1,0 +1,10 @@
+{
+    "verbose": true,
+    "exec": "clear && next build && next start",
+    "ignore": [
+        "node_modules",
+        ".next"
+    ],
+    "watch": [".env", "src/"],
+    "ext": "ts, tsx, js, jsx, json, css"
+}
