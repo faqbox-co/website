@@ -132,7 +132,7 @@ async function createFaq(
     }
   }
 
-  if (body.image !== null || body.image !== undefined) {
+  if (body.image !== null && body.image !== undefined) {
     const image = body.image as string;
     const pfound = await pictureModel.findOne({
       name: token.username,
