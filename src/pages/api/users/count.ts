@@ -12,7 +12,7 @@ export default async function UserCount(
     const total = await UserModel.estimatedDocumentCount();
     return res.status(200).send({
       ok: true,
-      message: { total },
+      message: total,
     });
   } catch {
     return res.status(500).send({
