@@ -3,7 +3,7 @@ import { BiSearch } from "react-icons/bi";
 import { RxShare1 } from "react-icons/rx";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { AiOutlineLink } from "react-icons/ai";
-import { GoVerified } from "react-icons/go";
+import { GoLink, GoVerified } from "react-icons/go";
 import { useState, useEffect } from "react";
 import AccordionItem from "./AccordionItem";
 import parse from "html-react-parser";
@@ -12,6 +12,7 @@ import LogoText from "../assets/logo-light.png";
 import LogoTextDark from "../assets/logo-dark.png";
 import IData from "@/interfaces/data";
 import IFaq from "@/interfaces/faq";
+import {FiLink} from "react-icons/fi"
 
 export default function Faqbocs({
   data,
@@ -20,6 +21,7 @@ export default function Faqbocs({
   theme,
   username,
   email,
+  link
 }: IFaq) {
   const [search, setSearch] = useState("");
   const [popShare, setPopShare] = useState(false);
@@ -120,6 +122,12 @@ export default function Faqbocs({
       >
         <RxShare1 className="text-xl sm:text-2xl" />
       </div>
+      <div
+        className={`fixed top-5 left-5 cursor-pointer md:top-10 md:left-10 rounded-full ${colorShare} w-10 sm:w-14 h-10 sm:h-14 flex justify-center items-center`}
+        onClick={() => setPopShare(true)}
+      >
+        <FiLink className="text-xl sm:text-2xl" />
+      </div>
       <div className="mx-auto w-full flex flex-col items-center max-w-xl">
         <div className="relative overflow-hidden w-24 h-24 sm:w-28 sm:h-28 shadow-md rounded-full mt-3 z-0 ">
           <div
@@ -147,7 +155,7 @@ export default function Faqbocs({
           @{username}
           {verifiedAccount.includes(username) && <GoVerified className=" text-yellow-500"/>}
         </p>
-        <div
+        {/* <div
           className={`${colorPrimary}  transitions duration-300  text-sm rounded-full font-poppins px-5 py-3  mt-5  flex justify-between gap-3 items-center w-full shadow-sm`}
         >
           <BiSearch className="text-xl" />
@@ -160,14 +168,15 @@ export default function Faqbocs({
             value={search}
             onChange={handleSearch}
           />
-        </div>
-        <a
+        </div> */}
+        {/* <a
           href={`mailto:${email}`}
-          className={`${colorDark} rounded-full w-full py-2 px-5 mt-3 font-semibold shadow-sm sm:text-lg text-center`}
+          className={`${colorDark} rounded-full w-full flex justify-center gap-5 py-2 px-5 mt-3 font-semibold shadow-sm sm:text-lg text-center`}
         >
-          More question?
-        </a>
-        <section className="w-full">
+          Links
+          <FiLink2 className="text-2xl"/>
+        </a> */}
+        <section className="w-full mt-6">
           {dataSearched.map((faq) => (
             <AccordionItem
               key={faq.id}
@@ -189,7 +198,7 @@ export default function Faqbocs({
       {popShare && (
         <div
           id="share1"
-          className={`fixed sm:hidden top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 flex text-slate-950 z-10`}
+          className={`fixed sm:hidden top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
         >
           <div
             className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-60 rounded-t-3xl fixed bottom-0 left-0`}
@@ -233,7 +242,7 @@ export default function Faqbocs({
       {popShare && (
         <div
           id="share2"
-          className={`hidden fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 text-slate-950 sm:flex z-10`}
+          className={`hidden fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm text-slate-950 sm:flex z-10`}
         >
           <div
             className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-60 rounded-3xl m-auto`}

@@ -23,23 +23,25 @@ import {
 import DataContext from "@/context/DataContext";
 import { NextPageWithLayout } from "../_app";
 import Head from "next/head";
-import IData from "@/interfaces/data";
 import randomID from "@/utils/randomid";
+import ILink from "@/interfaces/links";
+import SortableItemLinks from "@/components/SortableItemLinks";
 
 type DataType = {
-  data: IData[];
-  setData: React.Dispatch<
-    React.SetStateAction<{ id: string; q: string; a: string }[]>
+  link: ILink[];
+  setLink: React.Dispatch<
+    React.SetStateAction<{ id: string; url: string; title: string }[]>
   >;
 };
 
-const Dashboard: NextPageWithLayout = () => {
-  const { data, setData } = useContext(DataContext) as DataType;
+const Links: NextPageWithLayout = () => {
+  const { link, setLink } = useContext(DataContext) as DataType;
   const [addQuestion, setAddQuestion] = useState(false);
   const sensors = [useSensor(SmartPointerSensor)];
-  const [newQuestion, setNewQuestion] = useState("");
-  const [newAnswer, setNewAnswer] = useState("");
+  const [newURL, setNewURL] = useState("");
+  const [newTitle, setNewTitle] = useState("");
   const [empty, setEmpty] = useState(false);
+  const [urlValid, setUrlValid] = useState(true);
 
   const measuringConfig = {
     droppable: {
@@ -51,7 +53,7 @@ const Dashboard: NextPageWithLayout = () => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setData((items) => {
+      setLink((items) => {
         const activeIndex = items.map((item) => item.id).indexOf(active.id);
         const overIndex = items.map((item) => item.id).indexOf(over.id);
         return arrayMove(items, activeIndex, overIndex);
@@ -61,19 +63,24 @@ const Dashboard: NextPageWithLayout = () => {
 
   const handleSumbit = (e: any) => {
     e.preventDefault();
-    if (newQuestion.trim() && newAnswer.trim()) {
-      setAddQuestion(!addQuestion);
-      setData([{ id: randomID(), q: newQuestion, a: newAnswer }, ...data]);
-      setNewQuestion("");
-      setNewAnswer("");
-      setEmpty(false);
-    } else {
+    const pattern =  /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g;
+
+    if (!newURL.trim() || !newTitle.trim() ) {
       setEmpty(true);
+    } else if (!pattern.test(newURL)) {
+      setUrlValid(false);
+      setEmpty(false);
+    }else{
+      setAddQuestion(!addQuestion);
+      setLink([{ id: randomID(), url: newURL, title: newTitle }, ...link]);
+      setNewURL("");
+      setNewTitle("");
+      setUrlValid(true);
     }
   };
 
   const handleDelete = (id: string) => {
-    setData(data.filter((item) => item.id !== id));
+    setLink(link.filter((item) => item.id !== id));
   };
 
   return (
@@ -83,7 +90,7 @@ const Dashboard: NextPageWithLayout = () => {
       </Head>
       <div className=" sm:w-full max-w-3xl w-[95%] sm:m-0 pb-8 sm:pb-0 mx-auto relative z-10">
         <h1 className="hidden sm:block font-poppins text-3xl font-semibold text-center ">
-          My FAQs
+          Links
         </h1>
 
         {!addQuestion && (
@@ -92,7 +99,7 @@ const Dashboard: NextPageWithLayout = () => {
             onClick={() => setAddQuestion(!addQuestion)}
           >
             <HiPlus className="text-xl" />
-            Add FAQ
+            Add Links
           </button>
         )}
         {addQuestion && (
@@ -105,40 +112,62 @@ const Dashboard: NextPageWithLayout = () => {
               onClick={() => {
                 setAddQuestion(false);
                 setEmpty(false);
-                setNewQuestion("");
+                setNewURL("");
+                setNewTitle("");
               }}
             >
               <RxCross1 className="text-xl" />
             </button>
 
             <label htmlFor="question" className="sm:text-lg font-semibold">
-              Question
+              URL
             </label>
 
             <input
               type="text"
-              name="question"
-              id="question"
+              name="link-url"
+              id="link-url"
               className="sm:p-4 p-3 text-sm sm:text-base rounded-2xl bg-gray-100 outline-none w-full"
               autoComplete="off"
               autoFocus
-              placeholder="Question..."
-              value={newQuestion}
+              placeholder="https://www.example.com"
+              value={newURL}
               onChange={(e) => {
-                setNewQuestion(e.target.value);
+                setNewURL(e.target.value);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") e.preventDefault();
               }}
             />
 
+            {!urlValid && (
+              <p className="text-red-500 text-sm">
+                Enter a valid URLs.
+              </p>
+            )}
+
             <label htmlFor="question" className="mt-2 sm:text-lg font-semibold">
-              Answer
+              Title
             </label>
-            <Tiptap newAnswer={newAnswer} setNewAnswer={setNewAnswer} />
+            <input
+              type="text"
+              name="link-title"
+              id="link-title"
+              className="sm:p-4 p-3 text-sm sm:text-base rounded-2xl bg-gray-100 outline-none w-full"
+              autoComplete="off"
+              placeholder="Title"
+              value={newTitle}
+              onChange={(e) => {
+                setNewTitle(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") e.preventDefault();
+              }}
+            />
+            
             {empty && (
               <p className="text-red-500 text-sm">
-                *Please fill the question and answer
+                Fill up the URL and Title.
               </p>
             )}
 
@@ -158,11 +187,11 @@ const Dashboard: NextPageWithLayout = () => {
           measuring={measuringConfig}
           modifiers={[restrictToWindowEdges, restrictToVerticalAxis]}
         >
-          <SortableContext items={data} strategy={verticalListSortingStrategy}>
-            {data.map((item) => (
-              <SortableItem
-                data={data}
-                setData={setData}
+          <SortableContext items={link} strategy={verticalListSortingStrategy}>
+            {link.map((item) => (
+              <SortableItemLinks
+                link={link}
+                setLink={setLink}
                 handleDelete={handleDelete}
                 key={item.id}
                 {...item}
@@ -175,10 +204,10 @@ const Dashboard: NextPageWithLayout = () => {
   );
 };
 
-Dashboard.getLayout = function getLayout(page: React.ReactElement) {
+Links.getLayout = function getLayout(page: React.ReactElement) {
   return <AdminLayout>{page}</AdminLayout>;
 };
 
 export { default as getServerSideProps } from "@/utils/checkUname";
 
-export default Dashboard;
+export default Links;

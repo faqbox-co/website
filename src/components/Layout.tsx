@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: React.ReactElement }) {
               <p className=" text-lg font-semibold">Guides</p>
             </Link>
             <a
-              href={"#questions"}
+              href={"/question"}
               className="py-3 px-4 hover:bg-gray-100 rounded-xl hidden lg:inline-block"
             >
               <p className=" text-lg font-semibold">Questions?</p>
@@ -57,7 +57,7 @@ export default function Layout({ children }: { children: React.ReactElement }) {
             Start creating your Faqbocs today!
           </h1>
           <h1 className="font-ssp sm:text-4xl text-3xl mb-8 font-semibold text-white">
-            Let them know more. Less Misunderstanding.
+            Let them know more. Less confusion.
           </h1>
           <Link
             className="text-xl sm:text-2xl mx-auto font-semibold py-4 px-8 rounded-full bg-blue-600 text-white w-fit align-middle mt-4 shadow-lg hover:scale-105 transition duration-300"

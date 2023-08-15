@@ -10,12 +10,14 @@ import { AiOutlineEye } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { FiExternalLink } from "react-icons/fi";
 import { RxShare1 } from "react-icons/rx";
+import {FaQuestion, FaLink} from "react-icons/fa"
 import { HiOutlineChevronRight } from "react-icons/hi";
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useState, useEffect, useContext, useCallback, use } from "react";
 import FaqbocsPreview from "./FaqbocsPreview";
 import CustomSession from "@/@types/custom_session";
 import DataContext, { DataContextProps } from "@/context/DataContext";
 import { title } from "process";
+
 
 export default function AdminNav({
   props,
@@ -40,73 +42,6 @@ export default function AdminNav({
       }
     };
   });
-
-  const checkData = useCallback(() => {
-    const lenData = ctx.data.length;
-    const lenCurr = ctx.currentData.data?.length;
-
-    if (lenData !== lenCurr) return false;
-
-    return ctx.data.every((v, i) => {
-      const currData = ctx.currentData.data[i];
-      return (
-        currData?.a === v.a && currData?.q === v.q && currData?.id === v.id
-      );
-    });
-  }, [ctx]);
-
-  const checkSame = useCallback(() => {
-    let data: { [key: string]: any } = {};
-
-    if (!checkData()) data.data = ctx.data;
-    if (ctx.image !== ctx.currentData.image) data.image = ctx.image;
-    if (ctx.title !== ctx.currentData.title) data.title = ctx.title;
-    if (ctx.theme !== ctx.currentData.theme) data.theme = ctx.theme;
-
-    return data;
-  }, [ctx, checkData]);
-
-  useEffect(() => {
-    if (Object.keys(checkSame()).length === 0) {
-      window.onbeforeunload = null;
-      return;
-    } else {
-      window.onbeforeunload = (e) => {
-        return (e.returnValue = "");
-      };
-    }
-  }, [ctx, checkSame]);
-
-  async function saveChange(
-    event: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
-  ) {
-    const toPost = checkSame();
-
-    if (Object.keys(toPost).length === 0) {
-      return;
-    }
-
-    ctx.setLoading(true);
-
-    fetch("/api/faq", {
-      method: "POST",
-      body: JSON.stringify(toPost),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((resp) => {
-        return resp.text();
-      })
-      .then((text) => {
-        const parsed = JSON.parse(text);
-        ctx.setCurrentData({ ...ctx.currentData, ...parsed.message });
-        ctx.setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
 
   return (
     <>
@@ -153,30 +88,40 @@ export default function AdminNav({
             <Link
               href={"/admin"}
               className={`flex flex-col items-center gap-1 border-b-2  pb-1 pt-2 ${
-                menu === 0 ? "border-b-slate-900" : "border-b-white"
+                menu === 0 ? "border-b-slate-900 bg-slate-100" : "border-b-white"
               } `}
               onClick={() => setMenu(0)}
             >
-              <BsViewList className="text-2xl" />
-              Dashboard
+              <FaQuestion className="text-xl" />
+              FAQs
+            </Link>
+            <Link
+              href={"/admin/links"}
+              className={`flex flex-col items-center gap-1 border-b-2  pb-1 pt-2 ${
+                menu === 3 ? "border-b-slate-900 bg-slate-100" : "border-b-white"
+              } `}
+              onClick={() => setMenu(3)}
+            >
+              <FaLink className="text-xl" />
+              Links
             </Link>
             <Link
               href={"/admin/appearance"}
               className={`flex flex-col items-center gap-1 border-b-2 pb-1 pt-2 ${
-                menu === 1 ? "border-b-slate-950" : "border-b-white"
+                menu === 1 ? "border-b-slate-900 bg-slate-100" : "border-b-white"
               }`}
               onClick={() => setMenu(1)}
             >
               <FaShapes className="text-2xl " />
               Appearance
             </Link>
-            <div
+            {/* <div
               className={`flex flex-col items-center gap-1 border-b-2 border-b-white pb-1 pt-2`}
               onClick={(e) => saveChange(e)}
             >
               <AiOutlineSave className="text-2xl " />
               Save
-            </div>
+            </div> */}
             <div
               className={`flex flex-col items-center gap-1 border-b-2 border-b-white pb-1 pt-2`}
               onClick={() => {
@@ -192,7 +137,7 @@ export default function AdminNav({
         {popShare && (
           <div
             id="share1"
-            className={`fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 flex z-10`}
+            className={`fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex z-10`}
           >
             <div
               className={`bg-white max-w-md w-full flex flex-col gap-3 p-5 font-poppins h-60 rounded-t-3xl fixed bottom-0 left-0`}
@@ -321,8 +266,19 @@ export default function AdminNav({
             }`}
             onClick={() => setMenu(0)}
           >
-            <BsViewList className="text-2xl" />
-            Dashboard
+            <FaQuestion className="text-xl" />
+            FAQs
+          </Link>
+
+          <Link
+            href={"/admin/links"}
+            className={`py-3 px-4 hover:bg-slate-100 transition justify-center rounded-lg flex gap-2 items-center ${
+              menu === 3 ? "bg-slate-100" : ""
+            }`}
+            onClick={() => setMenu(3)}
+          >
+            <FaLink className="text-xl" />
+            Links
           </Link>
 
           <Link
@@ -336,13 +292,13 @@ export default function AdminNav({
             Appearance
           </Link>
 
-          <button
+          {/* <button
             className="py-3 px-4 border-[1px] border-slate-300 transition rounded-full hover:border-transparent hover:bg-slate-200 flex justify-center gap-2 items-center"
             onClick={(e) => saveChange(e)}
           >
             <AiOutlineSave className="text-2xl " />
             Save
-          </button>
+          </button> */}
 
           <button
             className="py-3 px-4 border-[1px] border-slate-300 transition rounded-full hover:border-transparent hover:bg-slate-200 flex justify-center gap-2 items-center"
@@ -386,7 +342,7 @@ export default function AdminNav({
         {popShare && (
           <div
             id="share2"
-            className={`fixed top-0 left-0 w-[100vw] h-[100vh] px-10 bg-slate-950/40 flex`}
+            className={`fixed top-0 left-0 w-[100vw] h-[100vh] px-10 bg-slate-950/40 backdrop-blur-sm flex`}
           >
             <div className="bg-white max-w-lg w-full flex flex-col gap-3 p-6 font-poppins m-auto rounded-2xl">
               <h1 className="text-lg my-2 font-bold text-center">

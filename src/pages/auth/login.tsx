@@ -52,6 +52,7 @@ export default function Login() {
             alt="Bali, Indonesia"
             src={newUser}
             fill
+            placeholder="blur"
             className="object-cover object-top"
           />
         </div>

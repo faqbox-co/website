@@ -131,7 +131,7 @@ export default function Home() {
               <h2 className="font-ssp text-center sm:text-left mt-4 text-white font-[500] text-xl sm:text-2xl">
                 Add all of the related commonly asked questions along with its
                 answer. Everything comes together forming a beautiful FAQ page
-                designed to convert.
+                designed to comfort.
               </h2>
               <Link
                 className="text-xl sm:text-2xl mx-auto sm:mx-0 font-semibold py-4 px-8 rounded-full bg-blue-600 text-white w-fit align-middle mt-8 shadow-lg hover:scale-105 transition duration-300"

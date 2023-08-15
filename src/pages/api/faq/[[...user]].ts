@@ -6,7 +6,7 @@ export default async function FaqApi(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>
 ) {
-  console.debug("FAQ API called.");
+  console.debug(`${req.method} FAQ API called.`);
   const method = (req.method ?? "GET").toLowerCase();
 
   if (!Object.keys(FaqFunctions).includes(method)) {
