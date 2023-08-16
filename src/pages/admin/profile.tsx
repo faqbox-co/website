@@ -88,7 +88,7 @@ function User({
           onClick={signOutHandler}
         >
           <CiLogout className="text-xl" />
-          Sign Out
+          Log Out
         </button>
       </div>
     </main>

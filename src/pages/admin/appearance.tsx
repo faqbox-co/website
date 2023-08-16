@@ -51,7 +51,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
         </h1>
         <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl sm:mt-5 mt-20 relative">
           <h1 className="text-lg font-bold mb-3">Header</h1>
-          <div className="w-full sm:flex relative  sm:flex-row gap-5">
+          <div className="w-full sm:flex relative sm:flex-row gap-5">
             <div className="w-28 h-28 mb-3 sm:mb-0 rounded-full mx-auto sm:m-0 overflow-hidden">
               <div
                 className={`relative overflow-hidden w-28 h-28 ${

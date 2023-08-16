@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LogoText from "../assets/logo-light.png";
 import Link from "next/link";
-import { BsViewList } from "react-icons/bs";
+import { BsCloudCheck, BsViewList } from "react-icons/bs";
 import { IoShareSocial } from "react-icons/io5";
 import { FaShapes } from "react-icons/fa";
 import { AiOutlineSave } from "react-icons/ai";
@@ -17,12 +17,14 @@ import FaqbocsPreview from "./FaqbocsPreview";
 import CustomSession from "@/@types/custom_session";
 import DataContext, { DataContextProps } from "@/context/DataContext";
 import { title } from "process";
+import { signOut } from "next-auth/react";
+import { CiLogout } from "react-icons/ci";
 
 
 export default function AdminNav({
-  props,
+ props,
 }: {
-  props: React.ReactElement["props"];
+  props: React.ReactElement["props"]
 }) {
   const [preview, setPreview] = useState(false);
   const [menu, setMenu] = useState<number | null>(null);
@@ -31,6 +33,12 @@ export default function AdminNav({
   const session = props.data as CustomSession;
   const [faqbocsLink] = useState(`faqbocs.com/${session.username}`);
   const ctx = useContext(DataContext) as DataContextProps;
+
+  function signOutHandler() {
+    signOut({
+      callbackUrl: "/",
+    });
+  }
 
   useEffect(() => {
     window.onclick = (e) => {
@@ -45,11 +53,56 @@ export default function AdminNav({
 
   return (
     <>
-      {ctx.loading && (
-        <div className="w-[100vw] h-[100vh] fixed top-0 left-0 bg-slate-950/70 text-2xl font-bold z-20 text-white flex justify-center text-center items-center">
+      {/* {ctx.loading && (
+        <div className="w-[100vw] h-[100vh] fixed top-0 left-0 bg-slate-950/70 text-2xl font-bold z-30 text-white flex justify-center text-center items-center">
           <div className="square-spin-2"></div>
         </div>
-      )}
+      )} */}
+      <div className="h-[70px] shadow-md px-8 w-full fixed top-0 right-0 z-10 flex items-center font-poppins justify-between bg-white">
+        <Link
+          href={"/admin/"}
+          className=" relative flex justify-center items-center gap-2 "
+        >
+          <div className="relative w-8 h-8 2xl:w-10 2xl:h-10 ">
+            <Image src={LogoText} alt="" fill />
+          </div>
+          <p className=" text-2xl font-semibold">Faqbocs</p>
+        </Link>
+
+        <div className="flex gap-7 items-center">
+          {ctx.loading ? (
+            <span>Saving ...</span>
+          ) : (
+            <span className="flex gap-2">
+              Saved
+              <BsCloudCheck className="text-2xl"/>
+            </span>
+          )}
+          <Link
+            href={"/admin/profile"}
+            className="flex text-lg font-semibold gap-2 items-center "
+            onClick={() => setMenu(2)}
+          >
+            <div
+              className={`relative overflow-hidden w-12 h-12 rounded-full text-white flex ${
+                ctx.image ? "bg-transparent" : "bg-slate-950"
+              } justify-center items-center object-cover`}
+            >
+              {!ctx.image ? (
+                session?.username![0].toUpperCase()
+              ) : (
+                <Image
+                  unoptimized
+                  src={ctx.image}
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+              )}
+            </div>
+          </Link>
+        </div>
+      </div>
       <div className="fixed sm:hidden z-10 font-poppins">
         <div className="fixed top-0 left-0 w-full bg-white ">
           <div className="px-5 py-2 flex justify-between items-center border-b-[1px] border-b-gray-300">
@@ -226,37 +279,15 @@ export default function AdminNav({
 
       <div className="fixed hidden top-0 left-0 h-[100vh] w-[200px] 2xl:w-[250px] bg-white text-slate-950 p-5 2xl:p-8 font-poppins font-medium z-10 sm:flex flex-col justify-between shadow-lg">
         <div className="flex flex-col gap-5">
+
           <Link
-            href={"/admin/profile"}
-            className="flex gap-1 my-2 items-center flex-col group"
-            onClick={() => setMenu(2)}
+            href={"/admin/"}
+            className=" relative flex justify-center items-center gap-2 mb-[50px]"
           >
-            <div
-              className={`p-3 rounded-full group-hover:bg-slate-200 transition duration-300 ${
-                menu === 2 ? "bg-slate-200" : ""
-              }`}
-            >
-              <div
-                className={`relative overflow-hidden rounded-full h-24 w-24 2xl:h-28 2xl:w-28 ${
-                  ctx.image ? "bg-transparent" : "bg-slate-950"
-                } flex justify-center items-center font-semibold text-4xl text-white`}
-              >
-                {!ctx.image ? (
-                  session?.username![0].toUpperCase()
-                ) : (
-                  <Image
-                    unoptimized
-                    fill
-                    src={ctx.image}
-                    alt=""
-                    className="object-cover"
-                  />
-                )}
-              </div>
+            <div className="relative w-8 h-8 2xl:w-10 2xl:h-10 ">
+              <Image src={LogoText} alt="" fill />
             </div>
-            <p className="font-semibold 2xl:text-lg font-poppins text-slate-950">
-              @{session?.username}
-            </p>
+            <p className=" text-2xl font-semibold">Faqbocs</p>
           </Link>
 
           <Link
@@ -283,7 +314,7 @@ export default function AdminNav({
 
           <Link
             href={"/admin/appearance"}
-            className={`py-3 px-4 hover:bg-slate-100 transition rounded-lg flex gap-2 items-center justify-center ${
+            className={`py-3 px-4 hover:bg-slate-100 transition mb-10 justify-center rounded-lg flex gap-2 items-center ${
               menu === 1 ? "bg-slate-100" : ""
             }`}
             onClick={() => setMenu(1)}
@@ -322,22 +353,19 @@ export default function AdminNav({
           <Link
             href={`/${session.username}`}
             target="_blank"
-            className="py-3 px-4 bg-blue-600 transition rounded-full hover:bg-blue-700 justify-center text-white flex gap-2 items-center"
+            className="py-3 px-4 bg-blue-600 mb-10 transition rounded-full hover:bg-blue-700 justify-center text-white flex gap-2 items-center"
           >
             View Result
             <FiExternalLink className="text-xl" />
           </Link>
+
+          {/* <button className="">
+            <CiLogout className="text-xl" />
+            Log out
+          </button> */}
         </div>
 
-        <Link
-          href={"/admin/"}
-          className=" relative w-full flex justify-center items-center gap-2 my-2"
-        >
-          <div className="relative w-8 h-8 2xl:w-10 2xl:h-10">
-            <Image src={LogoText} alt="" fill />
-          </div>
-          <p className=" 2xl:text-2xl text-xl font-semibold">Faqbocs</p>
-        </Link>
+        
 
         {popShare && (
           <div
@@ -389,3 +417,4 @@ export default function AdminNav({
     </>
   );
 }
+

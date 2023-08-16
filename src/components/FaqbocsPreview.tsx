@@ -92,7 +92,7 @@ export default function FaqbocsPreview({
 
   return (
     <div
-      className={`flex flex-col w-[100vw] h-[100vh] sm:w-[400px] sm:h-[850px]  absolute  origin-top-left sm:scale-[0.625] 2xl:scale-[0.875] align-middle sm:max-w-md font-poppins justify-between py-7 px-5 mx-auto hidden-scrollbar overflow-scroll ${colorBg} ${colorText}`}
+      className={`flex flex-col w-[100vw] h-[100vh] sm:w-[400px] sm:h-[850px]  absolute  origin-top-left sm:scale-[0.625] 2xl:scale-[0.70] align-middle sm:max-w-md font-poppins justify-between py-7 px-5 mx-auto hidden-scrollbar overflow-scroll ${colorBg} ${colorText}`}
     >
       <div
         className={`fixed top-5 right-5 cursor-pointer rounded-full  w-10 h-10 flex justify-center items-center ${colorShare}`}
