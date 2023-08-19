@@ -10,8 +10,12 @@ import IFaq from "@/interfaces/faq";
 import { FiLink, FiMail } from "react-icons/fi";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
 import ILink from "@/interfaces/links";
+import AccordionItem from "./AccordionItem";
+import IData from "@/interfaces/data";
+import parse from "html-react-parser";
 
 export default function Faqbocs({
+  data,
   image,
   title,
   theme,
@@ -20,7 +24,7 @@ export default function Faqbocs({
 }: IFaq) {
   const [popShare, setPopShare] = useState(false);
   const [popLink, setPopLink] = useState(false);
-
+  const [dataSearched, setDataSearched] = useState<IData[]>(data);
   const [colorBg, setColorBg] = useState("");
   const [colorText, setColorText] = useState("");
   const [colorDark, setColorDark] = useState("");
@@ -162,6 +166,17 @@ export default function Faqbocs({
             <GoVerified className=" text-yellow-500" />
           )}
         </p>
+        <section className="w-full mt-6">
+          {dataSearched.map((faq) => (
+            <AccordionItem
+              key={faq.id}
+              question={faq.q}
+              answer={parse(faq.a)}
+              colorPrimary={colorPrimary}
+              preview={false}
+            />
+          ))}
+        </section>
       </div>
       <Link
         href={"/"}
