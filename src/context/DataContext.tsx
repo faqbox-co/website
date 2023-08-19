@@ -40,7 +40,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     image: "",
     email: "",
     data: [],
-    link: [],
+    links: [],
   });
   const [theme, setTheme] = useState("faqbocs-monochrome");
   const [title, setTitle] = useState("My FAQ");
@@ -81,6 +81,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           setData(parsed.message.data);
           setTheme(parsed.message.theme);
           setTitle(parsed.message.title);
+          setLink(parsed.message.links);
           if (!parsed.message.image) setLoading(false);
         })
         .catch((err) => {
@@ -128,19 +129,37 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }, [data]);
 
+  const checkLinks = useCallback(() => {
+    const lenLinks = link.length;
+    const lenCurr = currentData.links.length;
+
+    if (lenLinks !== lenCurr) return false;
+
+    return link.every((v, i) => {
+      const curr = currentData.links[i];
+      return (
+        curr.id === v.id &&
+        curr.title === v.title &&
+        curr.title === v.title &&
+        curr.title === v.title &&
+        curr.urlType === v.urlType
+      );
+    });
+  }, [link]);
+
   const checkSame = useCallback(() => {
     if (loading) return {};
     let localData: { [key: string]: any } = {};
 
     if (!checkData()) localData.data = data;
-    console.log(localData)
-    
+    if (!checkLinks()) localData.links = link;
+    console.log(localData);
+
     if (image != currentData.image) localData.image = image;
     if (title != currentData.title) localData.title = title;
-    if (theme != currentData.theme)  localData.theme = theme;
-    // console.log("localData nya cuyyyyy", localData);
+    if (theme != currentData.theme) localData.theme = theme;
     return localData;
-  }, [checkData, data, image, title, theme]);
+  }, [checkData, data, image, title, theme, link]);
 
   // useEffect(() => {
   //   if (!router.asPath.startsWith("/admin")) return;
@@ -157,16 +176,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   async function saveChange() {
     if (loading) return;
 
-    console.log("saveChange called")
+    console.log("saveChange called");
     const toPost = checkSame();
 
     if (Object.keys(toPost).length === 0) {
-      console.log("toPost has 0 length")
+      console.log("toPost has 0 length");
       return;
     }
 
     setLoading(true);
-    console.log("loading state is true. Fetching...")
+    console.log("loading state is true. Fetching...");
 
     fetch("/api/faq", {
       method: "POST",
@@ -176,11 +195,11 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
       },
     })
       .then((resp) => {
-        console.log("Returning response text...")
+        console.log("Returning response text...");
         return resp.text();
       })
       .then((text) => {
-        console.log("Parsing text")
+        console.log("Parsing text");
         const parsed = JSON.parse(text);
         setCurrentData({ ...currentData, ...parsed.message });
         setLoading(false);
@@ -192,10 +211,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (router.asPath.startsWith("/admin")) {
-      saveChange().then().catch()
+      saveChange().then().catch();
     }
-  }, [data, image, theme, title])
-  // console.log(checkSame(), theme, currentData)
+  }, [data, image, theme, title, link]);
 
   return (
     <DataContext.Provider

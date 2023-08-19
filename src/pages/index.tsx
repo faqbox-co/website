@@ -58,7 +58,7 @@ export default function Home() {
         <meta name="twitter:card" content="summary" />
       </Head>
       <main id="main" className="relative font-ssp">
-        <div className="w-full min-h-[100vh] grid grid-cols-1 lg:grid-cols-[_1fr_500px] max-w-7xl mx-auto pt-28 lg:pt-7 2xl:min-h-fit 2xl:py-24 ">
+        <div className="w-full min-h-[100vh] grid grid-cols-1 lg:grid-cols-[_1fr_500px] max-w-7xl mx-auto pt-28 lg:pt-7 2xl:min-h-fit 2xl:py-16 ">
           <div className="flex flex-col text-center sm:text-left justify-center sm:px-28 px-5">
             <h1 className="font-ssp font-black text-5xl sm:text-7xl">
               All questions answered in just{" "}
@@ -79,7 +79,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex my-auto">
-            <div className="m-auto scale-75 2xl:scale-90">
+            <div className="m-auto scale-75 2xl:scale-[0.8]">
               <Image
                 src={landingPageFaqbocs}
                 width={360}

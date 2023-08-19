@@ -30,6 +30,19 @@ const faqSchema = new Schema(
         },
       ],
       required: true,
+      default: []
+    },
+    links: {
+      type: [
+        {
+          id: String,
+          url: String,
+          title: String,
+          urlType: String,
+        },
+      ],
+      required: true,
+      default: []
     },
   },
   {
@@ -39,6 +52,6 @@ const faqSchema = new Schema(
 
 export type IMFaq = IFaq & Document;
 
-const faqModel = (models.faq as Model<IMFaq>) || model("faq", faqSchema);
+const faqModel = (models.faq as Model<IFaq>) || model("faq", faqSchema);
 
 export default faqModel;

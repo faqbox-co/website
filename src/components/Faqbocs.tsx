@@ -2,17 +2,18 @@ import Image from "next/image";
 import { BiSearch } from "react-icons/bi";
 import { RxShare1 } from "react-icons/rx";
 import { HiOutlineChevronRight } from "react-icons/hi";
-import { AiOutlineLink } from "react-icons/ai";
 import { GoLink, GoVerified } from "react-icons/go";
 import { useState, useEffect } from "react";
 import AccordionItem from "./AccordionItem";
 import parse from "html-react-parser";
 import Link from "next/link";
-import LogoText from "../assets/logo-light.png";
-import LogoTextDark from "../assets/logo-dark.png";
+import LogoText from "../assets/faqbocs-favicon.png";
+import LogoTextDark from "../assets/faqbocs-favicon.png";
 import IData from "@/interfaces/data";
 import IFaq from "@/interfaces/faq";
-import {FiLink} from "react-icons/fi"
+import {FiLink, FiMail} from "react-icons/fi"
+import { BsInstagram, BsWhatsapp } from "react-icons/bs";
+import { FaLink } from "react-icons/fa";
 
 export default function Faqbocs({
   data,
@@ -21,11 +22,12 @@ export default function Faqbocs({
   theme,
   username,
   email,
-  link
+  links
 }: IFaq) {
   const [search, setSearch] = useState("");
   const [popShare, setPopShare] = useState(false);
   const [dataSearched, setDataSearched] = useState<IData[]>(data);
+  const [popLink, setPopLink] = useState(false);
 
   const handleSearch = (e: any) => {
     setSearch(e.target.value);
@@ -111,6 +113,33 @@ export default function Faqbocs({
 
   const verifiedAccount = ["faqbocs", "farisyah", "ziprawan"];
 
+  const generateURL = (type:string, url:string) => {
+    switch(type){
+      case "ig":
+        return "https://instagram.com/" + url;
+      case "wa":
+        return "https://wa.me/" + url;
+      case("mail"):
+        return "mailto:" + url;
+      default:
+        return url;
+    }
+  }
+
+  const generateIcon = (type:string) => {
+    switch(type){
+      case("ig"):
+        return <BsInstagram className="text-2xl text-slate-900"/>;
+      case("wa"):
+        return <BsWhatsapp className="text-2xl text-slate-900"/>;
+      case("mail"):
+        return <FiMail className="text-2xl text-slate-900"/>;
+      default:
+        return <FiLink className="text-2xl text-slate-900"/>;
+    }
+  }
+
+  console.log(process.env.MONGO_URL);
 
   return (
     <div
@@ -124,7 +153,7 @@ export default function Faqbocs({
       </div>
       <div
         className={`fixed top-5 left-5 cursor-pointer md:top-10 md:left-10 rounded-full ${colorShare} w-10 sm:w-14 h-10 sm:h-14 flex justify-center items-center`}
-        onClick={() => setPopShare(true)}
+        onClick={() => setPopLink(true)}
       >
         <FiLink className="text-xl sm:text-2xl" />
       </div>
@@ -192,96 +221,170 @@ export default function Faqbocs({
         href={"/"}
         className={`relative ${colorTitle} w-full flex justify-center items-center gap-2 mt-10`}
       >
-        <Image src={dark ? LogoTextDark : LogoText} alt="faqbocs" height={30} />
-        <p className=" text-xl font-medium">Faqbocs</p>
+        <Image src={dark ? LogoTextDark : LogoText} alt="faqbocs" height={35} />
+        <p className="font-bold font-ssp text-2xl">Faqbocs</p>
       </Link>
       {popShare && (
-        <div
-          id="share1"
-          className={`fixed sm:hidden top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
+        <button
+          onClick={() => setPopShare(false)}
+          className={`fixed sm:hidden justify-center items-end top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
         >
           <div
-            className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-60 rounded-t-3xl fixed bottom-0 left-0`}
+            className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-t-3xl `}
           >
-            <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
+            <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center ">
               @{username}
               {verifiedAccount.includes(username) && <GoVerified className=" text-yellow-500"/>}
             </h1>
-            <div
-              className="p-4 w-full flex font-normal cursor-pointer items-center justify-between"
-              onClick={() =>
-                navigator.share({
-                  title: `${title} | Faqbocs`,
-                  text: `${title} by ${username}\nCheck out my faqbocs!\n\n`,
-                  url: `https://faqbocs.com/${username}`,
-                })
-              }
-            >
-              <div className="flex items-center gap-3">
-                <RxShare1 className="text-2xl" />
-                Share this Faqbocs
+            <hr className="border-1 border-slate-200"/>
+            <div className="w-full flex flex-col gap-2 p-5 font-poppins">
+              <div
+                className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg "
+                onClick={() =>
+                  navigator.share({
+                    title: `${title} | Faqbocs`,
+                    text: `${title} by ${username}\nCheck out my faqbocs!\n\n`,
+                    url: `https://faqbocs.com/${username}`,
+                  })
+                }
+              >
+                <div className="flex items-center gap-3">
+                  <RxShare1 className="text-2xl" />
+                  Share this Faqbocs
+                </div>
+                <HiOutlineChevronRight className="text-2xl" />
               </div>
-              <HiOutlineChevronRight className="text-2xl" />
-            </div>
-            <div
-              className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center"
-              onClick={() => {
-                navigator.clipboard.writeText(`faqbocs.com/${username}`);
-                alert("Link Copied!");
-              }}
-            >
-              <div className="flex gap-3 items-center">
-                <AiOutlineLink className="text-2xl" />
-                <p>Copy this Faqbocs link</p>
+              <div
+                className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center hover:bg-slate-200 transition rounded-lg"
+                onClick={() => {
+                  navigator.clipboard.writeText(`faqbocs.com/${username}`);
+                  alert("Link Copied!");
+                }}
+              >
+                <div className="flex gap-3 items-center">
+                  <FiLink className="text-xl" />
+                  <p>Copy this Faqbocs link</p>
+                </div>
+                <HiOutlineChevronRight className="text-2xl" />
               </div>
-              <HiOutlineChevronRight className="text-2xl" />
             </div>
           </div>
-        </div>
+        </button>
       )}
+      {popLink && (
+        <button
+          onClick={() => setPopLink(false)}
+          className={`fixed sm:hidden justify-center items-end top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
+        >
+          <div
+            className={`bg-white  max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-t-3xl `}
+          >
+            <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
+              Links
+            </h1>
+            <hr className="border-1 border-slate-200"/>
+            <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
+              {links.map(({url, title, urlType}:{url:string, title:string, urlType:string}) => {
+                return(
+                  <Link
+                    href={generateURL(urlType, url)}
+                    target="_blank"
+                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                  >
+                    <div className="flex items-center gap-5 font-semibold">
+                      {generateIcon(urlType)}
+                      {title}
+                    </div>
+                    <HiOutlineChevronRight className="text-2xl" />
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </button>
+      )}
+
+
+
       {popShare && (
-        <div
-          id="share2"
+        <button
+          onClick={() => setPopShare(false)}
           className={`hidden fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm text-slate-950 sm:flex z-10`}
         >
           <div
-            className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-60 rounded-3xl m-auto`}
+            className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-3xl m-auto`}
           >
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
               @{username}
               {verifiedAccount.includes(username) && <GoVerified className=" text-yellow-500"/>}
             </h1>
-            <div
-              className="p-4 w-full flex font-normal cursor-pointer items-center justify-between"
-              onClick={() =>
-                navigator.share({
-                  title: `${title} | Faqbocs`,
-                  text: `${title} by ${username}\nCheck out my faqbocs!\n\n`,
-                  url: `https://faqbocs.com/${username}`,
-                })
-              }
-            >
-              <div className="flex items-center gap-3">
-                <RxShare1 className="text-2xl" />
-                Share this Faqbocs
+            <hr className="border-1 border-slate-200"/>
+            <div className="w-full flex flex-col gap-2 p-5 font-poppins ">
+
+              <div
+                className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                onClick={() =>
+                  navigator.share({
+                    title: `${title} | Faqbocs`,
+                    text: `${title} by ${username}\nCheck out my faqbocs!\n\n`,
+                    url: `https://faqbocs.com/${username}`,
+                  })
+                }
+              >
+                <div className="flex items-center gap-3">
+                  <RxShare1 className="text-2xl" />
+                  Share this Faqbocs
+                </div>
+                <HiOutlineChevronRight className="text-2xl" />
               </div>
-              <HiOutlineChevronRight className="text-2xl" />
-            </div>
-            <div
-              className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center"
-              onClick={() => {
-                navigator.clipboard.writeText(`faqbocs.com/${username}`);
-                alert("Link Copied!");
-              }}
-            >
-              <div className="flex gap-3 items-center">
-                <AiOutlineLink className="text-2xl" />
-                <p>Copy this Faqbocs link</p>
+              <div
+                className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center hover:bg-slate-200 transition rounded-lg"
+                onClick={() => {
+                  navigator.clipboard.writeText(`faqbocs.com/${username}`);
+                  alert("Link Copied!");
+                }}
+              >
+                <div className="flex gap-3 items-center">
+                  <FiLink className="text-xl" />
+                  <p>Copy this Faqbocs link</p>
+                </div>
+                <HiOutlineChevronRight className="text-2xl" />
               </div>
-              <HiOutlineChevronRight className="text-2xl" />
             </div>
           </div>
-        </div>
+        </button>
+      )}
+      {popLink && (
+        <button
+          onClick={() => setPopLink(false)}
+          className={`hidden fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm text-slate-950 sm:flex z-10`}
+        >
+          <div
+            className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-3xl m-auto`}
+          >
+            <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
+              Links
+            </h1>
+            <hr className="border-1 border-slate-200"/>
+            <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
+              {links.map(({url, title, urlType}:{url:string, title:string, urlType:string}) => {
+                return(
+                  <Link
+                    href={generateURL(urlType, url)}
+                    target="_blank"
+                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                  >
+                    <div className="flex items-center gap-5 font-semibold">
+                      {generateIcon(urlType)}
+                      {title}
+                    </div>
+                    <HiOutlineChevronRight className="text-2xl" />
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </button>
       )}
     </div>
   );

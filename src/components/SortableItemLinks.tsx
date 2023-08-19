@@ -3,12 +3,13 @@ import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { CiTrash, CiEdit } from "react-icons/ci";
-import { FiCheck } from "react-icons/fi";
+import { FiCheck, FiLink, FiMail } from "react-icons/fi";
 import { SlArrowDown } from "react-icons/sl";
 import parse from "html-react-parser";
 import TiptapEdit from "./TiptapEdit";
 import ILink from "@/interfaces/links";
 import { FaLink } from "react-icons/fa";
+import { BsInstagram, BsLink, BsWhatsapp } from "react-icons/bs";
 
 type ItemProps = {
   link: ILink[];
@@ -16,6 +17,7 @@ type ItemProps = {
   id: string;
   url: string;
   title: string;
+  urlType: string;
   handleDelete: (id: string) => void;
 };
 
@@ -25,6 +27,7 @@ export default function SortableItemLinks({
   id,
   url,
   title,
+  urlType,
   handleDelete,
 }: ItemProps) {
   function animateLayoutChanges(args: any) {
@@ -45,6 +48,19 @@ export default function SortableItemLinks({
     transform: CSS.Translate.toString(transform),
   };
 
+  const generateIcon = (type:string) => {
+    switch(type){
+      case("ig"):
+        return <BsInstagram className="text-2xl text-slate-100"/>;
+      case("wa"):
+        return <BsWhatsapp className="text-2xl text-slate-100"/>;
+      case("mail"):
+        return <FiMail className="text-2xl text-slate-100"/>;
+      default:
+        return <FiLink className="text-2xl text-slate-100"/>;
+    }
+  }
+
   const [showAnswer, setShowAnswer] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -54,11 +70,16 @@ export default function SortableItemLinks({
   const [empty, setEmpty] = useState(false);
 
   const handleSubmitEdit = (id: string) => {
-    const pattern =
-      /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g;
+    const pattern: {[key: string]: RegExp} = {
+      ig: /(.*)/g,
+      url: /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g,
+      wa: /\+(0-9)*/g,
+      mail: /(.*)/g 
+    };
+    
     if (!newURL.trim() && !newTitle.trim()) {
       setEmpty(true);
-    } else if (!pattern.test(newURL)) {
+    } else if (!pattern[urlType].test(newURL)) {
       setUrlValid(false);
       setEmpty(false);
     } else {
@@ -100,7 +121,7 @@ export default function SortableItemLinks({
             <>
               <div className="flex gap-5 items-center">
                 <div className="sm:p-5 p-4 bg-slate-800 rounded-full">
-                  <FaLink className="sm:text-2xl text-xl text-slate-100" />
+                  {generateIcon(urlType)}
                 </div>
                 <div>
                   <div className="sm:text-lg font-semibold mb-2 mt-5 ">
@@ -132,7 +153,7 @@ export default function SortableItemLinks({
                   setNewURL(e.target.value);
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") e.preventDefault();
+                  if (e.key === "Enter") {e.preventDefault();document.getElementById("link-title")?.focus();}
                 }}
               />
               {!urlValid && (
@@ -159,7 +180,7 @@ export default function SortableItemLinks({
                   setNewTitle(e.target.value);
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") e.preventDefault();
+                  if (e.key === "Enter") {handleSubmitEdit(id)}
                 }}
               />
               {empty && (

@@ -8,5 +8,5 @@ export default interface IFaq {
   title: string;
   image?: string;
   data: IData[];
-  link: ILink[];
+  links: ILink[];
 }

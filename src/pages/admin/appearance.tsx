@@ -111,7 +111,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
           </div>
         </div>
         <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl mt-3 sm:mt-5 mb-10 relative">
-          <h1 className="text-lg font-bold mb-3">Theme</h1>
+          <h1 className="text-lg font-bold mb-3">Themes</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 cursor-pointer">
             <div className="h-fit relative text-center">
               <input
