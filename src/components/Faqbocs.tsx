@@ -14,6 +14,7 @@ import IFaq from "@/interfaces/faq";
 import { FiLink, FiMail } from "react-icons/fi";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
 import { FaLink } from "react-icons/fa";
+import ILink from "@/interfaces/links";
 
 export default function Faqbocs({
   image,
@@ -236,31 +237,22 @@ export default function Faqbocs({
             </h1>
             <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {links.map(
-                ({
-                  url,
-                  title,
-                  urlType,
-                }: {
-                  url: string;
-                  title: string;
-                  urlType: string;
-                }) => {
-                  return (
-                    <Link
-                      href={generateURL(urlType, url)}
-                      target="_blank"
-                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                    >
-                      <div className="flex items-center gap-5 font-semibold">
-                        {generateIcon(urlType)}
-                        {title}
-                      </div>
-                      <HiOutlineChevronRight className="text-2xl" />
-                    </Link>
-                  );
-                }
-              )}
+              {links.map(({ url, title, urlType }: ILink, idx) => {
+                return (
+                  <Link
+                    key={`link_${idx}`}
+                    href={generateURL(urlType, url)}
+                    target="_blank"
+                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                  >
+                    <div className="flex items-center gap-5 font-semibold">
+                      {generateIcon(urlType)}
+                      {title}
+                    </div>
+                    <HiOutlineChevronRight className="text-2xl" />
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </button>
@@ -328,31 +320,22 @@ export default function Faqbocs({
             </h1>
             <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {links.map(
-                ({
-                  url,
-                  title,
-                  urlType,
-                }: {
-                  url: string;
-                  title: string;
-                  urlType: string;
-                }) => {
-                  return (
-                    <Link
-                      href={generateURL(urlType, url)}
-                      target="_blank"
-                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                    >
-                      <div className="flex items-center gap-5 font-semibold">
-                        {generateIcon(urlType)}
-                        {title}
-                      </div>
-                      <HiOutlineChevronRight className="text-2xl" />
-                    </Link>
-                  );
-                }
-              )}
+              {links.map(({ url, title, urlType }: ILink, idx) => {
+                return (
+                  <Link
+                    key={`links_${idx}`}
+                    href={generateURL(urlType, url)}
+                    target="_blank"
+                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                  >
+                    <div className="flex items-center gap-5 font-semibold">
+                      {generateIcon(urlType)}
+                      {title}
+                    </div>
+                    <HiOutlineChevronRight className="text-2xl" />
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </button>
