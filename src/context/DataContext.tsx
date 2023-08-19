@@ -46,6 +46,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [title, setTitle] = useState("My FAQ");
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [lastSave, setLastSave] = useState(Math.round(Date.now() / 1000));
   const router = useRouter();
   let sessionData = useMemo(() => {
     return {};
@@ -153,7 +154,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!checkData()) localData.data = data;
     if (!checkLinks()) localData.links = link;
-    console.log(localData);
+    console.log("localData", localData);
 
     if (image != currentData.image) localData.image = image;
     if (title != currentData.title) localData.title = title;
@@ -183,45 +184,14 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [checkSame, router.asPath]);
 
-  // function saveChange() {
-  //   if (loading) return;
-
-  //   console.log("saveChange called");
-  //   const toPost = checkSame();
-
-  //   if (Object.keys(toPost).length === 0) {
-  //     console.log("toPost has 0 length");
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   console.log("loading state is true. Fetching...");
-
-  //   fetch("/api/faq", {
-  //     method: "POST",
-  //     body: JSON.stringify(toPost),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((resp) => {
-  //       console.log("Returning response text...");
-  //       return resp.text();
-  //     })
-  //     .then((text) => {
-  //       console.log("Parsing text");
-  //       const parsed = JSON.parse(text);
-  //       setCurrentData({ ...currentData, ...parsed.message });
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
   useEffect(() => {
+    if (loading) return;
     if (router.asPath.startsWith("/admin")) {
-      if (loading) return;
+      const now = Math.round(Date.now() / 1000);
+
+      if (now < lastSave + 5) return;
+
+      setLastSave(now);
 
       console.log("saveChange called");
       const toPost = checkSame();
@@ -247,15 +217,35 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         })
         .then((text) => {
           console.log("Parsing text");
-          const parsed = JSON.parse(text);
-          setCurrentData({ ...currentData, ...parsed.message });
+          const { image, ...message } = JSON.parse(text).message;
+          fetch(`/api/images/${(sessionData as CustomSession).username}`).then(
+            (res) => {
+              if (!res.ok) {
+                return;
+              }
+              const content_type = res.headers.get("Content-Type");
+              res
+                .blob()
+                .then((blob) => blob.arrayBuffer())
+                .then((arrBuff) => {
+                  const buff = Buffer.from(arrBuff).toString("base64");
+                  const img = `data:${content_type};base64,${buff}`;
+                  setImage(img);
+                  setCurrentData((c) => {
+                    return { ...c, image: img };
+                  });
+                  setLoading(false);
+                });
+            }
+          );
+          setCurrentData({ ...currentData, ...message });
           setLoading(false);
         })
         .catch((err) => {
           console.error(err);
         });
     }
-  }, [checkSame, currentData, loading, router.asPath]);
+  }, [checkSame, currentData, loading, router.asPath, lastSave, sessionData]);
 
   return (
     <DataContext.Provider

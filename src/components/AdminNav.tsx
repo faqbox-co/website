@@ -46,7 +46,6 @@ export default function AdminNav({
   const path = ["", "links", "appearance", "profile", "preview"];
 
   function generateMenuStyleDesktop(n: number) {
-    console.log(path[n], "=", route.asPath.slice(7));
     if (path[n] === route.asPath.slice(7)) {
       return "py-3 px-4 hover:bg-gray-800 transition rounded-md  flex gap-2 items-center bg-gray-800";
     } else {

@@ -105,7 +105,11 @@ export default function Appearance({ data }: { data: CustomSession }) {
               name="title"
               id="title"
               placeholder={"What's the title?"}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value) setTitle(value);
+                else console.warn("Title cannot be empty!");
+              }}
               value={title}
             />
           </div>
