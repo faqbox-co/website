@@ -100,7 +100,7 @@ export default function Faqbocs({
       case "mail":
         return "mailto:" + url;
       default:
-        return url;
+        return "//" + url + "/";
     }
   };
 
@@ -162,6 +162,7 @@ export default function Faqbocs({
             <GoVerified className=" text-yellow-500" />
           )}
         </p>
+        
       </div>
       <Link
         href={"/"}

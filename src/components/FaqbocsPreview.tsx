@@ -102,7 +102,7 @@ export default function FaqbocsPreview({
       case "mail":
         return "mailto:" + url;
       default:
-        return url;
+        return "//" + url + "/";
     }
   };
 
