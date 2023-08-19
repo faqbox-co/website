@@ -93,7 +93,7 @@ export default function AdminNav({
                 <div
                   className={`relative overflow-hidden w-36 h-36 rounded-full m-auto text-white ${
                     ctx.image ? "bg-transparent" : "bg-slate-950"
-                  } flex justify-center items-center text-5xl font-semibold`}
+                  } flex justify-center items-center text-7xl font-semibold`}
                 >
                   {!ctx.image ? (
                     session.username![0].toUpperCase()
@@ -179,11 +179,14 @@ export default function AdminNav({
               <BsCloudCheck className="text-2xl" />
             </span>
           )}
-          <div className="flex text-lg font-semibold gap-2 items-center relative">
+          <div className="flex text-xl font-semibold gap-2 items-center relative">
             <div
               className={`relative overflow-hidden w-12 h-12 rounded-full text-white flex z-30 ${
                 ctx.image ? "bg-transparent" : "bg-slate-950"
-              } justify-center items-center object-cover `}
+              } justify-center items-center object-cover hover:cursor-pointer`}
+              onClick={() => {
+                setPopProfile(!popProfile);
+              }}
             >
               {!ctx.image ? (
                 session?.username![0].toUpperCase()
@@ -194,9 +197,6 @@ export default function AdminNav({
                   alt=""
                   fill
                   className="object-cover hover:cursor-pointer"
-                  onClick={() => {
-                    setPopProfile(!popProfile);
-                  }}
                 />
               )}
             </div>
