@@ -10,8 +10,12 @@ import IFaq from "@/interfaces/faq";
 import { FiLink, FiMail } from "react-icons/fi";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
 import ILink from "@/interfaces/links";
+import AccordionItem from "./AccordionItem";
+import IData from "@/interfaces/data";
+import parse from "html-react-parser";
 
 export default function Faqbocs({
+  data,
   image,
   title,
   theme,
@@ -20,7 +24,7 @@ export default function Faqbocs({
 }: IFaq) {
   const [popShare, setPopShare] = useState(false);
   const [popLink, setPopLink] = useState(false);
-
+  const [dataSearched, setDataSearched] = useState<IData[]>(data);
   const [colorBg, setColorBg] = useState("");
   const [colorText, setColorText] = useState("");
   const [colorDark, setColorDark] = useState("");
@@ -100,7 +104,11 @@ export default function Faqbocs({
       case "mail":
         return "mailto:" + url;
       default:
-        return "//" + url + "/";
+        if (url.includes("https://")||url.includes("http://")){
+          return url;
+        }else{
+          return "//" + url;
+        }
     }
   };
 
@@ -162,7 +170,17 @@ export default function Faqbocs({
             <GoVerified className=" text-yellow-500" />
           )}
         </p>
-        
+        <section className="w-full mt-6">
+          {dataSearched.map((faq) => (
+            <AccordionItem
+              key={faq.id}
+              question={faq.q}
+              answer={parse(faq.a)}
+              colorPrimary={colorPrimary}
+              preview={false}
+            />
+          ))}
+        </section>
       </div>
       <Link
         href={"/"}
@@ -235,7 +253,7 @@ export default function Faqbocs({
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
               {links.map(({ url, title, urlType }: ILink, idx) => {
                 return (
-                  <Link
+                  <a
                     key={`link_${idx}`}
                     href={generateURL(urlType, url)}
                     target="_blank"
@@ -246,7 +264,7 @@ export default function Faqbocs({
                       {title}
                     </div>
                     <HiOutlineChevronRight className="text-2xl" />
-                  </Link>
+                  </a>
                 );
               })}
             </div>
@@ -318,7 +336,7 @@ export default function Faqbocs({
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
               {links.map(({ url, title, urlType }: ILink, idx) => {
                 return (
-                  <Link
+                  <a
                     key={`links_${idx}`}
                     href={generateURL(urlType, url)}
                     target="_blank"
@@ -329,7 +347,7 @@ export default function Faqbocs({
                       {title}
                     </div>
                     <HiOutlineChevronRight className="text-2xl" />
-                  </Link>
+                  </a>
                 );
               })}
             </div>

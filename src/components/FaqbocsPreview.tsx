@@ -102,7 +102,11 @@ export default function FaqbocsPreview({
       case "mail":
         return "mailto:" + url;
       default:
-        return "//" + url + "/";
+        if (url.includes("https://")||url.includes("http://")){
+          return url;
+        }else{
+          return "//" + url;
+        }
     }
   };
 
@@ -253,7 +257,7 @@ export default function FaqbocsPreview({
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
               {link.map(({ url, title, urlType }: ILink, idx) => {
                 return (
-                  <Link
+                  <a
                     key={`link_${idx}`}
                     href={generateURL(urlType, url)}
                     target="_blank"
@@ -264,7 +268,7 @@ export default function FaqbocsPreview({
                       {title}
                     </div>
                     <HiOutlineChevronRight className="text-2xl" />
-                  </Link>
+                  </a>
                 );
               })}
             </div>
