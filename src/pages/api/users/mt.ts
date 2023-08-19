@@ -28,8 +28,18 @@ export async function update(
 }
 
 export default async function handler(_: NextApiRequest, res: NextApiResponse) {
-  return res.status(404).send({
+  console.log(_.query);
+  const secret = _.query.secret as string;
+
+  if (secret !== process.env.NEXTAUTH_SECRET) {
+    return res.status(404).send({
+      ok: false,
+      description: "Denied.",
+    });
+  }
+
+  return res.status(200).send({
     ok: false,
-    description: "Safe",
+    description: "OK.",
   });
 }

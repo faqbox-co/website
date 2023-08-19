@@ -127,7 +127,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         currData?.a === v.a && currData?.q === v.q && currData?.id === v.id
       );
     });
-  }, [data]);
+  }, [data, currentData.data]);
 
   const checkLinks = useCallback(() => {
     const lenLinks = link.length;
@@ -145,7 +145,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         curr.urlType === v.urlType
       );
     });
-  }, [link]);
+  }, [link, currentData.links]);
 
   const checkSame = useCallback(() => {
     if (loading) return {};
@@ -159,61 +159,103 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     if (title != currentData.title) localData.title = title;
     if (theme != currentData.theme) localData.theme = theme;
     return localData;
-  }, [checkData, data, image, title, theme, link]);
+  }, [
+    checkData,
+    checkLinks,
+    data,
+    image,
+    title,
+    theme,
+    link,
+    currentData,
+    loading,
+  ]);
 
-  // useEffect(() => {
-  //   if (!router.asPath.startsWith("/admin")) return;
-  //   if (Object.keys(checkSame()).length === 0) {
-  //     window.onbeforeunload = null;
-  //     return;
-  //   } else {
-  //     window.onbeforeunload = (e) => {
-  //       return (e.returnValue = "");
-  //     };
-  //   }
-  // }, [checkSame]);
-
-  async function saveChange() {
-    if (loading) return;
-
-    console.log("saveChange called");
-    const toPost = checkSame();
-
-    if (Object.keys(toPost).length === 0) {
-      console.log("toPost has 0 length");
+  useEffect(() => {
+    if (!router.asPath.startsWith("/admin")) return;
+    if (Object.keys(checkSame()).length === 0) {
+      window.onbeforeunload = null;
       return;
+    } else {
+      window.onbeforeunload = (e) => {
+        return (e.returnValue = "");
+      };
     }
+  }, [checkSame, router.asPath]);
 
-    setLoading(true);
-    console.log("loading state is true. Fetching...");
+  // function saveChange() {
+  //   if (loading) return;
 
-    fetch("/api/faq", {
-      method: "POST",
-      body: JSON.stringify(toPost),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((resp) => {
-        console.log("Returning response text...");
-        return resp.text();
-      })
-      .then((text) => {
-        console.log("Parsing text");
-        const parsed = JSON.parse(text);
-        setCurrentData({ ...currentData, ...parsed.message });
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  //   console.log("saveChange called");
+  //   const toPost = checkSame();
+
+  //   if (Object.keys(toPost).length === 0) {
+  //     console.log("toPost has 0 length");
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   console.log("loading state is true. Fetching...");
+
+  //   fetch("/api/faq", {
+  //     method: "POST",
+  //     body: JSON.stringify(toPost),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((resp) => {
+  //       console.log("Returning response text...");
+  //       return resp.text();
+  //     })
+  //     .then((text) => {
+  //       console.log("Parsing text");
+  //       const parsed = JSON.parse(text);
+  //       setCurrentData({ ...currentData, ...parsed.message });
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }
 
   useEffect(() => {
     if (router.asPath.startsWith("/admin")) {
-      saveChange().then().catch();
+      if (loading) return;
+
+      console.log("saveChange called");
+      const toPost = checkSame();
+
+      if (Object.keys(toPost).length === 0) {
+        console.log("toPost has 0 length");
+        return;
+      }
+
+      setLoading(true);
+      console.log("loading state is true. Fetching...");
+
+      fetch("/api/faq", {
+        method: "POST",
+        body: JSON.stringify(toPost),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((resp) => {
+          console.log("Returning response text...");
+          return resp.text();
+        })
+        .then((text) => {
+          console.log("Parsing text");
+          const parsed = JSON.parse(text);
+          setCurrentData({ ...currentData, ...parsed.message });
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
-  }, [data, image, theme, title, link]);
+  }, [checkSame, currentData, loading, router.asPath]);
 
   return (
     <DataContext.Provider
