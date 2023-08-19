@@ -28,7 +28,7 @@ import ILink from "@/interfaces/links";
 import SortableItemLinks from "@/components/SortableItemLinks";
 import { BsGlobe, BsInstagram, BsLink, BsWhatsapp } from "react-icons/bs";
 import { FaLink } from "react-icons/fa";
-import {FiLink, FiMail} from "react-icons/fi";
+import { FiLink, FiMail, FiX } from "react-icons/fi";
 
 const Links: NextPageWithLayout = () => {
   const { link, setLink } = useContext(DataContext) as DataContextProps;
@@ -48,11 +48,13 @@ const Links: NextPageWithLayout = () => {
     },
   };
 
-  const urlTypeObj: { [key: string]: {name: string; urlPrompt: string; placeholder: string;} } = {
+  const urlTypeObj: {
+    [key: string]: { name: string; urlPrompt: string; placeholder: string };
+  } = {
     ig: {
       name: "ig",
       urlPrompt: "Your IG",
-      placeholder: "@username",
+      placeholder: "Username",
     },
     wa: {
       name: "wa",
@@ -67,15 +69,19 @@ const Links: NextPageWithLayout = () => {
     mail: {
       name: "mail",
       urlPrompt: "Your Email",
-      placeholder: "example@gmail.com"
-    }
+      placeholder: "example@gmail.com",
+    },
   };
 
-  const generateLinkForm = (type: {name:string; urlPrompt: string; placeholder: string }) => {
+  const generateLinkForm = (type: {
+    name: string;
+    urlPrompt: string;
+    placeholder: string;
+  }) => {
     return (
       <>
         <form
-          onSubmit={_ => handleSumbit(_, type)}
+          onSubmit={(_) => handleSumbit(_, type)}
           className={`w-full sm:p-7 p-5 flex font-poppins shadow-sm flex-col bg-white  rounded-2xl gap-2 sm:mt-5 mt-20 mb-3 relative`}
         >
           <button
@@ -107,14 +113,15 @@ const Links: NextPageWithLayout = () => {
               setNewURL(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {e.preventDefault();document.getElementById("link-title")?.focus();}
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("link-title")?.focus();
+              }
             }}
           />
 
-          {!urlValid && (type.name === "url") && (
-            <p className="text-red-500 text-sm">
-              Enter a valid URLs.
-            </p>
+          {!urlValid && type.name === "url" && (
+            <p className="text-red-500 text-sm">Enter a valid URLs.</p>
           )}
 
           <label htmlFor="question" className="mt-2 sm:text-lg font-semibold">
@@ -131,15 +138,15 @@ const Links: NextPageWithLayout = () => {
             onChange={(e) => {
               setNewTitle(e.target.value);
             }}
-            onKeyDown={(e:any) => {
-              if (e.key === "Enter") {handleSumbit(e, type)};
+            onKeyDown={(e: any) => {
+              if (e.key === "Enter") {
+                handleSumbit(e, type);
+              }
             }}
           />
-          
+
           {empty && (
-            <p className="text-red-500 text-sm">
-              Fill up the URL and Title.
-            </p>
+            <p className="text-red-500 text-sm">Fill up the URL and Title.</p>
           )}
 
           <button
@@ -150,8 +157,8 @@ const Links: NextPageWithLayout = () => {
           </button>
         </form>
       </>
-    )
-  }
+    );
+  };
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -165,29 +172,34 @@ const Links: NextPageWithLayout = () => {
     }
   };
 
-  const handleSumbit = (e:any, type: {name:string; urlPrompt: string; placeholder: string}) => {
+  const handleSumbit = (
+    e: any,
+    type: { name: string; urlPrompt: string; placeholder: string }
+  ) => {
     e.preventDefault();
-    const pattern: {[key: string]: RegExp} = {
+    const pattern: { [key: string]: RegExp } = {
       ig: /(.*)/g,
       url: /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g,
       wa: /\+(0-9)*/g,
-      mail: /(.*)/g 
+      mail: /(.*)/g,
     };
 
-    if (!newURL.trim() || !newTitle.trim() ) {
+    if (!newURL.trim() || !newTitle.trim()) {
       setEmpty(true);
     } else if (!pattern[type.name].test(newURL)) {
       setUrlValid(false);
       setEmpty(false);
-    }else{
+    } else {
       setAddQuestion(!addQuestion);
-      setLink([{ id: randomID(), url: newURL, title: newTitle, urlType: type.name }, ...link]);
+      setLink([
+        { id: randomID(), url: newURL, title: newTitle, urlType: type.name },
+        ...link,
+      ]);
       setNewURL("");
       setNewTitle("");
       setUrlValid(true);
     }
   };
-
 
   const handleDelete = (id: string) => {
     setLink(link.filter((item) => item.id !== id));
@@ -199,7 +211,7 @@ const Links: NextPageWithLayout = () => {
         <title>Faqbocs Admin</title>
       </Head>
       <div className=" sm:w-full max-w-3xl w-[95%] sm:m-0 pb-8 sm:pb-0 mx-auto relative z-10">
-        <h1 className="hidden sm:block font-poppins text-3xl font-semibold text-center ">
+        <h1 className="hidden sm:block font-ssp text-4xl font-black text-center ">
           Links
         </h1>
 
@@ -213,21 +225,65 @@ const Links: NextPageWithLayout = () => {
           </button>
         )}
         {popupType && (
-          <div className="bg-white sm:mt-5 mt-20 flex items-center justify-around shadow-sm w-full p-3 rounded-2xl mb-3 relative font-poppins">
-            <button onClick={() => {setAddQuestion(true);setPopupType(false);setUrlType("ig");setNewTitle("My Instagram")}} className="p-2 rounded-full bg-purple-800">
-              <BsInstagram className="text-2xl text-white"/>
-            </button>
-            <button onClick={() => {setAddQuestion(true);setPopupType(false);setUrlType("wa");setNewTitle("My Whatsapp")}} className="p-2 rounded-full bg-green-600">
-              <BsWhatsapp className="text-2xl text-white"/>
-            </button>
-            <button onClick={() => {setAddQuestion(true);setPopupType(false);setUrlType("mail");setNewTitle("My Email")}} className="p-2 rounded-full bg-red-600">
-              <FiMail className="text-2xl text-white"/>
-            </button>
-            <button onClick={() => {setAddQuestion(true);setPopupType(false);setUrlType("url")}} className="p-2 rounded-full bg-slate-800">
-              <FiLink className="text-2xl text-white"/>
-            </button>
-            <button className="p-2 rounded-xl bg-slate-200 font-semibold text-sm"
-              onClick={() => setPopupType(!popupType)}>Cancel</button>
+          <div className="bg-white sm:mt-5 mt-20 shadow-sm w-full p-6 rounded-2xl mb-3 relative font-poppins">
+            <h2 className="font-poppins text-lg text-center font-semibold">Choose a type</h2>
+            <div className="flex gap-3 sm:gap-6 mt-5 items-center justify-center">
+              <button
+                onClick={() => {
+                  setAddQuestion(true);
+                  setPopupType(false);
+                  setUrlType("url");
+                }}
+                className="p-3 rounded-full bg-slate-800 flex gap-2 w-14 h-14 items-center justify-center xl:hover:w-32 duration-500 transition-all text-white group overflow-hidden"
+              >
+                <FiLink className="text-2xl" />
+                <p className="xl:group-hover:flex hidden duration-1000 whitespace-nowrap">Any links</p>
+              </button>
+              <button
+                onClick={() => {
+                  setAddQuestion(true);
+                  setPopupType(false);
+                  setUrlType("ig");
+                  setNewTitle("My Instagram");
+                }}
+                className="p-3 rounded-full bg-violet-600 flex gap-2 w-14 h-14 items-center justify-center xl:hover:w-36 duration-500 transition-all text-white group overflow-hidden"
+              >
+                <BsInstagram className="text-2xl text-white" />
+                <p className="xl:group-hover:flex hidden">Instagram</p>
+              </button>
+              <button
+                onClick={() => {
+                  setAddQuestion(true);
+                  setPopupType(false);
+                  setUrlType("wa");
+                  setNewTitle("My Whatsapp");
+                }}
+                className="p-3 rounded-full bg-green-600 flex gap-2 w-14 h-14 items-center justify-center xl:hover:w-36 duration-500 transition-all text-white group overflow-hidden"
+              >
+                <BsWhatsapp className="text-2xl text-white" />
+                <p className="xl:group-hover:flex hidden">Whatsapp</p>
+              </button>
+              <button
+                onClick={() => {
+                  setAddQuestion(true);
+                  setPopupType(false);
+                  setUrlType("mail");
+                  setNewTitle("My Email");
+                }}
+                className="p-3 rounded-full bg-red-600 flex gap-2 w-14 h-14 items-center justify-center xl:hover:w-32 duration-500 transition-all text-white group overflow-hidden"
+              >
+                <FiMail className="text-2xl text-white" />
+                <p className="xl:group-hover:flex hidden">Email</p>
+              </button>
+              
+              <button
+                className="p-3 rounded-full bg-gray-200 flex gap-2 w-14 h-14 items-center justify-center xl:hover:w-32 duration-500 transition-all text-slate-900 group overflow-hidden"
+                onClick={() => setPopupType(!popupType)}
+              >
+                <FiX className="text-3xl"/>
+                <p className="xl:group-hover:flex hidden">Cancel</p>
+              </button>
+            </div>
           </div>
         )}
 

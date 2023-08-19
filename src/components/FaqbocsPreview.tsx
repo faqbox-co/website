@@ -188,7 +188,7 @@ export default function FaqbocsPreview({
       {popShare && (
         <button
           onClick={() => setPopShare(false)}
-          className={`fixed justify-center items-end top-0 left-0 w-[400px] h-[850px] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
+          className={`fixed justify-center items-end top-0 left-0 w-[100vw] h-[100vh] sm:w-[400px] sm:h-[850px] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
         >
           <div
             className={`bg-white max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-t-3xl `}
@@ -235,7 +235,7 @@ export default function FaqbocsPreview({
       {popLink && (
         <button
           onClick={() => setPopLink(false)}
-          className={`fixed justify-center items-end top-0 left-0 w-[400px] h-[850px] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
+          className={`fixed justify-center items-end top-0 left-0 w-[100vw] h-[100vh] sm:w-[400px] sm:h-[850px] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
         >
           <div
             className={`bg-white  max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-t-3xl `}

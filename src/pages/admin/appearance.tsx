@@ -46,7 +46,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
         <title>Faqbocs Admin</title>
       </Head>
       <div className=" sm:w-full max-w-3xl w-[95%] sm:m-0 mx-auto relative z-10">
-        <h1 className="hidden sm:block font-poppins text-3xl font-semibold text-center ">
+        <h1 className="hidden sm:block font-ssp text-4xl font-black text-center ">
           Appearance
         </h1>
         <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl sm:mt-5 mt-20 relative">

@@ -4,7 +4,7 @@ import FaqbocsPreview from "@/components/FaqbocsPreview";
 export default function Preview({ data }: { data: React.ReactElement["props"] }) {
   return (
     <div className=" sm:w-full max-w-3xl w-[95%] sm:m-0 mx-auto relative z-10">
-      <h1 className="font-poppins text-3xl font-semibold text-center ">
+      <h1 className="font-ssp text-4xl font-black text-center ">
         Preview
       </h1>
       <div className="sm:flex hidden lg:hidden h-fit relative z-10 mt-5">

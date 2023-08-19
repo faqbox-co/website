@@ -48,18 +48,18 @@ export default function SortableItemLinks({
     transform: CSS.Translate.toString(transform),
   };
 
-  const generateIcon = (type:string) => {
-    switch(type){
-      case("ig"):
-        return <BsInstagram className="text-2xl text-slate-100"/>;
-      case("wa"):
-        return <BsWhatsapp className="text-2xl text-slate-100"/>;
-      case("mail"):
-        return <FiMail className="text-2xl text-slate-100"/>;
+  const generateIcon = (type: string) => {
+    switch (type) {
+      case "ig":
+        return <BsInstagram className="text-2xl text-slate-100" />;
+      case "wa":
+        return <BsWhatsapp className="text-2xl text-slate-100" />;
+      case "mail":
+        return <FiMail className="text-2xl text-slate-100" />;
       default:
-        return <FiLink className="text-2xl text-slate-100"/>;
+        return <FiLink className="text-2xl text-slate-100" />;
     }
-  }
+  };
 
   const [showAnswer, setShowAnswer] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -69,14 +69,106 @@ export default function SortableItemLinks({
   const [urlValid, setUrlValid] = useState(true);
   const [empty, setEmpty] = useState(false);
 
+  const urlTypeObj: {
+    [key: string]: { name: string; urlPrompt: string; placeholder: string };
+  } = {
+    ig: {
+      name: "ig",
+      urlPrompt: "Your IG",
+      placeholder: "Username",
+    },
+    wa: {
+      name: "wa",
+      urlPrompt: "Your Number",
+      placeholder: "Use International Format",
+    },
+    url: {
+      name: "url",
+      urlPrompt: "URL",
+      placeholder: "https://www.example.com",
+    },
+    mail: {
+      name: "mail",
+      urlPrompt: "Your Email",
+      placeholder: "example@gmail.com",
+    },
+  };
+
+  const generateLinkForm = (type: {
+    name: string;
+    urlPrompt: string;
+    placeholder: string;
+  }) => {
+    return (
+      <>
+        <div className="font-poppins cursor-default w-full bg-white rounded-t-xl flex flex-col mt-5 group gap-2">
+          <label htmlFor="question" className="sm:text-lg font-semibold">
+            {type.urlPrompt}
+          </label>
+          <input
+            type="text"
+            name="link-url"
+            id="link-url"
+            className="sm:p-4 p-3 text-sm sm:text-base rounded-2xl bg-gray-100 outline-none w-full"
+            autoComplete="off"
+            autoFocus
+            spellCheck="false"
+            placeholder={type.placeholder}
+            value={newURL}
+            onChange={(e) => {
+              setNewURL(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("link-title")?.focus();
+              }
+            }}
+          />
+          {!urlValid && (
+            <p className="text-red-500 text-sm">Enter a valid URLs.</p>
+          )}
+
+          <label htmlFor="question" className="mt-2 sm:text-lg font-semibold">
+            Title
+          </label>
+
+          <input
+            type="text"
+            name="link-title"
+            id="link-title"
+            className="sm:p-4 p-3 text-sm sm:text-base rounded-2xl bg-gray-100 outline-none w-full"
+            autoComplete="off"
+            spellCheck="false"
+            placeholder="Title"
+            value={newTitle}
+            onChange={(e) => {
+              setNewTitle(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSubmitEdit(id);
+              }
+            }}
+          />
+          {empty && (
+            <p className="text-red-500 text-sm">Fill up the URL and Title.</p>
+          )}
+        </div>
+      </>
+    );
+  };
+
   const handleSubmitEdit = (id: string) => {
-    const pattern: {[key: string]: RegExp} = {
+    const pattern: { [key: string]: RegExp } = {
       ig: /(.*)/g,
       url: /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g,
       wa: /\+(0-9)*/g,
-      mail: /(.*)/g 
+      mail: /(.*)/g,
     };
+
     
+
     if (!newURL.trim() && !newTitle.trim()) {
       setEmpty(true);
     } else if (!pattern[urlType].test(newURL)) {
@@ -119,7 +211,7 @@ export default function SortableItemLinks({
         >
           {!edit && (
             <>
-              <div className="flex gap-5 items-center">
+              <div className="flex gap-5 items-center relative">
                 <div className="sm:p-5 p-4 bg-slate-800 rounded-full">
                   {generateIcon(urlType)}
                 </div>
@@ -127,69 +219,14 @@ export default function SortableItemLinks({
                   <div className="sm:text-lg font-semibold mb-2 mt-5 ">
                     {title}
                   </div>
-                  <div className="sm:text-base mb-5 text-sm relative break-words text-slate-500">
+                  <div className="sm:text-base mb-5 text-sm relative break-words text-slate-500 max-w-[2/3] overflow-hidden">
                     {url}
                   </div>
                 </div>
               </div>
             </>
           )}
-          {edit && (
-            <div className="font-poppins cursor-default w-full bg-white rounded-t-xl flex flex-col mt-5 group gap-2">
-              <label htmlFor="question" className="sm:text-lg font-semibold">
-                URL
-              </label>
-              <input
-                type="text"
-                name="link-url"
-                id="link-url"
-                className="sm:p-4 p-3 text-sm sm:text-base rounded-2xl bg-gray-100 outline-none w-full"
-                autoComplete="off"
-                autoFocus
-                spellCheck="false"
-                placeholder="https://www.example.com"
-                value={newURL}
-                onChange={(e) => {
-                  setNewURL(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {e.preventDefault();document.getElementById("link-title")?.focus();}
-                }}
-              />
-              {!urlValid && (
-                <p className="text-red-500 text-sm">Enter a valid URLs.</p>
-              )}
-
-              <label
-                htmlFor="question"
-                className="mt-2 sm:text-lg font-semibold"
-              >
-                Title
-              </label>
-
-              <input
-                type="text"
-                name="link-title"
-                id="link-title"
-                className="sm:p-4 p-3 text-sm sm:text-base rounded-2xl bg-gray-100 outline-none w-full"
-                autoComplete="off"
-                spellCheck="false"
-                placeholder="Title"
-                value={newTitle}
-                onChange={(e) => {
-                  setNewTitle(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {handleSubmitEdit(id)}
-                }}
-              />
-              {empty && (
-                <p className="text-red-500 text-sm">
-                  Fill up the URL and Title.
-                </p>
-              )}
-            </div>
-          )}
+          {edit && generateLinkForm(urlTypeObj[urlType])}
 
           {/* {deleteConfirm && (
             <div
