@@ -255,7 +255,7 @@ export default function FaqbocsPreview({
             </h1>
             <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {link.map(({ url, title, urlType }: ILink, idx) => {
+              {link.length !== 0 ? link.map(({ url, title, urlType }: ILink, idx) => {
                 return (
                   <a
                     key={`link_${idx}`}
@@ -270,7 +270,11 @@ export default function FaqbocsPreview({
                     <HiOutlineChevronRight className="text-2xl" />
                   </a>
                 );
-              })}
+              }) : (
+                <div className=" w-full flex font-normal cursor-pointer items-center justify-center text-slate-900 rounded-lg">
+                  There is no link yet
+                </div>
+              )}
             </div>
           </div>
         </button>

@@ -6,6 +6,8 @@ import Image from "next/image";
 import CustomSession from "@/@types/custom_session";
 import { useContext } from "react";
 import DataContext, { DataContextProps } from "@/context/DataContext";
+import { FiLogOut } from "react-icons/fi";
+import { BiLogOut } from "react-icons/bi";
 
 export default function Profile({ data }: { data: CustomSession }) {
   function signOutHandler() {
@@ -23,7 +25,7 @@ export default function Profile({ data }: { data: CustomSession }) {
         <link rel="icon" href="/logo-light.png" />
       </Head>
       <div className=" sm:w-full max-w-3xl w-[95%] sm:m-0 mx-auto relative z-10">
-        <h1 className="font-poppins hidden sm:block text-3xl font-semibold text-center ">
+        <h1 className="font-ssp hidden sm:block text-4xl font-black text-center ">
           Profile
         </h1>
         {data ? User({ data, signOutHandler }) : <></>}
@@ -53,7 +55,7 @@ function User({
   return (
     <main>
       <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl gap-2 sm:mt-5 mt-20 relative">
-        <h1 className="block sm:hidden font-ssp text-4xl font-black mb-3">
+        <h1 className="block sm:hidden font-poppins text-3xl font-semibold mb-3">
           Profile
         </h1>
         <div
@@ -86,10 +88,10 @@ function User({
           <p>{data?.username}</p>
         </div>
         <button
-          className="py-3 px-4 mt-3 bg-gray-100 hover:bg-slate-950 hover:text-white transition w-fit rounded-lg text-semibold flex gap-1"
+          className="py-3 px-4 mt-3 bg-gray-100 hover:bg-slate-950 hover:text-white transition w-fit rounded-lg text-semibold flex items-center gap-1"
           onClick={signOutHandler}
         >
-          <CiLogout className="text-xl" />
+          <BiLogOut className="text-2xl" />
           Log Out
         </button>
       </div>

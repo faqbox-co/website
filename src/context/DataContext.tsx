@@ -133,6 +133,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const checkLinks = useCallback(() => {
     const lenLinks = link.length;
     const lenCurr = currentData.links.length;
+    console.log(lenLinks, "=", lenCurr)
 
     if (lenLinks !== lenCurr) return false;
 
@@ -154,7 +155,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!checkData()) localData.data = data;
     if (!checkLinks()) localData.links = link;
-    console.log("localData", localData);
+    // console.log(checkLinks());
+    // console.log(localData.links, link)
+    // console.log("localData", localData);
 
     if (image != currentData.image) localData.image = image;
     if (title != currentData.title) localData.title = title;
