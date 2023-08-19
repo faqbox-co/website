@@ -34,7 +34,7 @@ export default function Login() {
           className=" absolute top-0 left-0 p-12 w-full flex sm:justify-start justify-center items-center gap-2"
         >
           <Image src={LogoText} alt="faqbocs" height={40} />
-          <p className="text-2xl font-semibold font-poppins align-middle">
+          <p className="text-3xl font-bold font-ssp align-middle">
             Faqbocs
           </p>
         </Link>

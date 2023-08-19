@@ -401,6 +401,7 @@ export default function AdminNav({
           <Link href={"/admin/links"} className={generateMenuStyleDesktop(1)}>
             <FaLink className="text-xl" />
             Links
+            <span className="text-white ml-1 bg-blue-600 text-xs py-1 px-2 rounded-full ">new</span>
           </Link>
 
           <Link
