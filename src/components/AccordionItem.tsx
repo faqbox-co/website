@@ -3,6 +3,9 @@ import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import IProp from "@/interfaces/prop";
+import { FiChevronDown } from "react-icons/fi";
+import { FaChevronDown } from "react-icons/fa";
+import { HiOutlineChevronDown } from "react-icons/hi";
 
 export default function AccordionItem({
   question,
@@ -25,11 +28,12 @@ export default function AccordionItem({
           >
             {question}
           </p>
-          <AiOutlinePlus
-            className={`w-[10%] text-xl transition duration-300 ${
-              open ? "rotate-45" : "rotate-0"
+          <HiOutlineChevronDown 
+            className={`w-[10%] text-2xl transition duration-300 ${
+              open ? "rotate-180" : "rotate-0"
             }`}
           />
+          
           {/* {open ? (
             <AiOutlineMinus className="w-[10%] sm:text-lg" />
           ) : (
