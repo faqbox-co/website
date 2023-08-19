@@ -1,19 +1,14 @@
 import Image from "next/image";
-import { BiSearch } from "react-icons/bi";
 import { RxShare1 } from "react-icons/rx";
 import { HiOutlineChevronRight } from "react-icons/hi";
-import { GoLink, GoVerified } from "react-icons/go";
+import { GoVerified } from "react-icons/go";
 import { useState, useEffect } from "react";
-import AccordionItem from "./AccordionItem";
-import parse from "html-react-parser";
 import Link from "next/link";
 import LogoText from "../assets/faqbocs-favicon.png";
 import LogoTextDark from "../assets/faqbocs-favicon.png";
-import IData from "@/interfaces/data";
 import IFaq from "@/interfaces/faq";
 import { FiLink, FiMail } from "react-icons/fi";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
-import { FaLink } from "react-icons/fa";
 import ILink from "@/interfaces/links";
 
 export default function Faqbocs({

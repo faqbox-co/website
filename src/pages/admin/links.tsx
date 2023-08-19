@@ -1,4 +1,3 @@
-import SortableItem from "@/components/SortableItem";
 import { HiPlus } from "react-icons/hi";
 import {
   DndContext,
@@ -14,7 +13,6 @@ import {
 import { useState, useContext } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { SmartPointerSensor } from "@/utils/helper";
-import Tiptap from "@/components/Tiptap";
 import AdminLayout from "@/components/AdminLayout";
 import {
   restrictToVerticalAxis,
@@ -24,10 +22,8 @@ import DataContext, { DataContextProps } from "@/context/DataContext";
 import { NextPageWithLayout } from "../_app";
 import Head from "next/head";
 import randomID from "@/utils/randomid";
-import ILink from "@/interfaces/links";
 import SortableItemLinks from "@/components/SortableItemLinks";
-import { BsGlobe, BsInstagram, BsLink, BsWhatsapp } from "react-icons/bs";
-import { FaLink } from "react-icons/fa";
+import { BsInstagram, BsWhatsapp } from "react-icons/bs";
 import { FiLink, FiMail, FiX } from "react-icons/fi";
 
 const Links: NextPageWithLayout = () => {

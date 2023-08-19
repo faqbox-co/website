@@ -4,12 +4,8 @@ import { useState } from "react";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { CiTrash, CiEdit } from "react-icons/ci";
 import { FiCheck, FiLink, FiMail } from "react-icons/fi";
-import { SlArrowDown } from "react-icons/sl";
-import parse from "html-react-parser";
-import TiptapEdit from "./TiptapEdit";
 import ILink from "@/interfaces/links";
-import { FaLink } from "react-icons/fa";
-import { BsInstagram, BsLink, BsWhatsapp } from "react-icons/bs";
+import { BsInstagram, BsWhatsapp } from "react-icons/bs";
 
 type ItemProps = {
   link: ILink[];

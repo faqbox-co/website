@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { BiSearch } from "react-icons/bi";
 import { RxShare1 } from "react-icons/rx";
 import { GoVerified } from "react-icons/go";
 import { useState, useEffect, useContext } from "react";

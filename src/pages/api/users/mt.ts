@@ -38,8 +38,14 @@ export default async function handler(_: NextApiRequest, res: NextApiResponse) {
     });
   }
 
-  return res.status(200).send({
+  const query = _.query.query as string;
+
+  if (query === "update") {
+    return await update(_, res);
+  }
+
+  return res.status(400).send({
     ok: false,
-    description: "OK.",
+    description: "No query.",
   });
 }

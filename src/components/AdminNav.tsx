@@ -1,15 +1,9 @@
 import Image from "next/image";
 import LogoText from "../assets/faqbocs-favicon.png";
 import Link from "next/link";
-import {
-  BsCloudCheck,
-  BsPersonFill,
-  BsPersonFillGear,
-  BsViewList,
-} from "react-icons/bs";
+import { BsCloudCheck, BsPersonFill } from "react-icons/bs";
 import { IoShapes, IoShareSocial } from "react-icons/io5";
 import { FaShapes } from "react-icons/fa";
-import { AiFillProfile, AiOutlineProfile, AiOutlineSave } from "react-icons/ai";
 import { MdContentCopy } from "react-icons/md";
 import { AiOutlineEye } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
@@ -23,7 +17,6 @@ import CustomSession from "@/@types/custom_session";
 import DataContext, { DataContextProps } from "@/context/DataContext";
 import { title } from "process";
 import { signOut } from "next-auth/react";
-import { CiLogout } from "react-icons/ci";
 import { BiLogOut } from "react-icons/bi";
 import { GoVerified } from "react-icons/go";
 import { useRouter } from "next/router";
