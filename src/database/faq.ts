@@ -22,7 +22,7 @@ export async function getFaqData(username: string): Promise<IFaq | null> {
   if (!username) return null;
 
   await connect();
-  
+
   const faqs = await faqModel.findOne({
     username: username,
   });
@@ -38,7 +38,7 @@ export async function getFaqData(username: string): Promise<IFaq | null> {
     image: "",
     email: "",
     data: [],
-    links: []
+    links: [],
   };
 
   const $ = faqs as IMFaq & { _doc: IMFaq };
@@ -139,7 +139,7 @@ async function createFaq(
   }
 
   if (body.links) {
-    console.log("body.links")
+    console.log("body.links");
     if (!Array.isArray(body.links)) datas.links = [];
     else {
       const pushData: any[] = [];
@@ -286,7 +286,7 @@ const FaqFunctions: {
 } = {
   get: getFaq,
   post: createFaq,
-  delete: delFaq
+  delete: delFaq,
 };
 
 export default FaqFunctions;

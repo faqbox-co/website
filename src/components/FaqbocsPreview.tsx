@@ -93,8 +93,8 @@ export default function FaqbocsPreview({
     }
   }, [theme]);
 
-  const generateURL = (type:string, url:string) => {
-    switch(type){
+  const generateURL = (type: string, url: string) => {
+    switch (type) {
       case "ig":
         return "https://instagram.com/" + url;
       case "wa":
@@ -104,20 +104,20 @@ export default function FaqbocsPreview({
       default:
         return url;
     }
-  }
+  };
 
-  const generateIcon = (type:string) => {
-    switch(type){
-      case("ig"):
-        return <BsInstagram className="text-2xl text-slate-900"/>;
-      case("wa"):
-        return <BsWhatsapp className="text-2xl text-slate-900"/>;
-      case("mail"):
-        return <FiMail className="text-2xl text-slate-900"/>;
+  const generateIcon = (type: string) => {
+    switch (type) {
+      case "ig":
+        return <BsInstagram className="text-2xl text-slate-900" />;
+      case "wa":
+        return <BsWhatsapp className="text-2xl text-slate-900" />;
+      case "mail":
+        return <FiMail className="text-2xl text-slate-900" />;
       default:
-        return <FiLink className="text-2xl text-slate-900"/>;
+        return <FiLink className="text-2xl text-slate-900" />;
     }
-  }
+  };
 
   const verifiedAccount = ["faqbocs", "farisyah", "ziprawan"];
 
@@ -162,7 +162,9 @@ export default function FaqbocsPreview({
         </h1>
         <p className={`${colorTitle} flex items-center gap-1`}>
           @{session.username}
-          {verifiedAccount.includes(session.username!) && <GoVerified className=" text-yellow-500"/>}
+          {verifiedAccount.includes(session.username!) && (
+            <GoVerified className=" text-yellow-500" />
+          )}
         </p>
 
         <section className="w-full mt-6">
@@ -195,9 +197,11 @@ export default function FaqbocsPreview({
           >
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center ">
               @{session.username}
-              {verifiedAccount.includes(session.username!) && <GoVerified className=" text-yellow-500"/>}
+              {verifiedAccount.includes(session.username!) && (
+                <GoVerified className=" text-yellow-500" />
+              )}
             </h1>
-            <hr className="border-1 border-slate-200"/>
+            <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins">
               <div
                 className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg "
@@ -218,7 +222,9 @@ export default function FaqbocsPreview({
               <div
                 className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center hover:bg-slate-200 transition rounded-lg"
                 onClick={() => {
-                  navigator.clipboard.writeText(`faqbocs.com/${session.username}`);
+                  navigator.clipboard.writeText(
+                    `faqbocs.com/${session.username}`
+                  );
                   alert("Link Copied!");
                 }}
               >
@@ -243,23 +249,33 @@ export default function FaqbocsPreview({
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
               Links
             </h1>
-            <hr className="border-1 border-slate-200"/>
+            <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {link.map(({url, title, urlType}:{url:string, title:string, urlType:string}) => {
-                return(
-                  <Link
-                    href={generateURL(urlType, url)}
-                    target="_blank"
-                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                  >
-                    <div className="flex items-center gap-5 font-semibold">
-                      {generateIcon(urlType)}
-                      {title}
-                    </div>
-                    <HiOutlineChevronRight className="text-2xl" />
-                  </Link>
-                )
-              })}
+              {link.map(
+                ({
+                  url,
+                  title,
+                  urlType,
+                }: {
+                  url: string;
+                  title: string;
+                  urlType: string;
+                }) => {
+                  return (
+                    <Link
+                      href={generateURL(urlType, url)}
+                      target="_blank"
+                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                    >
+                      <div className="flex items-center gap-5 font-semibold">
+                        {generateIcon(urlType)}
+                        {title}
+                      </div>
+                      <HiOutlineChevronRight className="text-2xl" />
+                    </Link>
+                  );
+                }
+              )}
             </div>
           </div>
         </button>

@@ -65,9 +65,11 @@ export default function SortableItem({
 
   return (
     <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      <div className={`font-poppins cursor-default w-full shadow-sm bg-white  flex ${
+      <div
+        className={`font-poppins cursor-default w-full shadow-sm bg-white  flex ${
           deleteConfirm ? "rounded-t-2xl" : "sm:mb-4 mb-3 rounded-2xl"
-        } transition duration-300 group`}>
+        } transition duration-300 group`}
+      >
         {!edit && (
           <span className="sm:w-14 w-10 touch-none flex cursor-grab active:cursor-grabbing">
             <RxDragHandleDots2 className="text-lg lg:text-xl m-auto" />
@@ -118,8 +120,6 @@ export default function SortableItem({
               <TiptapEdit newAnswer={newAnswer} setNewAnswer={setNewAnswer} />
             </div>
           )}
-
-          
 
           {edit && (
             <div className="bg-white cursor-default rounded-b-xl flex gap-2 font-poppins text-sm sm:text-base py-2 my-2 ">

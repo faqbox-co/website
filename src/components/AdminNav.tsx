@@ -45,23 +45,22 @@ export default function AdminNav({
 
   const path = ["", "links", "appearance", "profile", "preview"];
 
-  function generateMenuStyleDesktop(n: number){
-    console.log(path[n], "=", route.asPath.slice(7))
-    if(path[n] === route.asPath.slice(7)){
+  function generateMenuStyleDesktop(n: number) {
+    console.log(path[n], "=", route.asPath.slice(7));
+    if (path[n] === route.asPath.slice(7)) {
       return "py-3 px-4 hover:bg-gray-800 transition rounded-md  flex gap-2 items-center bg-gray-800";
-    }else{
-      return "py-3 px-4 hover:bg-gray-800 transition rounded-md  flex gap-2 items-center"
+    } else {
+      return "py-3 px-4 hover:bg-gray-800 transition rounded-md  flex gap-2 items-center";
     }
   }
 
-  function generateMenuStyleMobile(n: number){
-    if(path[n] === route.asPath.slice(7)){
+  function generateMenuStyleMobile(n: number) {
+    if (path[n] === route.asPath.slice(7)) {
       return "flex flex-col items-center gap-1 border-b-2  pb-1 pt-2 border-b-slate-900 bg-slate-100";
-    }else{
-      return "flex flex-col items-center gap-1 border-b-2  pb-1 pt-2 bg-white "
+    } else {
+      return "flex flex-col items-center gap-1 border-b-2  pb-1 pt-2 bg-white ";
     }
   }
-
 
   function signOutHandler() {
     signOut({
@@ -150,7 +149,9 @@ export default function AdminNav({
               <div
                 className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center hover:bg-gray-100 transition rounded-lg"
                 onClick={() => {
-                  navigator.clipboard.writeText(`faqbocs.com/${session.username}`);
+                  navigator.clipboard.writeText(
+                    `faqbocs.com/${session.username}`
+                  );
                   alert("Link Copied!");
                 }}
               >
@@ -160,9 +161,7 @@ export default function AdminNav({
                 </div>
                 <HiOutlineChevronRight className="text-2xl" />
               </div>
-              <div
-                className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-gray-100 transition rounded-lg "
-              >
+              <div className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-gray-100 transition rounded-lg ">
                 <div className="flex items-center gap-3">
                   <BiLogOut className="text-2xl" />
                   Logout
@@ -215,7 +214,10 @@ export default function AdminNav({
       <div className="fixed sm:hidden z-10 font-poppins">
         <div className="fixed top-0 left-0 w-full bg-white ">
           <div className="px-5 py-2 flex justify-between items-center border-b-[1px] border-b-gray-300">
-            <Link href={"/admin"} className="flex gap-1 font-semibold font-ssp text-lg items-center">
+            <Link
+              href={"/admin"}
+              className="flex gap-1 font-semibold font-ssp text-lg items-center"
+            >
               <div className="relative w-6 h-6 ">
                 <Image src={LogoText} alt="" fill />
               </div>
@@ -254,17 +256,11 @@ export default function AdminNav({
             </Link>
           </div>
           <div className="grid grid-cols-4 w-full  shadow-sm bg-white text-xs text-center">
-            <Link
-              href={"/admin"}
-              className={generateMenuStyleMobile(0)}
-            >
+            <Link href={"/admin"} className={generateMenuStyleMobile(0)}>
               <FaQuestion className="text-xl" />
               FAQs
             </Link>
-            <Link
-              href={"/admin/links"}
-              className={generateMenuStyleMobile(1)}
-            >
+            <Link href={"/admin/links"} className={generateMenuStyleMobile(1)}>
               <FaLink className="text-xl" />
               Links
             </Link>
@@ -405,18 +401,12 @@ export default function AdminNav({
           </Link>
 
           <h2 className="text-sm text-gray-500">GENERAL</h2>
-          <Link
-            href={"/admin/"}
-            className={generateMenuStyleDesktop(0)}
-          >
+          <Link href={"/admin/"} className={generateMenuStyleDesktop(0)}>
             <FaQuestion className="text-xl" />
             FAQs
           </Link>
 
-          <Link
-            href={"/admin/links"}
-            className={generateMenuStyleDesktop(1)}
-          >
+          <Link href={"/admin/links"} className={generateMenuStyleDesktop(1)}>
             <FaLink className="text-xl" />
             Links
           </Link>
@@ -459,10 +449,7 @@ export default function AdminNav({
           </Link>
 
           <h2 className="text-sm text-gray-500 mt-10">ACCOUNT</h2>
-          <Link
-            href={"/admin/profile"}
-            className={generateMenuStyleDesktop(3)}
-          >
+          <Link href={"/admin/profile"} className={generateMenuStyleDesktop(3)}>
             <BsPersonFill className="text-2xl" />
             Profile
           </Link>

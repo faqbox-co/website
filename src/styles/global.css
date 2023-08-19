@@ -19,7 +19,7 @@
 }
 
 .paragraph:empty::before {
-  content: '';
+  content: "";
   display: inline-block;
 }
 
@@ -52,12 +52,37 @@
   --animation-duration: 2s;
   width: var(--size);
   height: var(--size);
-  background-image:
-    radial-gradient(circle at var(--stroke-width) var(--stroke-width), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%),
-    radial-gradient(circle at calc(100% - var(--stroke-width)) var(--stroke-width), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%),
-    radial-gradient(circle at calc(100% - var(--stroke-width)) calc(100% - var(--stroke-width)), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%),
-    radial-gradient(circle at var(--stroke-width) calc(100% - var(--stroke-width)), var(--color) 0%, var(--color) var(--stroke-width), transparent var(--stroke-width), transparent 100%);
-  animation: var(--animation-timing-function) var(--animation-duration) infinite square-spin-2-animation;
+  background-image: radial-gradient(
+      circle at var(--stroke-width) var(--stroke-width),
+      var(--color) 0%,
+      var(--color) var(--stroke-width),
+      transparent var(--stroke-width),
+      transparent 100%
+    ),
+    radial-gradient(
+      circle at calc(100% - var(--stroke-width)) var(--stroke-width),
+      var(--color) 0%,
+      var(--color) var(--stroke-width),
+      transparent var(--stroke-width),
+      transparent 100%
+    ),
+    radial-gradient(
+      circle at calc(100% - var(--stroke-width))
+        calc(100% - var(--stroke-width)),
+      var(--color) 0%,
+      var(--color) var(--stroke-width),
+      transparent var(--stroke-width),
+      transparent 100%
+    ),
+    radial-gradient(
+      circle at var(--stroke-width) calc(100% - var(--stroke-width)),
+      var(--color) 0%,
+      var(--color) var(--stroke-width),
+      transparent var(--stroke-width),
+      transparent 100%
+    );
+  animation: var(--animation-timing-function) var(--animation-duration) infinite
+    square-spin-2-animation;
 }
 
 @keyframes square-spin-2-animation {

@@ -226,7 +226,9 @@ const Links: NextPageWithLayout = () => {
         )}
         {popupType && (
           <div className="bg-white sm:mt-5 mt-20 shadow-sm w-full p-6 rounded-2xl mb-3 relative font-poppins">
-            <h2 className="font-poppins text-lg text-center font-semibold">Choose a type</h2>
+            <h2 className="font-poppins text-lg text-center font-semibold">
+              Choose a type
+            </h2>
             <div className="flex gap-3 sm:gap-6 mt-5 items-center justify-center">
               <button
                 onClick={() => {
@@ -237,7 +239,9 @@ const Links: NextPageWithLayout = () => {
                 className="p-3 rounded-full bg-slate-800 flex gap-2 w-14 h-14 items-center justify-center xl:hover:w-32 duration-500 transition-all text-white group overflow-hidden"
               >
                 <FiLink className="text-2xl" />
-                <p className="xl:group-hover:flex hidden duration-1000 whitespace-nowrap">Any links</p>
+                <p className="xl:group-hover:flex hidden duration-1000 whitespace-nowrap">
+                  Any links
+                </p>
               </button>
               <button
                 onClick={() => {
@@ -275,12 +279,12 @@ const Links: NextPageWithLayout = () => {
                 <FiMail className="text-2xl text-white" />
                 <p className="xl:group-hover:flex hidden">Email</p>
               </button>
-              
+
               <button
                 className="p-3 rounded-full bg-gray-200 flex gap-2 w-14 h-14 items-center justify-center xl:hover:w-32 duration-500 transition-all text-slate-900 group overflow-hidden"
                 onClick={() => setPopupType(!popupType)}
               >
-                <FiX className="text-3xl"/>
+                <FiX className="text-3xl" />
                 <p className="xl:group-hover:flex hidden">Cancel</p>
               </button>
             </div>

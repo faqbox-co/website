@@ -13,8 +13,8 @@ export default function Start() {
         </h1>
         <h3 className="text-3xl mt-6 mb-3 font-bold">1. Sign up for free!</h3>
         <p className="mb-5 ">
-          If you are new user, you will need to choose your username first. It is
-          unique and <b>you cannot change it later</b>.
+          If you are new user, you will need to choose your username first. It
+          is unique and <b>you cannot change it later</b>.
         </p>
         <h3 className="text-3xl mt-6 mb-3 font-bold">
           2. Add questions along with its answer
@@ -28,11 +28,11 @@ export default function Start() {
           3. Customize your Faqbocs
         </h3>
         <p className="mb-5 ">
-          Go to appearence by clicking <b>Appearence</b> button on the navigation
-          bar. On the appearance page, you will be able to customize your Faqbocs
-          such as choosing header image, changing the title, and also choosing a
-          theme that suits your Faqbocs. You can see a real-time preview of your
-          Faqbocs.
+          Go to appearence by clicking <b>Appearence</b> button on the
+          navigation bar. On the appearance page, you will be able to customize
+          your Faqbocs such as choosing header image, changing the title, and
+          also choosing a theme that suits your Faqbocs. You can see a real-time
+          preview of your Faqbocs.
         </p>
         <h3 className="text-3xl mt-6 mb-3 font-bold">
           4. Do not forget to save your changes
@@ -44,14 +44,14 @@ export default function Start() {
         <h3 className="text-3xl mt-6 mb-3 font-bold">5. Share your Faqbocs!</h3>
         <p className="mb-5 ">
           You can share your Faqbocs link by clicking the <b>Share</b> button on
-          the navigation bar. Now your audience or stakeholders can have access to
-          the information they need.{" "}
+          the navigation bar. Now your audience or stakeholders can have access
+          to the information they need.{" "}
         </p>
         <h3 className="text-3xl mt-6 mb-3 font-bold">6. Log out</h3>
         <p className="mb-5 ">
-          Go to profile by clicking your profile photo on the top left if you are
-          in desktop or top right if you are in mobile. You will find Log out
-          button there!{" "}
+          Go to profile by clicking your profile photo on the top left if you
+          are in desktop or top right if you are in mobile. You will find Log
+          out button there!{" "}
         </p>
       </div>
     </>

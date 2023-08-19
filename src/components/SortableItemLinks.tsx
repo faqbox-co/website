@@ -167,8 +167,6 @@ export default function SortableItemLinks({
       mail: /(.*)/g,
     };
 
-    
-
     if (!newURL.trim() && !newTitle.trim()) {
       setEmpty(true);
     } else if (!pattern[urlType].test(newURL)) {

@@ -30,7 +30,7 @@ const faqSchema = new Schema(
         },
       ],
       required: true,
-      default: []
+      default: [],
     },
     links: {
       type: [
@@ -42,7 +42,7 @@ const faqSchema = new Schema(
         },
       ],
       required: true,
-      default: []
+      default: [],
     },
   },
   {

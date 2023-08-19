@@ -11,37 +11,19 @@ import LogoText from "../assets/faqbocs-favicon.png";
 import LogoTextDark from "../assets/faqbocs-favicon.png";
 import IData from "@/interfaces/data";
 import IFaq from "@/interfaces/faq";
-import {FiLink, FiMail} from "react-icons/fi"
+import { FiLink, FiMail } from "react-icons/fi";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
 import { FaLink } from "react-icons/fa";
 
 export default function Faqbocs({
-  data,
   image,
   title,
   theme,
   username,
-  email,
-  links
+  links,
 }: IFaq) {
-  const [search, setSearch] = useState("");
   const [popShare, setPopShare] = useState(false);
-  const [dataSearched, setDataSearched] = useState<IData[]>(data);
   const [popLink, setPopLink] = useState(false);
-
-  const handleSearch = (e: any) => {
-    setSearch(e.target.value);
-  };
-
-  useEffect(() => {
-    if (search === "") {
-      setDataSearched(data);
-    } else {
-      setDataSearched(
-        data.filter((faq) => faq.q.toLowerCase().includes(search.toLowerCase()))
-      );
-    }
-  }, [search, data]);
 
   const [colorBg, setColorBg] = useState("");
   const [colorText, setColorText] = useState("");
@@ -113,33 +95,31 @@ export default function Faqbocs({
 
   const verifiedAccount = ["faqbocs", "farisyah", "ziprawan"];
 
-  const generateURL = (type:string, url:string) => {
-    switch(type){
+  const generateURL = (type: string, url: string) => {
+    switch (type) {
       case "ig":
         return "https://instagram.com/" + url;
       case "wa":
         return "https://wa.me/" + url;
-      case("mail"):
+      case "mail":
         return "mailto:" + url;
       default:
         return url;
     }
-  }
+  };
 
-  const generateIcon = (type:string) => {
-    switch(type){
-      case("ig"):
-        return <BsInstagram className="text-2xl text-slate-900"/>;
-      case("wa"):
-        return <BsWhatsapp className="text-2xl text-slate-900"/>;
-      case("mail"):
-        return <FiMail className="text-2xl text-slate-900"/>;
+  const generateIcon = (type: string) => {
+    switch (type) {
+      case "ig":
+        return <BsInstagram className="text-2xl text-slate-900" />;
+      case "wa":
+        return <BsWhatsapp className="text-2xl text-slate-900" />;
+      case "mail":
+        return <FiMail className="text-2xl text-slate-900" />;
       default:
-        return <FiLink className="text-2xl text-slate-900"/>;
+        return <FiLink className="text-2xl text-slate-900" />;
     }
-  }
-
-  console.log(process.env.MONGO_URL);
+  };
 
   return (
     <div
@@ -182,40 +162,10 @@ export default function Faqbocs({
         </h1>
         <p className={`${colorTitle} flex items-center gap-1`}>
           @{username}
-          {verifiedAccount.includes(username) && <GoVerified className=" text-yellow-500"/>}
+          {verifiedAccount.includes(username) && (
+            <GoVerified className=" text-yellow-500" />
+          )}
         </p>
-        {/* <div
-          className={`${colorPrimary}  transitions duration-300  text-sm rounded-full font-poppins px-5 py-3  mt-5  flex justify-between gap-3 items-center w-full shadow-sm`}
-        >
-          <BiSearch className="text-xl" />
-          <input
-            id="search"
-            type="text"
-            className=" w-full transitions duration-300  outline-none bg-transparent sm:text-lg"
-            placeholder="Search..."
-            autoComplete="off"
-            value={search}
-            onChange={handleSearch}
-          />
-        </div> */}
-        {/* <a
-          href={`mailto:${email}`}
-          className={`${colorDark} rounded-full w-full flex justify-center gap-5 py-2 px-5 mt-3 font-semibold shadow-sm sm:text-lg text-center`}
-        >
-          Links
-          <FiLink2 className="text-2xl"/>
-        </a> */}
-        <section className="w-full mt-6">
-          {dataSearched.map((faq) => (
-            <AccordionItem
-              key={faq.id}
-              question={faq.q}
-              answer={parse(faq.a)}
-              colorPrimary={colorPrimary}
-              preview={false}
-            />
-          ))}
-        </section>
       </div>
       <Link
         href={"/"}
@@ -234,9 +184,11 @@ export default function Faqbocs({
           >
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center ">
               @{username}
-              {verifiedAccount.includes(username) && <GoVerified className=" text-yellow-500"/>}
+              {verifiedAccount.includes(username) && (
+                <GoVerified className=" text-yellow-500" />
+              )}
             </h1>
-            <hr className="border-1 border-slate-200"/>
+            <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins">
               <div
                 className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg "
@@ -282,29 +234,37 @@ export default function Faqbocs({
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
               Links
             </h1>
-            <hr className="border-1 border-slate-200"/>
+            <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {links.map(({url, title, urlType}:{url:string, title:string, urlType:string}) => {
-                return(
-                  <Link
-                    href={generateURL(urlType, url)}
-                    target="_blank"
-                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                  >
-                    <div className="flex items-center gap-5 font-semibold">
-                      {generateIcon(urlType)}
-                      {title}
-                    </div>
-                    <HiOutlineChevronRight className="text-2xl" />
-                  </Link>
-                )
-              })}
+              {links.map(
+                ({
+                  url,
+                  title,
+                  urlType,
+                }: {
+                  url: string;
+                  title: string;
+                  urlType: string;
+                }) => {
+                  return (
+                    <Link
+                      href={generateURL(urlType, url)}
+                      target="_blank"
+                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                    >
+                      <div className="flex items-center gap-5 font-semibold">
+                        {generateIcon(urlType)}
+                        {title}
+                      </div>
+                      <HiOutlineChevronRight className="text-2xl" />
+                    </Link>
+                  );
+                }
+              )}
             </div>
           </div>
         </button>
       )}
-
-
 
       {popShare && (
         <button
@@ -316,11 +276,12 @@ export default function Faqbocs({
           >
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
               @{username}
-              {verifiedAccount.includes(username) && <GoVerified className=" text-yellow-500"/>}
+              {verifiedAccount.includes(username) && (
+                <GoVerified className=" text-yellow-500" />
+              )}
             </h1>
-            <hr className="border-1 border-slate-200"/>
+            <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins ">
-
               <div
                 className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
                 onClick={() =>
@@ -365,23 +326,33 @@ export default function Faqbocs({
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
               Links
             </h1>
-            <hr className="border-1 border-slate-200"/>
+            <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {links.map(({url, title, urlType}:{url:string, title:string, urlType:string}) => {
-                return(
-                  <Link
-                    href={generateURL(urlType, url)}
-                    target="_blank"
-                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                  >
-                    <div className="flex items-center gap-5 font-semibold">
-                      {generateIcon(urlType)}
-                      {title}
-                    </div>
-                    <HiOutlineChevronRight className="text-2xl" />
-                  </Link>
-                )
-              })}
+              {links.map(
+                ({
+                  url,
+                  title,
+                  urlType,
+                }: {
+                  url: string;
+                  title: string;
+                  urlType: string;
+                }) => {
+                  return (
+                    <Link
+                      href={generateURL(urlType, url)}
+                      target="_blank"
+                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                    >
+                      <div className="flex items-center gap-5 font-semibold">
+                        {generateIcon(urlType)}
+                        {title}
+                      </div>
+                      <HiOutlineChevronRight className="text-2xl" />
+                    </Link>
+                  );
+                }
+              )}
             </div>
           </div>
         </button>

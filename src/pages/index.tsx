@@ -36,7 +36,6 @@ export default function Home() {
       q: "Is it similar to Linktree?",
       a: "Faqbocs is more focus on providing important informations related to your businesses, organizations, events, or anything to your stakeholders or audience, while Linktree is a tool that allows you to share multiple links on social media. However, you can use both of them at the same time. Just put your Faqbocs link inside of your Linktree!",
     },
-
   ];
   const { data, status } = useSession();
   const loading = status === "loading";
