@@ -46,12 +46,12 @@ export default function Appearance({ data }: { data: CustomSession }) {
         <title>Faqbocs Admin</title>
       </Head>
       <div className=" sm:w-full max-w-3xl w-[95%] sm:m-0 mx-auto relative z-10">
-        <h1 className="hidden sm:block font-poppins text-3xl font-semibold text-center ">
+        <h1 className="hidden sm:block font-ssp text-4xl font-black text-center ">
           Appearance
         </h1>
         <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl sm:mt-5 mt-20 relative">
           <h1 className="text-lg font-bold mb-3">Header</h1>
-          <div className="w-full sm:flex relative  sm:flex-row gap-5">
+          <div className="w-full sm:flex relative sm:flex-row gap-5">
             <div className="w-28 h-28 mb-3 sm:mb-0 rounded-full mx-auto sm:m-0 overflow-hidden">
               <div
                 className={`relative overflow-hidden w-28 h-28 ${
@@ -105,13 +105,17 @@ export default function Appearance({ data }: { data: CustomSession }) {
               name="title"
               id="title"
               placeholder={"What's the title?"}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value) setTitle(value);
+                else console.warn("Title cannot be empty!");
+              }}
               value={title}
             />
           </div>
         </div>
         <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl mt-3 sm:mt-5 mb-10 relative">
-          <h1 className="text-lg font-bold mb-3">Theme</h1>
+          <h1 className="text-lg font-bold mb-3">Themes</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 cursor-pointer">
             <div className="h-fit relative text-center">
               <input

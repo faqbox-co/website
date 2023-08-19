@@ -66,9 +66,9 @@ export default function NewUser() {
       return setStatus(<>This username isn&#39;t allowed.</>);
     }
 
-    const updatedSession = await session.update({
+    const updatedSession = (await session.update({
       username,
-    }) as CustomSession | null;
+    })) as CustomSession | null;
 
     if (!updatedSession) {
       return setStatus(<>Internal server error</>);

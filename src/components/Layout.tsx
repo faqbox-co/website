@@ -1,39 +1,45 @@
 import Link from "next/link";
 import Image from "next/image";
-import LogoText from "../assets/logo-light.png";
+import LogoText from "../assets/faqbocs-favicon.png";
 import { useSession } from "next-auth/react";
 
 export default function Layout({ children }: { children: React.ReactElement }) {
   const { status } = useSession();
   return (
     <>
-      <nav className="bg-white fixed z-10 h-[70px] sm:h-20  shadow-md top-0 left-0 flex justify-between w-[100vw] ">
+      <nav className="bg-white fixed z-10 h-[70px] 2xl:h-[80px]  shadow-md top-0 left-0 flex justify-between w-[100vw] ">
         <div className="w-full max-w-7xl m-auto flex justify-between px-5 sm:px-28 items-center">
-          <div className="flex gap-6 items-center">
+          <div className="flex gap-2 items-center">
             <a
               href={"/"}
               className=" relative flex justify-center items-center gap-2"
             >
-              <Image src={LogoText} alt="faqbocs" height={40} />
-              <p className=" text-xl sm:text-2xl font-semibold font-poppins align-middle">
+              <Image src={LogoText} alt="faqbocs" height={45} />
+              <p className=" text-2xl sm:text-3xl font-bold align-middle font-ssp ">
                 Faqbocs
               </p>
             </a>
             <Link
               href={"/start"}
-              className="py-3 px-4 hover:bg-gray-100 rounded-xl hidden lg:inline-block"
+              className="py-2 px-4 ml-6 hover:bg-gray-100 rounded-xl hidden lg:inline-block transition"
             >
               <p className=" text-lg font-semibold">Guides</p>
             </Link>
             <a
-              href={"#questions"}
-              className="py-3 px-4 hover:bg-gray-100 rounded-xl hidden lg:inline-block"
+              href={"/about"}
+              className="py-2 px-4 hover:bg-gray-100 rounded-xl hidden lg:inline-block transition"
+            >
+              <p className=" text-lg font-semibold">About</p>
+            </a>
+            <a
+              href={"/question"}
+              className="py-2 px-4 hover:bg-gray-100 rounded-xl hidden lg:inline-block transition"
             >
               <p className=" text-lg font-semibold">Questions?</p>
             </a>
           </div>
           <Link
-            className=" font-semibold py-3 px-4 sm:py-4 sm:px-6 rounded-full bg-gray-200 hover:text-white w-fit align-middle transition duration-300 hover:bg-slate-900"
+            className=" font-semibold py-3 px-4 2xl:py-4 2xl:px-6 font-poppins rounded-full bg-gray-200 hover:text-white w-fit align-middle transition duration-300 hover:bg-slate-900"
             href={
               status === "loading"
                 ? "#"
@@ -57,7 +63,7 @@ export default function Layout({ children }: { children: React.ReactElement }) {
             Start creating your Faqbocs today!
           </h1>
           <h1 className="font-ssp sm:text-4xl text-3xl mb-8 font-semibold text-white">
-            Let them know more. Less Misunderstanding.
+            Let them know more. Less confusion.
           </h1>
           <Link
             className="text-xl sm:text-2xl mx-auto font-semibold py-4 px-8 rounded-full bg-blue-600 text-white w-fit align-middle mt-4 shadow-lg hover:scale-105 transition duration-300"

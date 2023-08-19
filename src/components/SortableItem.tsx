@@ -65,7 +65,11 @@ export default function SortableItem({
 
   return (
     <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      <div className="font-poppins cursor-default w-full shadow-sm bg-white rounded-2xl flex sm:mb-4 mb-3 transition duration-300 group">
+      <div
+        className={`font-poppins cursor-default w-full shadow-sm bg-white  flex ${
+          deleteConfirm ? "rounded-t-2xl" : "sm:mb-4 mb-3 rounded-2xl"
+        } transition duration-300 group`}
+      >
         {!edit && (
           <span className="sm:w-14 w-10 touch-none flex cursor-grab active:cursor-grabbing">
             <RxDragHandleDots2 className="text-lg lg:text-xl m-auto" />
@@ -78,7 +82,7 @@ export default function SortableItem({
             <>
               <div className="sm:text-lg font-semibold mb-2 mt-5 ">{q}</div>
               {showAnswer && (
-                <div className="sm:text-base mb-2 text-sm relative break-words">
+                <div className="sm:text-base mb-3 text-sm relative break-words">
                   {parse(a)}
                 </div>
               )}
@@ -114,29 +118,6 @@ export default function SortableItem({
                 Answer
               </label>
               <TiptapEdit newAnswer={newAnswer} setNewAnswer={setNewAnswer} />
-            </div>
-          )}
-
-          {deleteConfirm && (
-            <div
-              className={`bg-white cursor-default flex flex-wrap font-poppins text-sm sm:text-base items-center gap-2 py-2  rounded-b-xl overflow-hidden  transition duration-500`}
-            >
-              <p>Delete this forever?</p>
-              <button
-                className="bg-gray-100 py-2 px-3 hover:bg-slate-900 hover:text-white rounded-full transition"
-                onClick={() => {
-                  setDeleteConfirm(false);
-                  setShowAnswer(false);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-red-100 py-2 px-3 hover:bg-red-500 hover:text-white rounded-full text-red-600 transition"
-                onClick={() => handleDelete(id)}
-              >
-                Delete
-              </button>
             </div>
           )}
 
@@ -205,6 +186,28 @@ export default function SortableItem({
           )}
         </div>
       </div>
+      {deleteConfirm && (
+        <div
+          className={`bg-orange-200 justify-center cursor-default flex flex-wrap font-poppins text-sm sm:text-base items-center gap-2 py-2  rounded-b-xl overflow-hidden  transition duration-500`}
+        >
+          <p>Delete this forever?</p>
+          <button
+            className="bg-gray-100 py-2 px-3 hover:bg-slate-900 hover:text-white rounded-full transition"
+            onClick={() => {
+              setDeleteConfirm(false);
+              setShowAnswer(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-red-100 py-2 px-3 hover:bg-red-500 hover:text-white rounded-full text-red-600 transition"
+            onClick={() => handleDelete(id)}
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 }

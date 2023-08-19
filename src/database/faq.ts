@@ -8,16 +8,21 @@ import faqModel, { IMFaq } from "@/models/faq.model";
 import IData from "@/interfaces/data";
 import CustomSession from "@/@types/custom_session";
 import pictureModel from "@/models/picture.model";
+import ILink from "@/interfaces/links";
 
 function isData(obj: any): obj is IData {
   return "id" in obj && "q" in obj && "a" in obj;
+}
+
+function isLink(obj: any): obj is ILink {
+  return "id" in obj && "url" in obj && "title" in obj && "urlType" in obj;
 }
 
 export async function getFaqData(username: string): Promise<IFaq | null> {
   if (!username) return null;
 
   await connect();
-  
+
   const faqs = await faqModel.findOne({
     username: username,
   });
@@ -33,6 +38,7 @@ export async function getFaqData(username: string): Promise<IFaq | null> {
     image: "",
     email: "",
     data: [],
+    links: [],
   };
 
   const $ = faqs as IMFaq & { _doc: IMFaq };
@@ -128,7 +134,32 @@ async function createFaq(
       });
 
       datas.data = pushData;
-      datas.ignored = ignored;
+      datas.data_ignored = ignored;
+    }
+  }
+
+  if (body.links) {
+    console.log("body.links");
+    if (!Array.isArray(body.links)) datas.links = [];
+    else {
+      const pushData: any[] = [];
+      let ignored = 0;
+
+      body.links.forEach((link) => {
+        if (!isLink(link)) {
+          ignored++;
+          return;
+        }
+        let tmp: ILink = { id: "", url: "", title: "", urlType: "" };
+        tmp["id"] = link.id;
+        tmp["url"] = link.url;
+        tmp["title"] = link.title;
+        tmp["urlType"] = link.urlType;
+        pushData.push(tmp);
+      });
+
+      datas.links = pushData;
+      datas.links_ignored = ignored;
     }
   }
 
@@ -255,6 +286,7 @@ const FaqFunctions: {
 } = {
   get: getFaq,
   post: createFaq,
+  delete: delFaq,
 };
 
 export default FaqFunctions;

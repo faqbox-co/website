@@ -1,4 +1,5 @@
 import IData from "./data";
+import ILink from "./links";
 
 export default interface IFaq {
   username: string;
@@ -7,4 +8,5 @@ export default interface IFaq {
   title: string;
   image?: string;
   data: IData[];
+  links: ILink[];
 }

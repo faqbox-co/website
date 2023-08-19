@@ -53,7 +53,9 @@ function User({
   return (
     <main>
       <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl gap-2 sm:mt-5 mt-20 relative">
-        <h1 className="text-lg block sm:hidden font-bold mb-3">Profile</h1>
+        <h1 className="block sm:hidden font-ssp text-4xl font-black mb-3">
+          Profile
+        </h1>
         <div
           className={`relative overflow-hidden w-36 h-36 rounded-full m-auto text-white ${
             ctx.image ? "bg-transparent" : "bg-slate-950"
@@ -88,7 +90,7 @@ function User({
           onClick={signOutHandler}
         >
           <CiLogout className="text-xl" />
-          Sign Out
+          Log Out
         </button>
       </div>
     </main>

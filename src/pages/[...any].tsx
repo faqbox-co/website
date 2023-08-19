@@ -30,12 +30,21 @@ function Found({ result }: ResProp) {
     <>
       <Head>
         <title>{titleMessage}</title>
-        <meta name="description" content={`This is ${data.username}'s Faqbocs. Check that out!`} />
+        <meta
+          name="description"
+          content={`This is ${data.username}'s Faqbocs. Check that out!`}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:title" content={titleMessage} />
         <meta property="og:url" content={`https://faqbocs.com`} />
-        <meta property="og:image" content={data.image ? result.url : "https://faqbocs.com/card-2.png"} />
-        <meta name="twitter:image" content={data.image ? result.url : `https://faqbocs.com/card-2.png`} />
+        <meta
+          property="og:image"
+          content={data.image ? result.url : "https://faqbocs.com/card-2.png"}
+        />
+        <meta
+          name="twitter:image"
+          content={data.image ? result.url : `https://faqbocs.com/card-2.png`}
+        />
         <meta name="twitter:card" content="summary" />
       </Head>
       <Faqbocs {...data} email={result.data.email} />

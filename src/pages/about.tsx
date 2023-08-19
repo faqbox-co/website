@@ -7,7 +7,7 @@ export default function About() {
       <Head>
         <title>About us | Faqbocs</title>
       </Head>
-      <div className="w-full font-ssp h-fit max-w-7xl mx-auto mt-[70px] sm:mt-20 py-14 sm:text-2xl text-xl sm:font-semibold font-medium px-5 sm:px-28">
+      <div className="w-full font-ssp h-fit max-w-7xl mx-auto mt-[70px] sm:mt-20 py-14 sm:text-2xl text-xl font-medium px-5 sm:px-28">
         <h1 className=" sm:text-7xl text-5xl text-center font-black mb-10">
           About Us
         </h1>

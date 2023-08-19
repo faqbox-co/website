@@ -1,4 +1,3 @@
-import CustomSession from "@/@types/custom_session";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -36,7 +35,6 @@ export default function Home() {
       q: "Is it similar to Linktree?",
       a: "Faqbocs is more focus on providing important informations related to your businesses, organizations, events, or anything to your stakeholders or audience, while Linktree is a tool that allows you to share multiple links on social media. However, you can use both of them at the same time. Just put your Faqbocs link inside of your Linktree!",
     },
-
   ];
   const { data, status } = useSession();
   const loading = status === "loading";
@@ -58,7 +56,7 @@ export default function Home() {
         <meta name="twitter:card" content="summary" />
       </Head>
       <main id="main" className="relative font-ssp">
-        <div className="w-full min-h-[100vh] grid grid-cols-1 lg:grid-cols-[_1fr_500px] max-w-7xl mx-auto pt-28 lg:pt-7 2xl:min-h-fit 2xl:py-24 ">
+        <div className="w-full min-h-[100vh] grid grid-cols-1 lg:grid-cols-[_1fr_500px] max-w-7xl mx-auto pt-28 lg:pt-7 2xl:min-h-fit 2xl:py-16 ">
           <div className="flex flex-col text-center sm:text-left justify-center sm:px-28 px-5">
             <h1 className="font-ssp font-black text-5xl sm:text-7xl">
               All questions answered in just{" "}
@@ -79,7 +77,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex my-auto">
-            <div className="m-auto scale-75 2xl:scale-90">
+            <div className="m-auto scale-75 2xl:scale-[0.8]">
               <Image
                 src={landingPageFaqbocs}
                 width={360}
@@ -131,7 +129,7 @@ export default function Home() {
               <h2 className="font-ssp text-center sm:text-left mt-4 text-white font-[500] text-xl sm:text-2xl">
                 Add all of the related commonly asked questions along with its
                 answer. Everything comes together forming a beautiful FAQ page
-                designed to convert.
+                designed to comfort.
               </h2>
               <Link
                 className="text-xl sm:text-2xl mx-auto sm:mx-0 font-semibold py-4 px-8 rounded-full bg-blue-600 text-white w-fit align-middle mt-8 shadow-lg hover:scale-105 transition duration-300"

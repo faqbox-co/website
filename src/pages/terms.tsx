@@ -16,8 +16,8 @@ export default function Terms() {
           <span className="font-bold">Last updated: </span> 19 May 2023
         </div>
         <div>
-          It&#39;s highly recommended that before using Our site any further, You
-          first read and understand the terms and conditions that apply. The
+          It&#39;s highly recommended that before using Our site any further,
+          You first read and understand the terms and conditions that apply. The
           following Terms and Conditions are conditions for visiting the site,
           Content, Services, and other features on Our website. By accessing or
           using this site, it means that You understand and agree and are bound
@@ -30,8 +30,8 @@ export default function Terms() {
           concerned in its use expressly determines otherwise.
           <ol className="list-disc list-outside pl-10 py-3">
             <li>
-              &#34;Us&#34;, &#34;We&#34;, &#34;Our&#34;, means the owner and manager
-              of the site
+              &#34;Us&#34;, &#34;We&#34;, &#34;Our&#34;, means the owner and
+              manager of the site
             </li>
             <li>
               &#34;You&#34;, means everyone who accesses and uses the Services
@@ -44,12 +44,13 @@ export default function Terms() {
               provided by Us.
             </li>
             <li>
-              &#34;Users&#34;, &#34;User&#34;, means everyone who accesses and uses
-              Our Services including Unregistered Users and Registered Users
+              &#34;Users&#34;, &#34;User&#34;, means everyone who accesses and
+              uses Our Services including Unregistered Users and Registered
+              Users
             </li>
             <li>
-              &#34;Registered Users&#34;, means everyone who accesses and uses Our
-              Services, and has registered and has an account on Our site.
+              &#34;Registered Users&#34;, means everyone who accesses and uses
+              Our Services, and has registered and has an account on Our site.
             </li>
             <li>
               &#34;Third Party&#34;, means any Third Party, including but not
