@@ -26,6 +26,7 @@ export type DataContextProps = {
   setImage: React.Dispatch<React.SetStateAction<string>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  saveChange: () => void;
 };
 
 const DataContext = createContext<DataContextProps | null>(null);
@@ -46,7 +47,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [title, setTitle] = useState("My FAQ");
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [lastSave, setLastSave] = useState(Math.round(Date.now() / 1000));
   const router = useRouter();
   let sessionData = useMemo(() => {
     return {};
@@ -133,7 +133,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const checkLinks = useCallback(() => {
     const lenLinks = link.length;
     const lenCurr = currentData.links.length;
-    console.log(lenLinks, "=", lenCurr)
 
     if (lenLinks !== lenCurr) return false;
 
@@ -187,25 +186,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [checkSame, router.asPath]);
 
-  useEffect(() => {
+  function saveChange() {
     if (loading) return;
     if (router.asPath.startsWith("/admin")) {
-      const now = Math.round(Date.now() / 1000);
-
-      if (now < lastSave + 5) return;
-
-      setLastSave(now);
-
-      console.log("saveChange called");
       const toPost = checkSame();
 
       if (Object.keys(toPost).length === 0) {
-        console.log("toPost has 0 length");
         return;
       }
 
       setLoading(true);
-      console.log("loading state is true. Fetching...");
 
       fetch("/api/faq", {
         method: "POST",
@@ -215,11 +205,9 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         },
       })
         .then((resp) => {
-          console.log("Returning response text...");
           return resp.text();
         })
         .then((text) => {
-          console.log("Parsing text");
           const { image, ...message } = JSON.parse(text).message;
           fetch(`/api/images/${(sessionData as CustomSession).username}`).then(
             (res) => {
@@ -248,7 +236,12 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
           console.error(err);
         });
     }
-  }, [checkSame, currentData, loading, router.asPath, lastSave, sessionData]);
+  }
+
+  useEffect(() => {
+    const interval = setInterval(saveChange, 3000);
+    return () => clearInterval(interval);
+  });
 
   return (
     <DataContext.Provider
@@ -267,6 +260,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
         setImage,
         loading,
         setLoading,
+        saveChange,
       }}
     >
       {children}

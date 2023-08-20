@@ -174,7 +174,10 @@ export default function AdminNav({
           {ctx.loading ? (
             <span>Saving ...</span>
           ) : (
-            <span className="flex gap-2">
+            <span
+              className="flex gap-2 cursor-pointer"
+              onClick={ctx.saveChange}
+            >
               Saved
               <BsCloudCheck className="text-2xl" />
             </span>
@@ -223,7 +226,10 @@ export default function AdminNav({
               {ctx.loading ? (
                 <span>Saving ...</span>
               ) : (
-                <span className="flex text-sm gap-2">
+                <span
+                  className="flex text-sm gap-2 cursor-pointer"
+                  onClick={ctx.saveChange}
+                >
                   Saved
                   <BsCloudCheck className="text-xl" />
                 </span>
@@ -401,7 +407,9 @@ export default function AdminNav({
           <Link href={"/admin/links"} className={generateMenuStyleDesktop(1)}>
             <FaLink className="text-xl" />
             Links
-            <span className="text-white ml-1 bg-blue-600 text-xs py-1 px-2 rounded-full ">new</span>
+            <span className="text-white ml-1 bg-blue-600 text-xs py-1 px-2 rounded-full ">
+              new
+            </span>
           </Link>
 
           <Link
