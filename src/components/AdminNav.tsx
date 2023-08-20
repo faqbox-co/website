@@ -221,7 +221,7 @@ export default function AdminNav({
             <Link
               href={"/admin/profile"}
               className="flex gap-5 items-center font-medium"
-              onClick={() => setMenu(2)}
+              
             >
               {ctx.loading ? (
                 <span>Saving ...</span>
@@ -238,6 +238,7 @@ export default function AdminNav({
                 className={`relative overflow-hidden w-8 h-8 rounded-full text-white flex  ${
                   ctx.image ? "bg-transparent" : "bg-slate-950"
                 } justify-center items-center object-cover`}
+                onClick={() => setMenu(2)}
               >
                 {!ctx.image ? (
                   session?.username![0].toUpperCase()
@@ -295,7 +296,7 @@ export default function AdminNav({
             className={`fixed top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex z-10 `}
           >
             <div
-              className={`bg-white max-w-md w-full flex flex-col gap-3 p-5 font-poppins h-60 rounded-t-3xl fixed bottom-0 left-0`}
+              className={`bg-white w-[100vw] flex flex-col gap-3 p-5 font-poppins h-60 rounded-t-3xl fixed bottom-0 left-0`}
             >
               <h1 className="text-lg my-2 font-bold text-center">
                 Share Your Faqbocs

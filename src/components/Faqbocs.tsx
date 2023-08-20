@@ -241,10 +241,10 @@ export default function Faqbocs({
       {popLink && (
         <button
           onClick={() => setPopLink(false)}
-          className={`fixed sm:hidden justify-center items-end top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
+          className={`fixed sm:hidden top-0 left-0 w-[100vw] h-[100vh] bg-slate-950/40 backdrop-blur-sm flex text-slate-950 z-10`}
         >
           <div
-            className={`bg-white  max-w-md w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-t-3xl `}
+            className={`bg-white w-[100vw] flex flex-col gap-2 p-5 font-poppins h-fit rounded-t-3xl fixed bottom-0 left-0 `}
           >
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center">
               Links
