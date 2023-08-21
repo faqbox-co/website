@@ -50,7 +50,7 @@ export default function AdminNav({
     if (path[n] === route.asPath.slice(7)) {
       return "flex flex-col items-center gap-1 border-b-2  pb-1 pt-2 border-b-slate-900 bg-slate-100";
     } else {
-      return "flex flex-col items-center gap-1 border-b-2  pb-1 pt-2 bg-white ";
+      return "flex flex-col items-center gap-1 border-b-2 border-b-gray-300  pb-1 pt-2 bg-white ";
     }
   }
 
@@ -268,7 +268,7 @@ export default function AdminNav({
               className={generateMenuStyleMobile(2)}
               onClick={() => setMenu(1)}
             >
-              <FaShapes className="text-2xl " />
+              <IoShapes className="text-2xl " />
               Appearance
             </Link>
             {/* <div
@@ -279,7 +279,7 @@ export default function AdminNav({
               Save
             </div> */}
             <div
-              className={`flex flex-col items-center gap-1 border-b-2 border-b-white pb-1 pt-2`}
+              className={`flex flex-col items-center gap-1 border-b-2 border-b-gray-300 pb-1 pt-2`}
               onClick={() => {
                 setPopShare(true);
                 setCopied(false);
