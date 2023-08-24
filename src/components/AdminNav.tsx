@@ -153,7 +153,8 @@ export default function AdminNav({
                 </div>
                 <HiOutlineChevronRight className="text-2xl" />
               </div>
-              <div className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-gray-100 transition rounded-lg ">
+              <div className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-gray-100 transition rounded-lg "
+                onClick={signOutHandler}>
                 <div className="flex items-center gap-3">
                   <BiLogOut className="text-2xl" />
                   Logout
