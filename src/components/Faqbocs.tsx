@@ -142,7 +142,7 @@ export default function Faqbocs({
         <FiLink className="text-xl sm:text-2xl" />
       </div>
       <div className="mx-auto w-full flex flex-col items-center max-w-xl">
-        <div className="relative overflow-hidden w-24 h-24 sm:w-28 sm:h-28 shadow-md rounded-full mt-3 z-0 ">
+        <div className="relative overflow-hidden w-28 h-28 shadow-md rounded-full mt-12 z-0 ">
           <div
             className={`w-full h-full ${
               image ? "bg-white" : "bg-slate-950"
