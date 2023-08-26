@@ -1,6 +1,6 @@
 import { useSortable, defaultAnimateLayoutChanges } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { CiTrash, CiEdit } from "react-icons/ci";
 import { FiCheck, FiLink, FiMail } from "react-icons/fi";
@@ -64,6 +64,29 @@ export default function SortableItemLinks({
   const [newURL, setNewURL] = useState(url);
   const [urlValid, setUrlValid] = useState(true);
   const [empty, setEmpty] = useState(false);
+  const [urlLength, setUrlLength] = useState<number>();
+
+  useEffect(() => {
+    if(window.innerWidth <= 640){
+      setUrlLength(20)
+    }else if(window.innerWidth <= 1280){
+      setUrlLength(30)
+    }else{
+      setUrlLength(50)
+    }
+  }, [])
+
+  useEffect(() => {
+    window.onresize = () => {
+      if(window.innerWidth <= 640){
+        setUrlLength(20)
+      }else if(window.innerWidth <= 1280){
+        setUrlLength(30)
+      }else{
+        setUrlLength(50)
+      }
+    }
+  })
 
   const urlTypeObj: {
     [key: string]: { name: string; urlPrompt: string; placeholder: string };
@@ -158,8 +181,8 @@ export default function SortableItemLinks({
   const handleSubmitEdit = (id: string) => {
     const pattern: { [key: string]: RegExp } = {
       ig: /(.*)/g,
-      url: /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g,
-      wa: /\+(0-9)*/g,
+      url: /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{1,}(\.[a-zA-Z]{1,})(\.[a-zA-Z]{1,})?\/[a-zA-Z0-9]{1,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/g,
+      wa: /(0-9)*/g,
       mail: /(.*)/g,
     };
 
@@ -214,7 +237,7 @@ export default function SortableItemLinks({
                     {title}
                   </div>
                   <div className="sm:text-base mb-5 text-sm relative break-words text-slate-500 max-w-[2/3] overflow-hidden">
-                    {url}
+                    {url.length > 20 ? url.slice(0, urlLength) + "..." : url}
                   </div>
                 </div>
               </div>
