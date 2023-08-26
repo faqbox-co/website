@@ -242,7 +242,7 @@ export default function Faqbocs({
 
   return (
     <div
-      className={`flex flex-col w-[100vw] h-[100vh]  absolute  origin-top-left align-middle font-poppins justify-between py-7 px-5 mx-auto hidden-scrollbar overflow-scroll ${colorBg} ${colorText}`}
+      className={`flex flex-col w-[100vw] h-[100vh]  absolute  origin-top-left align-middle font-poppins justify-between py-7 px-5 mx-auto hidden-scrollbar overflow-scroll ${colorBg} `}
     >
       <div
         className={`fixed top-5 right-5 cursor-pointer md:top-10 md:right-10 rounded-full ${colorShare} w-10 sm:w-14 h-10 sm:h-14 flex justify-center items-center`}
@@ -285,7 +285,7 @@ export default function Faqbocs({
             <GoVerified className=" text-yellow-500" />
           )}
         </p>
-        <section className="w-full mt-6">
+        <section className={`w-full mt-6 ${colorText}`}>
           {dataSearched.map((faq) => (
             <AccordionItem
               key={faq.id}
@@ -302,7 +302,7 @@ export default function Faqbocs({
         className={`relative ${colorTitle} w-full flex justify-center items-center gap-2 mt-10`}
       >
         <Image src={LogoText} alt="faqbocs" height={35} />
-        <p className="font-bold font-ssp text-2xl">Faqbocs</p>
+        <p className={`font-bold font-ssp text-2xl ${dark ? "text-[#f4f4f4]" : ""}`}>Faqbocs</p>
       </Link>
       {popShare && (
         <button
