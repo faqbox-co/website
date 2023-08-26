@@ -24,7 +24,7 @@ export default function AccordionItem({
           <p
             className={`font-poppins w-[90%] ${
               !preview ? "sm:text-lg" : ""
-            } font-medium break-words`}
+            } font-semibold break-words`}
           >
             {question}
           </p>

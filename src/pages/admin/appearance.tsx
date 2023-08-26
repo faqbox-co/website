@@ -20,6 +20,22 @@ export default function Appearance({ data }: { data: CustomSession }) {
     DataContext
   ) as ITheme;
 
+  const wrapperGenerator = (itemsTheme: string) => {
+    if (theme === itemsTheme) {
+      return "flex justify-center items-center rounded-xl border-4 border-gray-600";
+    } else {
+      return "flex justify-center items-center rounded-xl";
+    }
+  };
+
+  const selectGenerator = (itemsTheme: string) => {
+    if (theme === itemsTheme) {
+      return "w-full aspect-[9/16] px-3 flex flex-col justify-center gap-2 rounded-xl scale-90 border-2 border-gray-200";
+    } else {
+      return "w-full aspect-[9/16] px-3 flex flex-col justify-center gap-2 rounded-xl";
+    }
+  };
+
   async function onImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const reader = new FileReader();
     const file = event.target.files![0];
@@ -114,10 +130,331 @@ export default function Appearance({ data }: { data: CustomSession }) {
             />
           </div>
         </div>
-        <div className="w-full p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl mt-3 sm:mt-5 mb-10 relative">
+        <div className="w-full h-fit p-5 sm:p-10 flex font-poppins flex-col bg-white shadow-md rounded-2xl mt-3 sm:mt-5 mb-10 relative">
           <h1 className="text-lg font-bold mb-3">Themes</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 cursor-pointer">
-            <div className="h-fit relative text-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 cursor-pointer">
+            <div onClick={() => setTheme("faqbocs-monochrome")}>
+              <div className={wrapperGenerator("faqbocs-monochrome")}>
+                <div
+                  className={`bg-white border-2 border-gray-300 ${selectGenerator(
+                    "faqbocs-monochrome"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-gray-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-200 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Default</h2>
+            </div>
+            <div onClick={() => setTheme("faqbocs-blue-sky")}>
+              <div className={wrapperGenerator("faqbocs-blue-sky")}>
+                <div
+                  className={`bg-blue-600 ${selectGenerator(
+                    "faqbocs-blue-sky"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Blue</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-grass")}>
+              <div className={wrapperGenerator("faqbocs-grass")}>
+                <div
+                  className={`bg-green-500 ${selectGenerator(
+                    "faqbocs-grass"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Green</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-red")}>
+              <div className={wrapperGenerator("faqbocs-red")}>
+                <div
+                  className={`bg-red-500 ${selectGenerator(
+                    "faqbocs-red"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Red</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-pink")}>
+              <div className={wrapperGenerator("faqbocs-pink")}>
+                <div
+                  className={`bg-pink-500 ${selectGenerator(
+                    "faqbocs-pink"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Pink</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-blue-reverse")}>
+              <div className={wrapperGenerator("faqbocs-blue-reverse")}>
+                <div
+                  className={`bg-white border-2 border-gray-300 ${selectGenerator(
+                    "faqbocs-blue-reverse"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-blue-600 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-blue-600 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-blue-600 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-blue-600 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Blue Reverse</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-green-reverse")}>
+              <div className={wrapperGenerator("faqbocs-green-reverse")}>
+                <div
+                  className={`bg-white border-2 border-gray-300 ${selectGenerator(
+                    "faqbocs-green-reverse"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-green-600 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-green-600 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-green-600 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-green-600 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Blue Reverse</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-black")}>
+              <div className={wrapperGenerator("faqbocs-black")}>
+                <div
+                  className={`bg-gray-900 ${selectGenerator(
+                    "faqbocs-black"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-gray-700 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-700 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-700 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-700 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Black</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-black-white")}>
+              <div className={wrapperGenerator("faqbocs-black-white")}>
+                <div
+                  className={`bg-gray-900 ${selectGenerator(
+                    "faqbocs-black-white"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Black & White</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-dark")}>
+              <div className={wrapperGenerator("faqbocs-dark")}>
+                <div
+                  className={`bg-gray-700 ${selectGenerator(
+                    "faqbocs-dark"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Dark</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-dark-light")}>
+              <div className={wrapperGenerator("faqbocs-dark-light")}>
+                <div
+                  className={`bg-gray-700 ${selectGenerator(
+                    "faqbocs-dark-light"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-50 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Dark & Light</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-black-yellow")}>
+              <div className={wrapperGenerator("faqbocs-black-yellow")}>
+                <div
+                  className={`bg-gray-900 ${selectGenerator(
+                    "faqbocs-black-yellow"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-yellow-300 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-yellow-300 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-yellow-300 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-yellow-300 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Black & Yellow</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-galaxy")}>
+              <div className={wrapperGenerator("faqbocs-galaxy")}>
+                <div
+                  className={`bg-gradient-to-t from-blue-950 to-pink-700 ${selectGenerator(
+                    "faqbocs-galaxy"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Galaxy</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-ocean")}>
+              <div className={wrapperGenerator("faqbocs-ocean")}>
+                <div
+                  className={`bg-gradient-to-t from-blue-800 to-teal-500 via-cyan-500 ${selectGenerator(
+                    "faqbocs-ocean"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-teal-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-teal-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-teal-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-teal-200 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Ocean</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-moss")}>
+              <div className={wrapperGenerator("faqbocs-moss")}>
+                <div
+                  className={`bg-gradient-to-t from-yellow-800 to-lime-600  ${selectGenerator(
+                    "faqbocs-moss"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-lime-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-lime-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-lime-200 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-lime-200 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Moss</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-dark-smoke")}>
+              <div className={wrapperGenerator("faqbocs-dark-smoke")}>
+                <div
+                  className={`bg-dark-smoke bg-right bg-cover ${selectGenerator(
+                    "faqbocs-dark-smoke"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-gray-100 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-100 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-100 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-100 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Dark Smoke</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-light-smoke")}>
+              <div className={wrapperGenerator("faqbocs-light-smoke")}>
+                <div
+                  className={`bg-light-smoke bg-cover ${selectGenerator(
+                    "faqbocs-light-smoke"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-gray-900 shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Light Smoke</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-leaves")}>
+              <div className={wrapperGenerator("faqbocs-leaves")}>
+                <div
+                  className={`bg-leaves bg-cover ${selectGenerator(
+                    "faqbocs-leaves"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Leaves</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-koi")}>
+              <div className={wrapperGenerator("faqbocs-koi")}>
+                <div
+                  className={`bg-koi bg-cover ${selectGenerator(
+                    "faqbocs-koi"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Koi</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-space")}>
+              <div className={wrapperGenerator("faqbocs-space")}>
+                <div
+                  className={`bg-space bg-cover ${selectGenerator(
+                    "faqbocs-space"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Space</h2>
+            </div>
+            
+            
+
+            {/* <div className="h-fit relative text-center">
               <input
                 id="faqbocs-monochrome"
                 type="radio"
@@ -127,7 +464,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
                 checked={theme === "faqbocs-monochrome"}
                 onChange={(e) => setTheme(e.target.value)}
               />
-              <div className="w-full h-36 bg-white border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900  mb-2 p-8">
+              <div className="w-full h-full bg-white border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900  mb-2 p-8">
                 <div className="w-full h-8 max-w-xs bg-slate-900 rounded-full shadow-sm"></div>
                 <div className="w-full h-8 max-w-xs bg-gray-100 rounded-full shadow-md"></div>
               </div>
@@ -144,7 +481,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
                 checked={theme === "faqbocs-blue-sky"}
                 onChange={(e) => setTheme(e.target.value)}
               />
-              <div className="w-full h-36 bg-sky-200 border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900 mb-2 p-8 ">
+              <div className="w-full h-full bg-sky-200 border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900 mb-2 p-8 ">
                 <div className="w-full h-8 max-w-xs bg-blue-600 rounded-full shadow-sm"></div>
                 <div className="w-full h-8 max-w-xs bg-white rounded-full shadow-md"></div>
               </div>
@@ -160,7 +497,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
                 checked={theme === "faqbocs-dark"}
                 onChange={(e) => setTheme(e.target.value)}
               />
-              <div className="w-full h-36 bg-slate-800 border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900 mb-2 p-8 ">
+              <div className="w-full h-full bg-slate-800 border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900 mb-2 p-8 ">
                 <div className="w-full h-8 max-w-xs bg-gray-900 rounded-full shadow-sm"></div>
                 <div className="w-full h-8 max-w-xs bg-gray-950 rounded-full shadow-md"></div>
               </div>
@@ -176,12 +513,12 @@ export default function Appearance({ data }: { data: CustomSession }) {
                 checked={theme === "faqbocs-galaxy"}
                 onChange={(e) => setTheme(e.target.value)}
               />
-              <div className="w-full h-36 bg-gradient-to-t from-blue-950 to-pink-700 border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900 mb-2 p-8 ">
+              <div className="w-full h-full bg-gradient-to-t from-blue-950 to-pink-700 border-2 border-slate-200 flex flex-col gap-3 justify-center items-center rounded-2xl peer-checked:scale-90 peer-checked:border-slate-900 mb-2 p-8 ">
                 <div className="w-full h-8 max-w-xs bg-pink-600 rounded-full shadow-sm"></div>
                 <div className="w-full h-8 max-w-xs bg-gray-100 rounded-full shadow-md"></div>
               </div>
               <label htmlFor="faqbocs-galaxy">Galaxy</label>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -27,7 +27,6 @@ export default function Faqbocs({
   const [dataSearched, setDataSearched] = useState<IData[]>(data);
   const [colorBg, setColorBg] = useState("");
   const [colorText, setColorText] = useState("");
-  const [colorDark, setColorDark] = useState("");
   const [colorPrimary, setColorPrimary] = useState("");
   const [colorShare, setColorShare] = useState("");
   const [dark, setDark] = useState(false);
@@ -49,46 +48,162 @@ export default function Faqbocs({
       case "faqbocs-monochrome":
         setColorBg("bg-white");
         setColorText("");
-        setColorDark("bg-slate-900 text-white hover:bg-slate-800");
-        setColorPrimary("bg-gray-100");
+        setColorPrimary("bg-gray-200");
         setColorShare("bg-slate-900 text-white");
         setDark(false);
         setColorTitle("");
         break;
       case "faqbocs-blue-sky":
-        setColorBg("bg-sky-200");
+        setColorBg("bg-blue-600");
         setColorText("");
-        setColorDark("bg-blue-600 text-white hover:bg-blue-700");
-        setColorPrimary("bg-white");
-        setColorShare("bg-slate-900 text-white");
-        setDark(false);
-        setColorTitle("");
-        break;
-      case "faqbocs-dark":
-        setColorBg("bg-slate-800");
-        setColorText("text-gray-100");
-        setColorDark("bg-gray-900 text-white hover:bg-gray-950");
-        setColorPrimary("bg-gray-950");
-        setColorShare("bg-gray-100 text-slate-950");
-        setDark(true);
-        setColorTitle("text-gray-100");
-        break;
-      case "faqbocs-galaxy":
-        setColorBg("bg-gradient-to-t from-blue-950 to-pink-700");
-        setColorText("");
-        setColorDark("bg-pink-600 text-white hover:bg-pink-700");
         setColorPrimary("bg-white");
         setColorShare("bg-gray-100 text-slate-950");
         setDark(true);
         setColorTitle("text-white");
         break;
-      default:
-        setColorBg("bg-white");
+      case "faqbocs-grass":
+        setColorBg("bg-green-500");
         setColorText("");
-        setColorDark("bg-slate-900 text-white hover:bg-slate-800");
-        setColorPrimary("bg-gray-100");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-red":
+        setColorBg("bg-red-500");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-pink":
+        setColorBg("bg-pink-500");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-blue-reverse":
+        setColorBg("bg-white");
+        setColorText("text-white");
+        setColorPrimary("bg-blue-600");
         setColorShare("bg-slate-900 text-white");
         setDark(false);
+        setColorTitle("");
+        break;
+      case "faqbocs-green-reverse":
+        setColorBg("bg-white");
+        setColorText("text-white");
+        setColorPrimary("bg-green-600");
+        setColorShare("bg-slate-900 text-white");
+        setDark(false);
+        setColorTitle("");
+        break;
+      case "faqbocs-black":
+        setColorBg("bg-gray-900");
+        setColorText("text-gray-100");
+        setColorPrimary("bg-gray-700");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-gray-100");
+        break;
+      case "faqbocs-black-white":
+        setColorBg("bg-gray-900");
+        setColorText("");
+        setColorPrimary("bg-gray-50");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-gray-100");
+        break;
+      case "faqbocs-dark":
+        setColorBg("bg-gray-700");
+        setColorText("text-slate-100");
+        setColorPrimary("bg-gray-900");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-gray-100");
+        break;
+      case "faqbocs-dark-light":
+        setColorBg("bg-gray-700");
+        setColorText("");
+        setColorPrimary("bg-gray-50");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-gray-100");
+        break;
+      case "faqbocs-black-yellow":
+        setColorBg("bg-gray-900");
+        setColorText("");
+        setColorPrimary("bg-yellow-300");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-galaxy":
+        setColorBg("bg-gradient-to-t from-blue-950 to-pink-700");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-ocean":
+        setColorBg("bg-gradient-to-t from-blue-800 to-teal-500 via-cyan-500");
+        setColorText("");
+        setColorPrimary("bg-teal-200");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-moss":
+        setColorBg("bg-gradient-to-t from-yellow-800 to-lime-600");
+        setColorText("");
+        setColorPrimary("bg-lime-200");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-dark-smoke":
+        setColorBg("bg-dark-smoke bg-right bg-cover");
+        setColorText("");
+        setColorPrimary("bg-gray-100");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
+        break;
+      case "faqbocs-light-smoke":
+        setColorBg("bg-light-smoke bg-cover");
+        setColorText("text-white");
+        setColorPrimary("bg-gray-900");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("");
+        break;
+      case "faqbocs-leaves":
+        setColorBg("bg-leaves bg-cover");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(false);
+        setColorTitle("text-white drop-shadow-lg");
+        break;
+      case "faqbocs-koi":
+        setColorBg("bg-koi bg-cover");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(false);
+        setColorTitle("");
+        break;
+      case "faqbocs-space":
+        setColorBg("bg-space bg-cover");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(true);
+        setColorTitle("text-white");
         break;
     }
   }, [theme]);
@@ -186,7 +301,7 @@ export default function Faqbocs({
         href={"/"}
         className={`relative ${colorTitle} w-full flex justify-center items-center gap-2 mt-10`}
       >
-        <Image src={dark ? LogoTextDark : LogoText} alt="faqbocs" height={35} />
+        <Image src={LogoText} alt="faqbocs" height={35} />
         <p className="font-bold font-ssp text-2xl">Faqbocs</p>
       </Link>
       {popShare && (
