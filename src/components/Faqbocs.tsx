@@ -187,7 +187,15 @@ export default function Faqbocs({
         setColorPrimary("bg-white");
         setColorShare("bg-gray-100 text-slate-950");
         setDark(false);
-        setColorTitle("text-white drop-shadow-lg");
+        setColorTitle("text-white drop-shadow-md");
+        break;
+      case "faqbocs-flora":
+        setColorBg("bg-flora bg-center bg-cover");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-gray-100 text-slate-950");
+        setDark(false);
+        setColorTitle("");
         break;
       case "faqbocs-koi":
         setColorBg("bg-koi bg-cover");
@@ -203,7 +211,23 @@ export default function Faqbocs({
         setColorPrimary("bg-white");
         setColorShare("bg-gray-100 text-slate-950");
         setDark(true);
-        setColorTitle("text-white");
+        setColorTitle("text-white drop-shadow-md");
+        break;
+      case "faqbocs-recycle":
+        setColorBg("bg-recycle bg-center bg-cover");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-slate-900 text-white");
+        setDark(true);
+        setColorTitle("");
+        break;
+      case "faqbocs-forest":
+        setColorBg("bg-forest bg-center bg-cover");
+        setColorText("");
+        setColorPrimary("bg-white");
+        setColorShare("bg-slate-900 text-white");
+        setDark(true);
+        setColorTitle("");
         break;
     }
   }, [theme]);

@@ -19,7 +19,11 @@ module.exports = {
         "light-smoke" : ["url(/img/light-smoke.jpg)"],
         "leaves" : ["url(/img/leaves.png)"],
         "koi" : ["url(/img/koi.png)"],
-        "space" : ["url(/img/space.png)"]
+        "space" : ["url(/img/space.png)"],
+        "flora" : ["url(/img/flora.png)"],
+        "recycle" : ["url(/img/recycle.png)"],
+        "forest" : ["url(/img/forest.png)"],
+
       }
     },
   },
