@@ -420,6 +420,22 @@ export default function Appearance({ data }: { data: CustomSession }) {
               <h2 className="font-poppins text-base mt-2 text-center">Leaves</h2>
             </div>
 
+            <div onClick={() => setTheme("faqbocs-flora")}>
+              <div className={wrapperGenerator("faqbocs-flora")}>
+                <div
+                  className={`bg-flora bg-center bg-cover ${selectGenerator(
+                    "faqbocs-flora"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Flora</h2>
+            </div>
+
             <div onClick={() => setTheme("faqbocs-koi")}>
               <div className={wrapperGenerator("faqbocs-koi")}>
                 <div
@@ -450,6 +466,38 @@ export default function Appearance({ data }: { data: CustomSession }) {
                 </div>
               </div>
               <h2 className="font-poppins text-base mt-2 text-center">Space</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-recycle")}>
+              <div className={wrapperGenerator("faqbocs-recycle")}>
+                <div
+                  className={`bg-recycle bg-center bg-cover ${selectGenerator(
+                    "faqbocs-recycle"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Recycle</h2>
+            </div>
+
+            <div onClick={() => setTheme("faqbocs-forest")}>
+              <div className={wrapperGenerator("faqbocs-forest")}>
+                <div
+                  className={`bg-forest bg-center bg-cover ${selectGenerator(
+                    "faqbocs-forest"
+                  )}`}
+                >
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                  <div className="w-full h-5 rounded-full bg-white shadow-md"></div>
+                </div>
+              </div>
+              <h2 className="font-poppins text-base mt-2 text-center">Forest</h2>
             </div>
             
             

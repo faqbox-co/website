@@ -298,7 +298,7 @@ export default function SortableItemLinks({
       </div>
       {deleteConfirm && (
         <div
-          className={`bg-orange-200  cursor-default justify-center flex flex-wrap font-poppins text-sm sm:text-base items-center gap-2 py-2 rounded-b-xl overflow-hidden transition duration-500 sm:mb-4 mb-3`}
+          className={`bg-orange-200  cursor-default justify-center flex flex-wrap font-poppins text-sm sm:text-base items-center gap-2 py-2 rounded-b-2xl overflow-hidden transition duration-500 sm:mb-4 mb-3`}
         >
           <p>Delete this forever?</p>
           <button
