@@ -101,7 +101,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
                 className="rounded-full border-2 border-gray-200 font-semibold text-center hover:bg-gray-200 py-2"
                 onClick={() => {
                   if (!image) {
-                    return alert("Bro want to remove the removed image 💀");
+                    return alert("Image is already been removed");
                   }
                   const choice = confirm("You sure want to remove image?");
                   if (choice) {
@@ -124,7 +124,7 @@ export default function Appearance({ data }: { data: CustomSession }) {
               onChange={(e) => {
                 const value = e.target.value;
                 if (value) setTitle(value);
-                else console.warn("Title cannot be empty!");
+                else setTitle("");
               }}
               value={title}
             />

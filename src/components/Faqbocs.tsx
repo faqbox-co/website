@@ -193,7 +193,7 @@ export default function Faqbocs({
         setColorBg("bg-flora bg-center bg-cover");
         setColorText("");
         setColorPrimary("bg-white");
-        setColorShare("bg-gray-100 text-slate-950");
+        setColorShare("bg-slate-900 text-white");
         setDark(false);
         setColorTitle("");
         break;

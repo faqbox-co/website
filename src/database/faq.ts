@@ -192,7 +192,7 @@ async function createFaq(
       datas.image = `/api/images/${token.username}`;
     }
   }
-  if (body.title) {
+  if (body.title !== undefined || body.title !== null) {
     datas.title = body.title;
   }
   if (body.theme) {
