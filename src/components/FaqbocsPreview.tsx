@@ -304,6 +304,7 @@ export default function FaqbocsPreview({
                 src={image}
                 alt=""
                 className="object-cover"
+                placeholder="blur"
               />
             )}
           </div>
