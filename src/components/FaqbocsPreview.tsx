@@ -405,6 +405,7 @@ export default function FaqbocsPreview({
               {link.length !== 0 ? link.map(({ url, title, urlType }: ILink, idx) => {
                 return (
                   <a
+                    rel="noopener"
                     key={`link_${idx}`}
                     href={generateURL(urlType, url)}
                     target="_blank"
