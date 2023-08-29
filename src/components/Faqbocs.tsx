@@ -296,6 +296,7 @@ export default function Faqbocs({
                 src={image}
                 alt=""
                 className="object-cover"
+                placeholder="blur"
               />
             )}
           </div>
