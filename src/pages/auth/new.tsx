@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import CustomSession from "@/types/custom-session";
 import newUser from "../../assets/newuser-image.jpg";
 import LogoText from "../../assets/logo-light.png";
@@ -175,10 +175,16 @@ export default function NewUser() {
               .
             </p>
             <button
-              className="py-3 px-4 font-poppins font-semibold rounded-full w-full bg-blue-600 text-white"
+              className="py-3 px-4 mr-4 font-poppins font-semibold rounded-full w-auto bg-blue-600 text-white"
               type="submit"
             >
               Create account
+            </button>
+            <button
+              className="py-3 px-4 font-poppins font-semibold rounded-full w-auto bg-gray-200 text-black"
+              onClick={() => signOut()}
+            >
+              Cancel
             </button>
           </form>
         </div>
