@@ -21,8 +21,6 @@ export default function FaqbocsPreview() {
   ) as DataContextProps;
   const { faqs, theme, title, links } = clientData;
 
-  console.log("Sessionnya nih bosss", session);
-
   const [popLink, setPopLink] = useState(false);
   const [popShare, setPopShare] = useState(false);
 

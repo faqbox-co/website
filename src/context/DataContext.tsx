@@ -92,17 +92,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   }, [session, router]);
 
   /**
-   * Event handler that only change
-   * when imageHash updated
-   */
-  // useEffect(() => {
-  //   if (clientData.imageHash) {
-  //     console.log("I got this");
-  //     setImage(`/api/images/${clientData.imageHash}`);
-  //   }
-  // }, [clientData.imageHash]);
-
-  /**
    * Save change related functions
    */
 
@@ -137,20 +126,16 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkImage = useCallback(() => {
     if (loading) return;
-    console.log("checkImage", image);
     if (!image) {
       if (clientData.imageHash) {
-        console.log(1);
         return true;
       } else {
-        console.log(2);
+        return;
       }
     }
     if (image.startsWith("blob:")) {
-      console.log(3);
       return true;
     } else {
-      console.log(4);
       return false;
     }
   }, [image, clientData.imageHash, loading]);
@@ -163,7 +148,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     if (!checkLinks()) dataToUpload.links = clientData.links;
 
     if (checkImage()) {
-      console.log("Image changed!");
       if (!image) {
         dataToUpload.image = "";
       } else {
@@ -181,8 +165,6 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     if (clientData.theme !== serverData.theme) {
       dataToUpload.theme = clientData.theme;
     }
-
-    console.log("dataToUpload", dataToUpload);
 
     return dataToUpload;
   }, [
@@ -222,11 +204,8 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     const toUpload = await checkSame();
 
     if (Object.keys(toUpload).length === 0) {
-      console.log("SINI BOSSS");
       return;
     }
-
-    console.log("LOLOS BOSSS");
 
     setLoading(true);
 
@@ -251,7 +230,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     });
     setLoading(false);
 
-    if (message.messages) console.log(message.messages.join("\n"));
+    if (message.messages) console.warn(message.messages.join("\n"));
   }, [checkSame, router.asPath, image, loading]);
 
   useEffect(() => {
