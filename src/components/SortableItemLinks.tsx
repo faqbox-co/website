@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import { RxDragHandleDots2 } from "react-icons/rx";
 import { CiTrash, CiEdit } from "react-icons/ci";
 import { FiCheck, FiLink, FiMail } from "react-icons/fi";
-import ILink from "@/interfaces/links";
+import TypeLink from "@/types/link";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
+import { DataContextProps } from "@/context/DataContext";
 
 type ItemProps = {
-  link: ILink[];
-  setLink: React.Dispatch<React.SetStateAction<ILink[]>>;
+  links: DataContextProps["clientData"]["links"];
+  setClientData: DataContextProps["setClientData"];
   id: string;
   url: string;
   title: string;
@@ -18,8 +19,8 @@ type ItemProps = {
 };
 
 export default function SortableItemLinks({
-  link,
-  setLink,
+  links,
+  setClientData,
   id,
   url,
   title,
@@ -67,26 +68,26 @@ export default function SortableItemLinks({
   const [urlLength, setUrlLength] = useState<number>();
 
   useEffect(() => {
-    if(window.innerWidth <= 640){
-      setUrlLength(20)
-    }else if(window.innerWidth <= 1280){
-      setUrlLength(30)
-    }else{
-      setUrlLength(50)
+    if (window.innerWidth <= 640) {
+      setUrlLength(20);
+    } else if (window.innerWidth <= 1280) {
+      setUrlLength(30);
+    } else {
+      setUrlLength(50);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     window.onresize = () => {
-      if(window.innerWidth <= 640){
-        setUrlLength(20)
-      }else if(window.innerWidth <= 1280){
-        setUrlLength(30)
-      }else{
-        setUrlLength(50)
+      if (window.innerWidth <= 640) {
+        setUrlLength(20);
+      } else if (window.innerWidth <= 1280) {
+        setUrlLength(30);
+      } else {
+        setUrlLength(50);
       }
-    }
-  })
+    };
+  });
 
   const urlTypeObj: {
     [key: string]: { name: string; urlPrompt: string; placeholder: string };
@@ -192,13 +193,14 @@ export default function SortableItemLinks({
       setUrlValid(false);
       setEmpty(false);
     } else {
-      setLink(
-        link.map((item) =>
-          item.id === id
-            ? { ...item, url: newURL, title: newTitle }
-            : { ...item }
-        )
-      );
+      setClientData((clientData) => {
+        return {
+          ...clientData,
+          links: links.map((item) =>
+            item.id === id ? { ...item, url: newURL, title: newTitle } : item
+          ),
+        };
+      });
       setEdit(false);
       setUrlValid(true);
     }

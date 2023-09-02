@@ -1,5 +1,5 @@
 import { model, models, Model, Schema, Document } from "mongoose";
-import IFaq from "@/interfaces/faq";
+import TypeUserData from "@/types/user-data";
 
 const faqSchema = new Schema(
   {
@@ -16,12 +16,27 @@ const faqSchema = new Schema(
       type: String,
       required: true,
     },
+    imageHash: {
+      type: String,
+      default: "",
+    },
     image: String,
     email: {
       type: String,
       required: true,
     },
     data: {
+      type: [
+        {
+          id: String,
+          q: String,
+          a: String,
+        },
+      ],
+      required: true,
+      default: [],
+    },
+    faqs: {
       type: [
         {
           id: String,
@@ -50,8 +65,8 @@ const faqSchema = new Schema(
   }
 );
 
-export type IMFaq = IFaq & Document;
+export type IMFaq = TypeUserData & Document;
 
-const faqModel = (models.faq as Model<IFaq>) || model("faq", faqSchema);
+const faqModel = (models.faq as Model<IMFaq>) || model("faq", faqSchema);
 
 export default faqModel;

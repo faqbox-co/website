@@ -20,21 +20,16 @@ import {
   restrictToVerticalAxis,
   restrictToWindowEdges,
 } from "@dnd-kit/modifiers";
-import DataContext from "@/context/DataContext";
+import DataContext, { DataContextProps } from "@/context/DataContext";
 import { NextPageWithLayout } from "../_app";
 import Head from "next/head";
-import IData from "@/interfaces/data";
+import TypeFaq from "@/types/faq";
 import randomID from "@/utils/randomid";
 
-type DataType = {
-  data: IData[];
-  setData: React.Dispatch<
-    React.SetStateAction<{ id: string; q: string; a: string }[]>
-  >;
-};
-
 const Dashboard: NextPageWithLayout = () => {
-  const { data, setData } = useContext(DataContext) as DataType;
+  const { clientData, setClientData } = useContext(
+    DataContext
+  ) as DataContextProps;
   const [addQuestion, setAddQuestion] = useState(false);
   const sensors = [useSensor(SmartPointerSensor)];
   const [newQuestion, setNewQuestion] = useState("");
@@ -51,10 +46,14 @@ const Dashboard: NextPageWithLayout = () => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setData((items) => {
+      setClientData((clientData) => {
+        const items = clientData.faqs;
+
         const activeIndex = items.map((item) => item.id).indexOf(active.id);
         const overIndex = items.map((item) => item.id).indexOf(over.id);
-        return arrayMove(items, activeIndex, overIndex);
+        const faqs = arrayMove(items, activeIndex, overIndex);
+
+        return { ...clientData, faqs };
       });
     }
   };
@@ -63,7 +62,14 @@ const Dashboard: NextPageWithLayout = () => {
     e.preventDefault();
     if (newQuestion.trim() && newAnswer.trim()) {
       setAddQuestion(!addQuestion);
-      setData([{ id: randomID(), q: newQuestion, a: newAnswer }, ...data]);
+      setClientData((clientData) => {
+        const faqs = [
+          { id: randomID(), q: newQuestion, a: newAnswer },
+          ...clientData.faqs,
+        ];
+
+        return { ...clientData, faqs };
+      });
       setNewQuestion("");
       setNewAnswer("");
       setEmpty(false);
@@ -73,7 +79,11 @@ const Dashboard: NextPageWithLayout = () => {
   };
 
   const handleDelete = (id: string) => {
-    setData(data.filter((item) => item.id !== id));
+    setClientData((clientData) => {
+      const faqs = clientData.faqs.filter((item) => item.id !== id);
+
+      return { ...clientData, faqs };
+    });
   };
 
   return (
@@ -158,11 +168,14 @@ const Dashboard: NextPageWithLayout = () => {
           measuring={measuringConfig}
           modifiers={[restrictToWindowEdges, restrictToVerticalAxis]}
         >
-          <SortableContext items={data} strategy={verticalListSortingStrategy}>
-            {data.map((item) => (
+          <SortableContext
+            items={clientData.faqs}
+            strategy={verticalListSortingStrategy}
+          >
+            {clientData.faqs.map((item) => (
               <SortableItem
-                data={data}
-                setData={setData}
+                faqs={clientData.faqs}
+                setClientData={setClientData}
                 handleDelete={handleDelete}
                 key={item.id}
                 {...item}

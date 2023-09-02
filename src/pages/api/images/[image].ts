@@ -1,7 +1,8 @@
 import connect from "@/database/conn";
-import APIResponse from "@/interfaces/apiResponse";
+import APIResponse from "@/types/apiResponse";
 import faqModel from "@/models/faq.model";
 import pictureModel from "@/models/picture.model";
+import UserModel from "@/models/user.model";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function imageHandler(
@@ -12,18 +13,17 @@ export default async function imageHandler(
 
   if ("refresh" in req.query) {
     connect();
-    const users = await faqModel.find();
-    users.forEach(async (user) => {
-      const img = user.image;
-      if (!img) return;
-      const picture = new pictureModel({
-        name: user.username,
-        data: img,
+    const pictures = await pictureModel.find();
+    pictures.forEach(async (pic) => {
+      const img = pic.hash;
+      pic.users.forEach(async (usr) => {
+        const user = await faqModel.findOne({
+          username: usr,
+        });
+        await user?.updateOne({
+          imageHash: img,
+        });
       });
-      await user.updateOne({
-        image: "/api/images/" + user.username,
-      });
-      await picture.save();
     });
     return res.status(200).send({ ok: true, message: "OK" });
   }
@@ -35,28 +35,27 @@ export default async function imageHandler(
   }
 
   connect();
-  const test = await pictureModel.findOne({
-    name: query,
+  const found = await pictureModel.findOne({
+    hash: query,
   });
 
-  if (!test) return res.status(404).send({ ok: false, description: "Nani?" });
+  if (!found)
+    return res
+      .status(404)
+      .send({ ok: false, description: "Requested image not found." });
 
-  const img = test.data;
+  const img = found.data;
   if (!img)
-    return res.status(404).send({ ok: false, description: "No gambar." });
-
-  const imgSplit = img.split(",");
-  const imgFormat = imgSplit[0].split(";")[0].split(":")[1];
-  const imgBuff = imgSplit[1];
-
-  const buff = Buffer.from(imgBuff, "base64");
+    return res
+      .status(404)
+      .send({ ok: false, description: "Requested user has no image found." });
 
   // Trying buff first
-  const size = buff.byteLength;
-  res.setHeader("Content-Type", imgFormat);
+  const size = img.byteLength;
   res.setHeader("Content-Length", size);
+  res.setHeader("Content-Type", found.contentType);
   if ("download" in req.query)
     res.setHeader("Content-Disposition", `attachment`);
 
-  res.status(200).send(buff);
+  res.status(200).send(img);
 }

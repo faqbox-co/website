@@ -1,12 +1,12 @@
 import FaqFunctions from "@/database/faq";
-import APIResponse from "@/interfaces/apiResponse";
+import APIResponse from "@/types/apiResponse";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function FaqApi(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>
 ) {
-  console.debug(`${req.method} FAQ API called.`, req.body);
+  console.debug(`${req.method} FAQ API called.`);
   const method = (req.method ?? "GET").toLowerCase();
 
   if (!Object.keys(FaqFunctions).includes(method)) {

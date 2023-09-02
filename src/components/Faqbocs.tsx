@@ -6,25 +6,25 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import LogoText from "../assets/faqbocs-favicon.png";
 import LogoTextDark from "../assets/faqbocs-favicon.png";
-import IFaq from "@/interfaces/faq";
+import TypeUserData from "@/types/user-data";
 import { FiLink, FiMail } from "react-icons/fi";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
-import ILink from "@/interfaces/links";
+import TypeLink from "@/types/link";
 import AccordionItem from "./AccordionItem";
-import IData from "@/interfaces/data";
+import TypeFaq from "@/types/faq";
 import parse from "html-react-parser";
 
 export default function Faqbocs({
-  data,
+  faqs,
   image,
   title,
   theme,
   username,
   links,
-}: IFaq) {
+}: TypeUserData & { image: string }) {
   const [popShare, setPopShare] = useState(false);
   const [popLink, setPopLink] = useState(false);
-  const [dataSearched, setDataSearched] = useState<IData[]>(data);
+  const [dataSearched, setDataSearched] = useState<TypeFaq[]>(faqs);
   const [colorBg, setColorBg] = useState("");
   const [colorText, setColorText] = useState("");
   const [colorPrimary, setColorPrimary] = useState("");
@@ -243,9 +243,9 @@ export default function Faqbocs({
       case "mail":
         return "mailto:" + url;
       default:
-        if (url.includes("https://")||url.includes("http://")){
+        if (url.includes("https://") || url.includes("http://")) {
           return url;
-        }else{
+        } else {
           return "//" + url;
         }
     }
@@ -296,7 +296,6 @@ export default function Faqbocs({
                 src={image}
                 alt=""
                 className="object-cover"
-                placeholder="blur"
               />
             )}
           </div>
@@ -327,7 +326,13 @@ export default function Faqbocs({
         className={`relative ${colorTitle} w-full flex justify-center items-center gap-2 mt-10`}
       >
         <Image src={LogoText} alt="faqbocs" height={35} />
-        <p className={`font-bold font-ssp text-2xl ${dark ? "text-[#f4f4f4]" : ""}`}>Faqbocs</p>
+        <p
+          className={`font-bold font-ssp text-2xl ${
+            dark ? "text-[#f4f4f4]" : ""
+          }`}
+        >
+          Faqbocs
+        </p>
       </Link>
       {popShare && (
         <button
@@ -391,23 +396,25 @@ export default function Faqbocs({
             </h1>
             <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {links.length !== 0 ? links.map(({ url, title, urlType }: ILink, idx) => {
-                return (
-                  <a
-                    rel="noopener"
-                    key={`link_${idx}`}
-                    href={generateURL(urlType, url)}
-                    target="_blank"
-                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                  >
-                    <div className="flex items-center gap-5 font-semibold">
-                      {generateIcon(urlType)}
-                      {title}
-                    </div>
-                    <HiOutlineChevronRight className="text-2xl" />
-                  </a>
-                );
-              }) : (
+              {links.length !== 0 ? (
+                links.map(({ url, title, urlType }: TypeLink, idx) => {
+                  return (
+                    <a
+                      rel="noopener"
+                      key={`link_${idx}`}
+                      href={generateURL(urlType, url)}
+                      target="_blank"
+                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                    >
+                      <div className="flex items-center gap-5 font-semibold">
+                        {generateIcon(urlType)}
+                        {title}
+                      </div>
+                      <HiOutlineChevronRight className="text-2xl" />
+                    </a>
+                  );
+                })
+              ) : (
                 <div className="w-full flex font-normal cursor-pointer items-center text-slate-900 justify-center rounded-lg">
                   There is no link yet
                 </div>
@@ -479,23 +486,25 @@ export default function Faqbocs({
             </h1>
             <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {links.length !== 0 ? links.map(({ url, title, urlType }: ILink, idx) => {
-                return (
-                  <a
-                    rel="noopener"
-                    key={`links_${idx}`}
-                    href={generateURL(urlType, url)}
-                    target="_blank"
-                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                  >
-                    <div className="flex items-center gap-5 font-semibold">
-                      {generateIcon(urlType)}
-                      {title}
-                    </div>
-                    <HiOutlineChevronRight className="text-2xl" />
-                  </a>
-                );
-              }): (
+              {links.length !== 0 ? (
+                links.map(({ url, title, urlType }: TypeLink, idx) => {
+                  return (
+                    <a
+                      rel="noopener"
+                      key={`links_${idx}`}
+                      href={generateURL(urlType, url)}
+                      target="_blank"
+                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                    >
+                      <div className="flex items-center gap-5 font-semibold">
+                        {generateIcon(urlType)}
+                        {title}
+                      </div>
+                      <HiOutlineChevronRight className="text-2xl" />
+                    </a>
+                  );
+                })
+              ) : (
                 <div className="w-full flex font-normal cursor-pointer items-center text-slate-900 justify-center rounded-lg">
                   There is no link yet
                 </div>

@@ -27,7 +27,8 @@ import { BsInstagram, BsWhatsapp } from "react-icons/bs";
 import { FiLink, FiMail, FiX } from "react-icons/fi";
 
 const Links: NextPageWithLayout = () => {
-  const { link, setLink } = useContext(DataContext) as DataContextProps;
+  const { setClientData, ...ctx } = useContext(DataContext) as DataContextProps;
+  const { links } = ctx.clientData;
   const [addQuestion, setAddQuestion] = useState(false);
   const sensors = [useSensor(SmartPointerSensor)];
   const [newURL, setNewURL] = useState("");
@@ -160,10 +161,13 @@ const Links: NextPageWithLayout = () => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setLink((items) => {
+      setClientData((clientData) => {
+        const items = clientData.links;
         const activeIndex = items.map((item) => item.id).indexOf(active.id);
         const overIndex = items.map((item) => item.id).indexOf(over.id);
-        return arrayMove(items, activeIndex, overIndex);
+        const newLinks = arrayMove(items, activeIndex, overIndex);
+
+        return { ...clientData, links: newLinks };
       });
     }
   };
@@ -186,11 +190,19 @@ const Links: NextPageWithLayout = () => {
       setUrlValid(false);
       setEmpty(false);
     } else {
-      setAddQuestion(!addQuestion);
-      setLink([
-        { id: randomID(), url: newURL, title: newTitle, urlType: type.name },
-        ...link,
-      ]);
+      setClientData((clientData) => {
+        const newLinks = [
+          {
+            id: randomID(),
+            url: newURL,
+            title: newTitle,
+            urlType: type.name,
+          },
+          ...links,
+        ];
+
+        return { ...clientData, ...links };
+      });
       setNewURL("");
       setNewTitle("");
       setUrlValid(true);
@@ -198,7 +210,9 @@ const Links: NextPageWithLayout = () => {
   };
 
   const handleDelete = (id: string) => {
-    setLink(link.filter((item) => item.id !== id));
+    setClientData((clientData) => {
+      return { ...clientData, links: links.filter((item) => item.id !== id) };
+    });
   };
 
   return (
@@ -296,11 +310,11 @@ const Links: NextPageWithLayout = () => {
           measuring={measuringConfig}
           modifiers={[restrictToWindowEdges, restrictToVerticalAxis]}
         >
-          <SortableContext items={link} strategy={verticalListSortingStrategy}>
-            {link.map((item) => (
+          <SortableContext items={links} strategy={verticalListSortingStrategy}>
+            {links.map((item) => (
               <SortableItemLinks
-                link={link}
-                setLink={setLink}
+                links={links}
+                setClientData={setClientData}
                 handleDelete={handleDelete}
                 key={item.id}
                 {...item}

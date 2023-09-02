@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import CustomSession from "@/@types/custom_session";
+import CustomSession from "@/types/custom-session";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 

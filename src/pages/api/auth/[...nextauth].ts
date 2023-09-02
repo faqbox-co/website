@@ -2,7 +2,7 @@ import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import connect from "@/database/conn";
 import UserModel from "@/models/user.model";
-import CustomSession from "@/@types/custom_session";
+import CustomSession from "@/types/custom-session";
 
 import type { NextAuthOptions } from "next-auth";
 
@@ -96,7 +96,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/auth/login",
+    // signIn: "/auth/login",
     error: "/error",
   },
 };

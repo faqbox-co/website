@@ -13,7 +13,7 @@ import { FaQuestion, FaLink } from "react-icons/fa";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { useState, useEffect, useContext, useCallback, use } from "react";
 import FaqbocsPreview from "./FaqbocsPreview";
-import CustomSession from "@/@types/custom_session";
+import CustomSession from "@/types/custom-session";
 import DataContext, { DataContextProps } from "@/context/DataContext";
 import { title } from "process";
 import { signOut } from "next-auth/react";
@@ -26,15 +26,15 @@ export default function AdminNav({
 }: {
   props: React.ReactElement["props"];
 }) {
+  const ctx = useContext(DataContext) as DataContextProps;
+  const route = useRouter();
+
   const [preview, setPreview] = useState(false);
   const [menu, setMenu] = useState<number | null>(null);
   const [popShare, setPopShare] = useState(false);
   const [copied, setCopied] = useState(false);
-  const session = props.data as CustomSession;
-  const [faqbocsLink] = useState(`faqbocs.com/${session.username}`);
-  const ctx = useContext(DataContext) as DataContextProps;
+  const session = ctx.session;
   const [popProfile, setPopProfile] = useState(false);
-  const route = useRouter();
 
   const path = ["", "links", "appearance", "profile", "preview"];
 
@@ -73,14 +73,8 @@ export default function AdminNav({
 
   const verifiedAccount = ["faqbocs", "farisyah", "ziprawan"];
 
-  return (
+  return session.status === "authenticated" ? (
     <>
-      {/* {ctx.loading && (
-        <div className="w-[100vw] h-[100vh] fixed top-0 left-0 bg-slate-950/70 text-2xl font-bold z-30 text-white flex justify-center text-center items-center">
-          <div className="square-spin-2"></div>
-        </div>
-      )} */}
-
       <div className="h-[60px] shadow-md px-8 w-full fixed top-0 right-0 z-10 flex items-center font-poppins justify-end bg-white">
         {popProfile && (
           <>
@@ -96,7 +90,7 @@ export default function AdminNav({
                   } flex justify-center items-center text-7xl font-semibold`}
                 >
                   {!ctx.image ? (
-                    session.username![0].toUpperCase()
+                    session.data.username![0].toUpperCase()
                   ) : (
                     <Image
                       unoptimized
@@ -108,27 +102,27 @@ export default function AdminNav({
                   )}
                 </div>
                 <p className="font-semibold text-lg flex gap-2 items-center justify-center">
-                  @{session.username}
-                  {verifiedAccount.includes(session.username!) && (
+                  @{session.data.username}
+                  {verifiedAccount.includes(session.data.username!) && (
                     <GoVerified className=" text-yellow-500" />
                   )}
                 </p>
               </div>
               <div className="p-4 mt-2  bg-gray-100 rounded-lg">
                 <p className="font-semibold text-sm">Name</p>
-                <p>{session.user?.name}</p>
+                <p>{session.data.user?.name}</p>
               </div>
               <div className="p-4 bg-gray-100 rounded-lg">
                 <p className="font-semibold text-sm">Email</p>
-                <p>{session.user?.email}</p>
+                <p>{session.data.user?.email}</p>
               </div>
               <div
                 className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-gray-100 transition rounded-lg "
                 onClick={() =>
                   navigator.share({
                     title: `${title} | Faqbocs`,
-                    text: `${title} by ${session.username}\nCheck out my faqbocs!\n\n`,
-                    url: `https://faqbocs.com/${session.username}`,
+                    text: `${title} by ${session.data.username}\nCheck out my faqbocs!\n\n`,
+                    url: `https://faqbocs.com/${session.data.username}`,
                   })
                 }
               >
@@ -142,7 +136,7 @@ export default function AdminNav({
                 className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center hover:bg-gray-100 transition rounded-lg"
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    `faqbocs.com/${session.username}`
+                    `faqbocs.com/${session.data.username}`
                   );
                   alert("Link Copied!");
                 }}
@@ -153,8 +147,10 @@ export default function AdminNav({
                 </div>
                 <HiOutlineChevronRight className="text-2xl" />
               </div>
-              <div className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-gray-100 transition rounded-lg "
-                onClick={signOutHandler}>
+              <div
+                className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-gray-100 transition rounded-lg "
+                onClick={signOutHandler}
+              >
                 <div className="flex items-center gap-3">
                   <BiLogOut className="text-2xl" />
                   Logout
@@ -193,7 +189,7 @@ export default function AdminNav({
               }}
             >
               {!ctx.image ? (
-                session?.username![0].toUpperCase()
+                session.data?.username![0].toUpperCase()
               ) : (
                 <Image
                   unoptimized
@@ -222,7 +218,6 @@ export default function AdminNav({
             <Link
               href={"/admin/profile"}
               className="flex gap-5 items-center font-medium"
-              
             >
               {ctx.loading ? (
                 <span>Saving ...</span>
@@ -242,7 +237,7 @@ export default function AdminNav({
                 onClick={() => setMenu(2)}
               >
                 {!ctx.image ? (
-                  session?.username![0].toUpperCase()
+                  session.data?.username![0].toUpperCase()
                 ) : (
                   <Image
                     unoptimized
@@ -306,9 +301,9 @@ export default function AdminNav({
                 className="p-4 w-full flex font-normal cursor-pointer items-center justify-between"
                 onClick={() =>
                   navigator.share({
-                    title: `${ctx.title} | Faqbocs`,
-                    text: `${ctx.title} by ${session.username}\nCheck out my faqbocs!\n\n`,
-                    url: `https://faqbocs.com/${session.username}`,
+                    title: `${ctx.clientData.title} | Faqbocs`,
+                    text: `${ctx.clientData.title} by ${session.data.username}\nCheck out my faqbocs!\n\n`,
+                    url: `https://faqbocs.com/${session.data.username}`,
                   })
                 }
               >
@@ -321,7 +316,9 @@ export default function AdminNav({
               <div
                 className="p-3 border-2 w-full border-gray-200 flex font-normal justify-between rounded-lg text-sm hover:bg-gray-200 cursor-pointer items-center"
                 onClick={() => {
-                  navigator.clipboard.writeText(faqbocsLink);
+                  navigator.clipboard.writeText(
+                    `faqbocs.com/${session.data.username}`
+                  );
                   setCopied(true);
                 }}
               >
@@ -329,7 +326,7 @@ export default function AdminNav({
                   <div className="relative w-6 h-6">
                     <Image src={LogoText} alt="" fill />
                   </div>
-                  <p>{faqbocsLink}</p>
+                  <p>{`faqbocs.com/${session.data.username}`}</p>
                 </div>
                 <MdContentCopy className="text-lg" />
               </div>
@@ -353,7 +350,7 @@ export default function AdminNav({
             <AiOutlineEye className="text-xl" />
           </button>
           <a
-            href={`/${session.username}`}
+            href={`/${session.data.username}`}
             title="View Result"
             target="_blank"
             className="p-3 font-poppins font-medium rounded-full w-fit h-fit bg-blue-600 items-center text-white shadow-sm"
@@ -369,7 +366,7 @@ export default function AdminNav({
               : "translate-y-0 opacity-100"
           } transition duration-300 ease-out relative z-0 `}
         >
-          <FaqbocsPreview props={props} />
+          <FaqbocsPreview />
         </div>
         {preview && (
           <button
@@ -443,7 +440,7 @@ export default function AdminNav({
           </Link>
 
           <Link
-            href={`/${session.username}`}
+            href={`/${session.data.username}`}
             target="_blank"
             className="py-3 px-4 hover:bg-gray-800 transition rounded-md flex gap-2 items-center"
           >
@@ -485,8 +482,8 @@ export default function AdminNav({
                 onClick={() =>
                   navigator.share({
                     title: `${title} | Faqbocs`,
-                    text: `${ctx.title} by ${session.username}\nCheck out my faqbocs!\n\n`,
-                    url: `https://faqbocs.com/${session.username}`,
+                    text: `${ctx.clientData.title} by ${session.data.username}\nCheck out my faqbocs!\n\n`,
+                    url: `https://faqbocs.com/${session.data.username}`,
                   })
                 }
               >
@@ -499,7 +496,9 @@ export default function AdminNav({
               <div
                 className="p-4 border-2 w-full transition border-gray-200 flex font-normal justify-between rounded-lg hover:bg-gray-100 cursor-pointer items-center "
                 onClick={() => {
-                  navigator.clipboard.writeText(faqbocsLink);
+                  navigator.clipboard.writeText(
+                    `faqbocs.com/${session.data.username}`
+                  );
                   setCopied(true);
                 }}
               >
@@ -507,7 +506,7 @@ export default function AdminNav({
                   <div className="relative w-6 h-6">
                     <Image src={LogoText} alt="" fill />
                   </div>
-                  <p>{faqbocsLink}</p>
+                  <p>{`faqbocs.com/${session.data.username}`}</p>
                 </div>
 
                 <p className={`${copied ? "text-green-500" : ""} font-medium`}>
@@ -519,5 +518,7 @@ export default function AdminNav({
         )}
       </div>
     </>
+  ) : (
+    <></>
   );
 }

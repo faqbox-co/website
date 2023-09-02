@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 import AdminLayout from "@/components/AdminLayout";
 import { CiLogout } from "react-icons/ci";
 import Image from "next/image";
-import CustomSession from "@/@types/custom_session";
+import CustomSession from "@/types/custom-session";
 import { useContext } from "react";
 import DataContext, { DataContextProps } from "@/context/DataContext";
 import { FiLogOut } from "react-icons/fi";

@@ -2,7 +2,7 @@ import { Collapse } from "react-collapse";
 import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
-import IProp from "@/interfaces/prop";
+import IProp from "@/types/prop";
 
 export default function FAQhome({ question, answer }: IProp) {
   const [open, setOpen] = useState(false);

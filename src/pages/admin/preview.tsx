@@ -12,7 +12,7 @@ export default function Preview({
       <div className="sm:flex hidden lg:hidden h-fit relative z-10 mt-5">
         <div className="bg-slate-950 rounded-3xl w-[270px] 2xl:w-[380px] h-[551.25px] 2xl:h-[773.75px] flex mx-auto">
           <div className="w-[250px] 2xl:w-[350px] h-[531.25px] 2xl:h-[743.75px] rounded-2xl m-auto font-semibold  relative  overflow-x-hidden hidden-scrollbar">
-            <FaqbocsPreview props={{ data }} />
+            <FaqbocsPreview />
           </div>
         </div>
       </div>

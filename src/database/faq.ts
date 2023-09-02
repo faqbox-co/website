@@ -1,24 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-import IFaq from "@/interfaces/faq";
-
-import APIResponse from "@/interfaces/apiResponse";
+import TypeUserData from "@/types/user-data";
+import APIResponse from "@/types/apiResponse";
 import connect from "./conn";
 import faqModel, { IMFaq } from "@/models/faq.model";
-import IData from "@/interfaces/data";
-import CustomSession from "@/@types/custom_session";
+import TypeFaq from "@/types/faq";
+import CustomSession from "@/types/custom-session";
+import TypeLink from "@/types/link";
+import crypto from "node:crypto";
+import Sharp from "sharp";
 import pictureModel from "@/models/picture.model";
-import ILink from "@/interfaces/links";
 
-function isData(obj: any): obj is IData {
+function isData(obj: any): obj is TypeFaq {
   return "id" in obj && "q" in obj && "a" in obj;
 }
 
-function isLink(obj: any): obj is ILink {
+function isLink(obj: any): obj is TypeLink {
   return "id" in obj && "url" in obj && "title" in obj && "urlType" in obj;
 }
 
-export async function getFaqData(username: string): Promise<IFaq | null> {
+export async function getFaqData(
+  username: string
+): Promise<TypeUserData | null> {
   if (!username) return null;
 
   await connect();
@@ -31,25 +34,35 @@ export async function getFaqData(username: string): Promise<IFaq | null> {
     return null;
   }
 
-  let ret: IFaq = {
+  let ret: TypeUserData = {
     username: "",
-    title: "",
     theme: "",
-    image: "",
+    title: "",
+    imageHash: null,
     email: "",
     data: [],
+    faqs: [],
     links: [],
   };
 
   const $ = faqs as IMFaq & { _doc: IMFaq };
-  const { _id, data, ..._doc } = $._doc;
+  const { _id, faqs: userFaqs, links, ..._doc } = $._doc;
   ret = { ...ret, ..._doc };
 
-  data.forEach((d) => {
-    ret.data.push({
+  userFaqs.forEach((d) => {
+    ret.faqs.push({
       id: d.id,
       q: d.q,
       a: d.a,
+    });
+  });
+
+  links.forEach((link) => {
+    ret.links.push({
+      id: link.id,
+      url: link.url,
+      urlType: link.urlType,
+      title: link.title,
     });
   });
 
@@ -104,7 +117,14 @@ async function createFaq(
     });
   }
 
-  const body = req.body as IFaq | null;
+  if (!token.username) {
+    return res.status(400).send({
+      ok: false,
+      description: "Bad Request: Session has no username",
+    });
+  }
+
+  const body = req.body as (TypeUserData & { image: string }) | null;
 
   if (!body) {
     return res.status(400).send({
@@ -113,7 +133,12 @@ async function createFaq(
     });
   }
 
-  let datas: { [key: string]: any } = {};
+  let datas: { messages: string[]; [key: string]: any } = {
+    messages: [],
+  };
+  const exist = await faqModel.findOne({
+    username: token.username,
+  });
 
   if (body.data) {
     if (!Array.isArray(body.data)) datas.data = [];
@@ -126,7 +151,7 @@ async function createFaq(
           ignored++;
           return;
         }
-        let tmp: IData = { id: "", q: "", a: "" };
+        let tmp: TypeFaq = { id: "", q: "", a: "" };
         tmp["id"] = data.id;
         tmp["q"] = data.q;
         tmp["a"] = data.a;
@@ -139,7 +164,6 @@ async function createFaq(
   }
 
   if (body.links) {
-    console.log("body.links");
     if (!Array.isArray(body.links)) datas.links = [];
     else {
       const pushData: any[] = [];
@@ -150,7 +174,7 @@ async function createFaq(
           ignored++;
           return;
         }
-        let tmp: ILink = { id: "", url: "", title: "", urlType: "" };
+        let tmp: TypeLink = { id: "", url: "", title: "", urlType: "" };
         tmp["id"] = link.id;
         tmp["url"] = link.url;
         tmp["title"] = link.title;
@@ -164,35 +188,54 @@ async function createFaq(
   }
 
   if (body.image !== null && body.image !== undefined) {
-    const image = body.image as string;
-    const pfound = await pictureModel.findOne({
-      name: token.username,
-    });
-
-    if (image === "") {
-      if (pfound) {
-        await pfound.updateOne({
-          data: "",
+    if (!body.image) {
+      datas.imageHash = "";
+      const pictureFound = await pictureModel.findOne({
+        hash: exist?.imageHash,
+      });
+      if (pictureFound) {
+        await pictureFound.updateOne({
+          users: pictureFound.users.filter((user) => user !== exist?.username),
         });
       }
-      datas.image = "";
     } else {
-      if (!pfound) {
-        const pnew = new pictureModel({
-          name: token.username,
-          data: body.image,
-        });
-        await pnew.save();
-      } else {
-        await pfound.updateOne({
-          data: body.image,
-        });
-      }
+      const image = Buffer.from(body.image, "base64");
 
-      datas.image = `/api/images/${token.username}`;
+      try {
+        const img = Sharp(image);
+        const imgBuffer = await img.toBuffer();
+        const imgHash = crypto
+          .createHash("sha512")
+          .update(imgBuffer)
+          .digest("hex");
+
+        const pictureFound = await pictureModel.findOne({
+          hash: imgHash,
+        });
+
+        if (pictureFound) {
+          if (!pictureFound.users.includes(token.username)) {
+            await pictureFound.updateOne({
+              users: [...pictureFound.users, token.username],
+            });
+          }
+        } else {
+          const newPicture = new pictureModel({
+            users: [token.username],
+            hash: imgHash,
+            data: imgBuffer,
+            contentType: `image/${(await img.metadata()).format}`,
+          });
+          await newPicture.save();
+        }
+
+        datas.imageHash = imgHash;
+      } catch {
+        datas.messages.push("Unsupported image format");
+      }
     }
   }
-  if (body.title !== undefined || body.title !== null) {
+  if (body.title !== null || body.title !== undefined) {
     datas.title = body.title;
   }
   if (body.theme) {
@@ -207,10 +250,6 @@ async function createFaq(
   }
 
   try {
-    const exist = await faqModel.findOne({
-      username: token.username,
-    });
-
     if (!exist) {
       const newFaq = new faqModel({
         username: token.username,

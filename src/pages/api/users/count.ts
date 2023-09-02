@@ -1,5 +1,5 @@
 import connect from "@/database/conn";
-import APIResponse from "@/interfaces/apiResponse";
+import APIResponse from "@/types/apiResponse";
 import UserModel from "@/models/user.model";
 import { NextApiRequest, NextApiResponse } from "next";
 

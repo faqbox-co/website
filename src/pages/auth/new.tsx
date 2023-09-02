@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import CustomSession from "@/@types/custom_session";
+import CustomSession from "@/types/custom-session";
 import newUser from "../../assets/newuser-image.jpg";
 import LogoText from "../../assets/logo-light.png";
 

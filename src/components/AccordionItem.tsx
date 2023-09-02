@@ -2,7 +2,7 @@ import { Collapse } from "react-collapse";
 import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
-import IProp from "@/interfaces/prop";
+import TypeProp from "@/types/prop";
 import { FiChevronDown } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa";
 import { HiOutlineChevronDown } from "react-icons/hi";
@@ -12,7 +12,7 @@ export default function AccordionItem({
   answer,
   colorPrimary,
   preview,
-}: IProp) {
+}: TypeProp) {
   const [open, setOpen] = useState(false);
   return (
     <div className="mt-3">
@@ -28,12 +28,12 @@ export default function AccordionItem({
           >
             {question}
           </p>
-          <HiOutlineChevronDown 
+          <HiOutlineChevronDown
             className={`w-[10%] text-2xl transition duration-300 ${
               open ? "rotate-180" : "rotate-0"
             }`}
           />
-          
+
           {/* {open ? (
             <AiOutlineMinus className="w-[10%] sm:text-lg" />
           ) : (

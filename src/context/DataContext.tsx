@@ -1,7 +1,8 @@
-import CustomSession from "@/@types/custom_session";
-import IData from "@/interfaces/data";
-import IFaq from "@/interfaces/faq";
-import ILink from "@/interfaces/links";
+import CustomSession from "@/types/custom-session";
+import TypeFaq from "@/types/faq";
+import TypeUserData from "@/types/user-data";
+import TypeLink from "@/types/link";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import {
   createContext,
@@ -11,232 +12,247 @@ import {
   useState,
 } from "react";
 
+type UpdateSession = (data?: any) => Promise<CustomSession | null>;
+
 export type DataContextProps = {
-  data: IData[];
-  setData: React.Dispatch<React.SetStateAction<IData[]>>;
-  currentData: IFaq;
-  setCurrentData: React.Dispatch<React.SetStateAction<IFaq>>;
-  link: ILink[];
-  setLink: React.Dispatch<React.SetStateAction<ILink[]>>;
-  theme: string;
-  setTheme: React.Dispatch<React.SetStateAction<string>>;
-  title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  serverData: TypeUserData;
+  setServerData: React.Dispatch<React.SetStateAction<TypeUserData>>;
+  clientData: TypeUserData;
+  setClientData: React.Dispatch<React.SetStateAction<TypeUserData>>;
   image: string;
   setImage: React.Dispatch<React.SetStateAction<string>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   saveChange: () => void;
+  session:
+    | { update: UpdateSession; data: CustomSession; status: "authenticated" }
+    | {
+        update: UpdateSession;
+        data: null;
+        status: "unauthenticated" | "loading";
+      };
 };
 
 const DataContext = createContext<DataContextProps | null>(null);
+const defaultState = {
+  username: "",
+  theme: "faqbocs-monochrome",
+  title: "My FAQ",
+  imageHash: null,
+  email: "",
+  data: [],
+  faqs: [],
+  links: [],
+};
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
-  const [data, setData] = useState<IData[]>([]);
-  const [link, setLink] = useState<ILink[]>([]);
-  const [currentData, setCurrentData] = useState<IFaq>({
-    username: "",
-    theme: "",
-    title: "",
-    image: "",
-    email: "",
-    data: [],
-    links: [],
-  });
-  const [theme, setTheme] = useState("faqbocs-monochrome");
-  const [title, setTitle] = useState("My FAQ");
-  const [image, setImage] = useState("");
+  const [serverData, setServerData] = useState<TypeUserData>(defaultState);
+  const [clientData, setClientData] = useState<TypeUserData>(defaultState);
+  const [image, setImage] = useState<string>("");
+  const [upImg, setUpImg] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  let sessionData = useMemo(() => {
-    return {};
-  }, []);
+  const session = useSession();
 
-  if (children) {
-    const cucu = (children as React.ReactElement).props.children;
-    if (cucu) {
-      const cicit = (cucu as React.ReactElement).props;
-      sessionData = cicit.data;
-    }
-  }
+  /**
+   * Initialize user data
+   */
 
   useEffect(() => {
-    const session = sessionData as CustomSession;
-    if (currentData.username) {
-      setLoading(false);
+    if (session.status === "loading") {
       return;
-    }
-    if (!router.asPath.startsWith("/admin")) {
-      setLoading(false);
-      return;
-    }
-    if (sessionData) {
-      fetch("/api/faq/" + session.username)
+    } else if (session.status === "unauthenticated") {
+      if (!router.asPath.startsWith("/admin")) {
+        setLoading(false);
+        return;
+      } else {
+        router.push("/auth/login");
+      }
+    } else if (session.status === "authenticated") {
+      if (!router.asPath.startsWith("/admin")) return;
+      const sessionData = session.data as CustomSession;
+
+      fetch("/api/faq/" + sessionData.username)
         .then((resp) => {
           return resp.text();
         })
         .then((text) => {
           const parsed = JSON.parse(text);
           if (!parsed.ok) return;
-          setCurrentData(parsed.message);
-          setData(parsed.message.data);
-          setTheme(parsed.message.theme);
-          setTitle(parsed.message.title);
-          setLink(parsed.message.links);
-          if (!parsed.message.image) setLoading(false);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, [sessionData, router.asPath, currentData.username]);
-
-  useEffect(() => {
-    if (!currentData.image) return;
-    const session = sessionData as CustomSession;
-    if (!session) return;
-    if (!session.username) return;
-    fetch(`/api/images/${session.username}`).then((res) => {
-      if (!res.ok) {
-        return;
-      }
-      const content_type = res.headers.get("Content-Type");
-      res
-        .blob()
-        .then((blob) => blob.arrayBuffer())
-        .then((arrBuff) => {
-          const buff = Buffer.from(arrBuff).toString("base64");
-          const img = `data:${content_type};base64,${buff}`;
-          setImage(img);
-          setCurrentData((c) => {
-            return { ...c, image: img };
+          setImage((image) => {
+            return parsed.message.imageHash
+              ? `/api/images/${parsed.message.imageHash}`
+              : image;
           });
+          setServerData(parsed.message);
+          setClientData(parsed.message);
           setLoading(false);
         });
+    }
+  }, [session, router]);
+
+  /**
+   * Event handler that only change
+   * when imageHash updated
+   */
+  // useEffect(() => {
+  //   if (clientData.imageHash) {
+  //     console.log("I got this");
+  //     setImage(`/api/images/${clientData.imageHash}`);
+  //   }
+  // }, [clientData.imageHash]);
+
+  /**
+   * Save change related functions
+   */
+
+  const checkFaqs = useCallback(() => {
+    const lenClient = clientData.faqs.length;
+    const lenServer = serverData.faqs.length;
+
+    if (lenClient !== lenServer) return false;
+
+    return clientData.faqs.every((v, i) => {
+      const curr = serverData.faqs[i];
+      return curr?.a === v.a && curr?.q === v.q && curr?.id === v.id;
     });
-  }, [sessionData, currentData.image]);
-
-  const checkData = useCallback(() => {
-    const lenData = data.length;
-    const lenCurr = currentData.data?.length;
-
-    if (lenData !== lenCurr) return false;
-
-    return data.every((v, i) => {
-      const currData = currentData.data[i];
-      return (
-        currData?.a === v.a && currData?.q === v.q && currData?.id === v.id
-      );
-    });
-  }, [data, currentData.data]);
+  }, [serverData.faqs, clientData.faqs]);
 
   const checkLinks = useCallback(() => {
-    const lenLinks = link.length;
-    const lenCurr = currentData.links.length;
+    const lenClient = clientData.links.length;
+    const lenServer = serverData.links.length;
 
-    if (lenLinks !== lenCurr) return false;
+    if (lenClient !== lenServer) return false;
 
-    return link.every((v, i) => {
-      const curr = currentData.links[i];
+    return clientData.links.every((v, i) => {
+      const curr = serverData.links[i];
       return (
         curr.id === v.id &&
         curr.title === v.title &&
-        curr.title === v.title &&
-        curr.title === v.title &&
+        curr.url === v.url &&
         curr.urlType === v.urlType
       );
     });
-  }, [link, currentData.links]);
+  }, [serverData.links, clientData.links]);
 
-  const checkSame = useCallback(() => {
+  const checkImage = useCallback(() => {
+    if (loading) return;
+    console.log("checkImage", image);
+    if (!image) {
+      if (clientData.imageHash) {
+        console.log(1);
+        return true;
+      } else {
+        console.log(2);
+      }
+    }
+    if (image.startsWith("blob:")) {
+      console.log(3);
+      return true;
+    } else {
+      console.log(4);
+      return false;
+    }
+  }, [image, clientData.imageHash, loading]);
+
+  const checkSame = useCallback(async () => {
     if (loading) return {};
-    let localData: { [key: string]: any } = {};
+    let dataToUpload: { [key: string]: any } = {};
 
-    if (!checkData()) localData.data = data;
-    if (!checkLinks()) localData.links = link;
-    // console.log(checkLinks());
-    // console.log(localData.links, link)
-    // console.log("localData", localData);
+    if (!checkFaqs()) dataToUpload.faqs = clientData.faqs;
+    if (!checkLinks()) dataToUpload.links = clientData.links;
 
-    if (image != currentData.image) localData.image = image;
-    if (title != currentData.title) localData.title = title;
-    if (theme != currentData.theme) localData.theme = theme;
-    return localData;
+    if (checkImage()) {
+      console.log("Image changed!");
+      if (!image) {
+        dataToUpload.image = "";
+      } else {
+        const resp = await fetch(image);
+        const blob = await resp.blob();
+        const arrBuff = await blob.arrayBuffer();
+        dataToUpload.image = Buffer.from(arrBuff).toString("base64");
+      }
+    }
+
+    if (clientData.title !== serverData.title) {
+      dataToUpload.title = clientData.title;
+    }
+
+    if (clientData.theme !== serverData.theme) {
+      dataToUpload.theme = clientData.theme;
+    }
+
+    console.log("dataToUpload", dataToUpload);
+
+    return dataToUpload;
   }, [
-    checkData,
+    checkFaqs,
     checkLinks,
-    data,
+    checkImage,
+    clientData,
+    serverData,
     image,
-    title,
-    theme,
-    link,
-    currentData,
     loading,
   ]);
 
+  /**
+   * Add onbeforeunload event
+   */
+
   useEffect(() => {
-    if (!router.asPath.startsWith("/admin")) return;
-    if (Object.keys(checkSame()).length === 0) {
-      window.onbeforeunload = null;
-      return;
-    } else {
-      window.onbeforeunload = (e) => {
-        return (e.returnValue = "");
-      };
+    async function run() {
+      if (!router.asPath.startsWith("/admin")) return;
+      if (Object.keys(await checkSame()).length === 0) {
+        window.onbeforeunload = null;
+      } else {
+        window.onbeforeunload = (e) => {
+          return (e.returnValue = "");
+        };
+      }
     }
+    run();
+    return;
   }, [checkSame, router.asPath]);
 
-  function saveChange() {
+  const saveChange = useCallback(async () => {
     if (loading) return;
-    if (router.asPath.startsWith("/admin")) {
-      const toPost = checkSame();
 
-      if (Object.keys(toPost).length === 0) {
-        return;
-      }
+    if (!router.asPath.startsWith("/admin")) return;
 
-      setLoading(true);
+    const toUpload = await checkSame();
 
-      fetch("/api/faq", {
-        method: "POST",
-        body: JSON.stringify(toPost),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((resp) => {
-          return resp.text();
-        })
-        .then((text) => {
-          const { image, ...message } = JSON.parse(text).message;
-          fetch(`/api/images/${(sessionData as CustomSession).username}`).then(
-            (res) => {
-              if (!res.ok) {
-                return;
-              }
-              const content_type = res.headers.get("Content-Type");
-              res
-                .blob()
-                .then((blob) => blob.arrayBuffer())
-                .then((arrBuff) => {
-                  const buff = Buffer.from(arrBuff).toString("base64");
-                  const img = `data:${content_type};base64,${buff}`;
-                  setImage(img);
-                  setCurrentData((c) => {
-                    return { ...c, image: img };
-                  });
-                  setLoading(false);
-                });
-            }
-          );
-          setCurrentData({ ...currentData, ...message });
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    if (Object.keys(toUpload).length === 0) {
+      console.log("SINI BOSSS");
+      return;
     }
-  }
+
+    console.log("LOLOS BOSSS");
+
+    setLoading(true);
+
+    const resp = await fetch("/api/faq", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(toUpload),
+    });
+    const text = await resp.text();
+    const message = JSON.parse(text).message;
+    if (message.imageHash) URL.revokeObjectURL(image);
+    setImage((image) => {
+      return message.imageHash ? `/api/images/${message.imageHash}` : image;
+    });
+    setClientData((clientData) => {
+      return { ...clientData, ...message };
+    });
+    setServerData((serverData) => {
+      return { ...serverData, ...message };
+    });
+    setLoading(false);
+
+    if (message.messages) console.log(message.messages.join("\n"));
+  }, [checkSame, router.asPath, image, loading]);
 
   useEffect(() => {
     const interval = setInterval(saveChange, 3000);
@@ -246,23 +262,19 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <DataContext.Provider
       value={{
-        data,
-        setData,
-        link,
-        setLink,
-        theme,
-        setTheme,
-        title,
-        setTitle,
-        currentData,
-        setCurrentData,
+        serverData,
+        setServerData,
+        clientData,
+        setClientData,
         image,
         setImage,
         loading,
         setLoading,
         saveChange,
+        session,
       }}
     >
+      {/* {session.status === "loading" ? children : <div>Loading session...</div>} */}
       {children}
     </DataContext.Provider>
   );

@@ -8,41 +8,23 @@ import DataContext, { DataContextProps } from "@/context/DataContext";
 import Link from "next/link";
 import LogoText from "../assets/faqbocs-favicon.png";
 import LogoTextDark from "../assets/logo-dark.png";
-import CustomSession from "@/@types/custom_session";
-import IData from "@/interfaces/data";
+import CustomSession from "@/types/custom-session";
+import TypeFaq from "@/types/faq";
 import { FiLink, FiMail } from "react-icons/fi";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { BsInstagram, BsWhatsapp } from "react-icons/bs";
-import ILink from "@/interfaces/links";
+import TypeLink from "@/types/link";
 
-export default function FaqbocsPreview({
-  props,
-}: {
-  props: React.ReactElement["props"];
-}) {
-  const { data, theme, title, image, link } = useContext(
+export default function FaqbocsPreview() {
+  const { clientData, image, session } = useContext(
     DataContext
   ) as DataContextProps;
-  const session = props.data as CustomSession;
+  const { faqs, theme, title, links } = clientData;
 
-  const [search, setSearch] = useState("");
-  const [dataSearched, setDataSearched] = useState<IData[]>(data);
+  console.log("Sessionnya nih bosss", session);
+
   const [popLink, setPopLink] = useState(false);
   const [popShare, setPopShare] = useState(false);
-
-  const handleSearch = (e: any) => {
-    setSearch(e.target.value);
-  };
-
-  useEffect(() => {
-    if (search === "") {
-      setDataSearched(data);
-    } else {
-      setDataSearched(
-        data.filter((faq) => faq.q.toLowerCase().includes(search.toLowerCase()))
-      );
-    }
-  }, [search, data]);
 
   const [colorBg, setColorBg] = useState("");
   const [colorText, setColorText] = useState("");
@@ -249,9 +231,9 @@ export default function FaqbocsPreview({
       case "mail":
         return "mailto:" + url;
       default:
-        if (url.includes("https://")||url.includes("http://")){
+        if (url.includes("https://") || url.includes("http://")) {
           return url;
-        }else{
+        } else {
           return "//" + url;
         }
     }
@@ -272,7 +254,7 @@ export default function FaqbocsPreview({
 
   const verifiedAccount = ["faqbocs", "farisyah", "ziprawan"];
 
-  return (
+  return session.status === "authenticated" ? (
     <div
       className={`flex flex-col w-[100vw] h-[100vh] sm:w-[400px] sm:h-[850px]  absolute  origin-top-left sm:scale-[0.625] 2xl:scale-[0.70] align-middle sm:max-w-md font-poppins justify-between py-7 px-5 mx-auto hidden-scrollbar overflow-scroll ${colorBg}`}
     >
@@ -296,7 +278,7 @@ export default function FaqbocsPreview({
             } text-white text-5xl font-semibold flex justify-center items-center`}
           >
             {!image ? (
-              session?.username![0].toUpperCase()
+              session.data.username![0].toUpperCase()
             ) : (
               <Image
                 unoptimized
@@ -304,7 +286,6 @@ export default function FaqbocsPreview({
                 src={image}
                 alt=""
                 className="object-cover"
-                placeholder="blur"
               />
             )}
           </div>
@@ -313,22 +294,24 @@ export default function FaqbocsPreview({
           {title}
         </h1>
         <p className={`${colorTitle} flex items-center gap-1`}>
-          @{session.username}
-          {verifiedAccount.includes(session.username!) && (
+          @{session.data.username}
+          {verifiedAccount.includes(session.data.username!) && (
             <GoVerified className=" text-yellow-500" />
           )}
         </p>
 
         <section className={`w-full mt-6 ${colorText}`}>
-          {dataSearched.map((faq) => (
-            <AccordionItem
-              key={faq.id}
-              question={faq.q}
-              answer={parse(faq.a)}
-              colorPrimary={colorPrimary}
-              preview={true}
-            />
-          ))}
+          {faqs.map((faq) => {
+            return (
+              <AccordionItem
+                key={faq.id}
+                question={faq.q}
+                answer={parse(faq.a)}
+                colorPrimary={colorPrimary}
+                preview={true}
+              />
+            );
+          })}
         </section>
       </div>
       <Link
@@ -336,9 +319,15 @@ export default function FaqbocsPreview({
         className={`relative ${colorTitle} w-full flex justify-center items-center gap-2 mt-10`}
       >
         <Image src={LogoText} alt="faqbocs" height={35} />
-        <p className={`font-bold font-ssp text-2xl ${dark ? "text-[#f4f4f4]" : ""}`}>Faqbocs</p>
+        <p
+          className={`font-bold font-ssp text-2xl ${
+            dark ? "text-[#f4f4f4]" : ""
+          }`}
+        >
+          Faqbocs
+        </p>
       </Link>
-      
+
       {popShare && (
         <button
           onClick={() => setPopShare(false)}
@@ -348,8 +337,8 @@ export default function FaqbocsPreview({
             className={`bg-white w-full flex flex-col gap-2 p-5 font-poppins h-fit rounded-t-3xl fixed bottom-0 left-0 z-20`}
           >
             <h1 className="text-lg mt-2 mb-4 font-bold flex justify-center items-center gap-1 text-center ">
-              @{session.username}
-              {verifiedAccount.includes(session.username!) && (
+              @{session.data.username}
+              {verifiedAccount.includes(session.data.username!) && (
                 <GoVerified className=" text-yellow-500" />
               )}
             </h1>
@@ -360,8 +349,8 @@ export default function FaqbocsPreview({
                 onClick={() =>
                   navigator.share({
                     title: `${title} | Faqbocs`,
-                    text: `${title} by ${session.username}\nCheck out my faqbocs!\n\n`,
-                    url: `https://faqbocs.com/${session.username}`,
+                    text: `${title} by ${session.data.username}\nCheck out my faqbocs!\n\n`,
+                    url: `https://faqbocs.com/${session.data.username}`,
                   })
                 }
               >
@@ -375,7 +364,7 @@ export default function FaqbocsPreview({
                 className="p-4 w-full  flex font-normal justify-between cursor-pointer items-center hover:bg-slate-200 transition rounded-lg"
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    `faqbocs.com/${session.username}`
+                    `faqbocs.com/${session.data.username}`
                   );
                   alert("Link Copied!");
                 }}
@@ -403,23 +392,25 @@ export default function FaqbocsPreview({
             </h1>
             <hr className="border-1 border-slate-200" />
             <div className="w-full flex flex-col gap-2 p-5 font-poppins max-h-[70vh] overflow-y-auto">
-              {link.length !== 0 ? link.map(({ url, title, urlType }: ILink, idx) => {
-                return (
-                  <a
-                    rel="noopener"
-                    key={`link_${idx}`}
-                    href={generateURL(urlType, url)}
-                    target="_blank"
-                    className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
-                  >
-                    <div className="flex items-center gap-5 font-semibold">
-                      {generateIcon(urlType)}
-                      {title}
-                    </div>
-                    <HiOutlineChevronRight className="text-2xl" />
-                  </a>
-                );
-              }) : (
+              {links.length !== 0 ? (
+                links.map(({ url, title, urlType }: TypeLink, idx) => {
+                  return (
+                    <a
+                      rel="noopener"
+                      key={`link_${idx}`}
+                      href={generateURL(urlType, url)}
+                      target="_blank"
+                      className="p-4 w-full flex font-normal cursor-pointer items-center justify-between hover:bg-slate-200 transition rounded-lg"
+                    >
+                      <div className="flex items-center gap-5 font-semibold">
+                        {generateIcon(urlType)}
+                        {title}
+                      </div>
+                      <HiOutlineChevronRight className="text-2xl" />
+                    </a>
+                  );
+                })
+              ) : (
                 <div className=" w-full flex font-normal cursor-pointer items-center justify-center text-slate-900 rounded-lg">
                   There is no link yet
                 </div>
@@ -429,5 +420,7 @@ export default function FaqbocsPreview({
         </button>
       )}
     </div>
+  ) : (
+    <>Loading...</>
   );
 }

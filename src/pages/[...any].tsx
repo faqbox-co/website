@@ -1,4 +1,4 @@
-import IFaq from "@/interfaces/faq";
+import TypeUserData from "@/types/user-data";
 import Image from "next/image";
 import Link from "next/link";
 import { GetServerSideProps } from "next";
@@ -24,7 +24,7 @@ export default function Any({ result: props }: ResProp) {
 }
 
 function Found({ result }: ResProp) {
-  const data = result.data as IFaq;
+  const data = result.data as TypeUserData & { image: string };
   const titleMessage = data.title + " | Faqbocs";
   return (
     <>
@@ -126,7 +126,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       result: {
         status: "FOUND",
-        data: JSON.parse(JSON.stringify(data)),
+        data: JSON.parse(
+          JSON.stringify({
+            ...data,
+            image: data.imageHash ? `/api/images/${data.imageHash}` : "",
+          })
+        ),
         url,
       },
     },

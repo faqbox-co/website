@@ -17,7 +17,7 @@ export default function AdminLayout({
         <div className="lg:flex flex-col hidden h-fit fixed top-[100px] right-[70px] z-10">
           <div className="bg-slate-950 mt-5 rounded-3xl w-[270px] 2xl:w-[300px] h-[551.25px] 2xl:h-[615px] flex mx-auto">
             <div className="w-[250px] 2xl:w-[280px] h-[531.25px] 2xl:h-[595px] rounded-2xl m-auto font-semibold  relative  overflow-x-hidden ">
-              <FaqbocsPreview props={children.props} />
+              <FaqbocsPreview />
             </div>
           </div>
         </div>

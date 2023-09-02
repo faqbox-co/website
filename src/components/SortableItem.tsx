@@ -7,11 +7,13 @@ import { FiCheck } from "react-icons/fi";
 import { SlArrowDown } from "react-icons/sl";
 import parse from "html-react-parser";
 import TiptapEdit from "./TiptapEdit";
-import IData from "@/interfaces/data";
+import TypeUserData from "@/types/user-data";
+import TypeFaq from "@/types/faq";
+import { DataContextProps } from "@/context/DataContext";
 
 type ItemProps = {
-  data: IData[];
-  setData: React.Dispatch<React.SetStateAction<IData[]>>;
+  faqs: DataContextProps["clientData"]["faqs"];
+  setClientData: DataContextProps["setClientData"];
   id: string;
   q: string;
   a: string;
@@ -19,8 +21,8 @@ type ItemProps = {
 };
 
 export default function SortableItem({
-  data,
-  setData,
+  faqs,
+  setClientData,
   id,
   q,
   a,
@@ -51,11 +53,13 @@ export default function SortableItem({
   const [newQuestion, setNewQuestion] = useState(q);
 
   const handleSubmitEdit = (id: string) => {
-    setData(
-      data.map((item) =>
-        item.id === id ? { ...item, q: newQuestion, a: newAnswer } : { ...item }
-      )
-    );
+    setClientData((clientData) => {
+      const newFaqs = faqs.map((item) =>
+        item.id === id ? { ...item, q: newQuestion, a: newAnswer } : item
+      );
+
+      return { ...clientData, faqs: newFaqs };
+    });
   };
 
   const handleCancelEdit = () => {

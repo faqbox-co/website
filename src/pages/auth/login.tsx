@@ -34,9 +34,7 @@ export default function Login() {
           className=" absolute top-0 left-0 p-12 w-full flex sm:justify-start justify-center items-center gap-2"
         >
           <Image src={LogoText} alt="faqbocs" height={40} />
-          <p className="text-3xl font-bold font-ssp align-middle">
-            Faqbocs
-          </p>
+          <p className="text-3xl font-bold font-ssp align-middle">Faqbocs</p>
         </Link>
         <div className="min-h-[100vh] flex">
           <button
@@ -52,7 +50,6 @@ export default function Login() {
             alt="Bali, Indonesia"
             src={newUser}
             fill
-            placeholder="blur"
             className="object-cover object-top"
           />
         </div>
