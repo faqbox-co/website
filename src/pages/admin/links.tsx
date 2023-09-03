@@ -201,10 +201,12 @@ const Links: NextPageWithLayout = () => {
         ];
 
         return { ...clientData, links: newLinks };
+        
       });
       setNewURL("");
       setNewTitle("");
       setUrlValid(true);
+      setAddQuestion(!addQuestion)
     }
   };
 
