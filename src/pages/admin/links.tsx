@@ -37,7 +37,6 @@ const Links: NextPageWithLayout = () => {
   const [urlValid, setUrlValid] = useState(true);
   const [popupType, setPopupType] = useState(false);
   const [urlType, setUrlType] = useState("");
-  const [urlBuffer, setUrlBuffer] = useState("");
 
   const measuringConfig = {
     droppable: {
@@ -198,10 +197,10 @@ const Links: NextPageWithLayout = () => {
             title: newTitle,
             urlType: type.name,
           },
-          ...links,
+          ...clientData.links,
         ];
 
-        return { ...clientData, ...links };
+        return { ...clientData, links: newLinks };
       });
       setNewURL("");
       setNewTitle("");

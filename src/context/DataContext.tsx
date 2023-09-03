@@ -230,7 +230,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     });
     setLoading(false);
 
-    if (message.messages) console.warn(message.messages.join("\n"));
+    if (message.messages.length > 0) console.warn(message.messages.join("\n"));
   }, [checkSame, router.asPath, image, loading]);
 
   useEffect(() => {

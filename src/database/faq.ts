@@ -140,26 +140,26 @@ async function createFaq(
     username: token.username,
   });
 
-  if (body.data) {
-    if (!Array.isArray(body.data)) datas.data = [];
+  if (body.faqs) {
+    if (!Array.isArray(body.faqs)) datas.faqs = [];
     else {
       const pushData: any[] = [];
       let ignored = 0;
 
-      body.data.forEach((data) => {
-        if (!isData(data)) {
+      body.faqs.forEach((faq) => {
+        if (!isData(faq)) {
           ignored++;
           return;
         }
         let tmp: TypeFaq = { id: "", q: "", a: "" };
-        tmp["id"] = data.id;
-        tmp["q"] = data.q;
-        tmp["a"] = data.a;
+        tmp["id"] = faq.id;
+        tmp["q"] = faq.q;
+        tmp["a"] = faq.a;
         pushData.push(tmp);
       });
 
-      datas.data = pushData;
-      datas.data_ignored = ignored;
+      datas.faqs = pushData;
+      if (ignored) datas.messages.push(`${ignored} faqs ignored.`);
     }
   }
 
@@ -183,7 +183,7 @@ async function createFaq(
       });
 
       datas.links = pushData;
-      datas.links_ignored = ignored;
+      if (ignored) datas.messages.push(`${ignored} links ignored`);
     }
   }
 
