@@ -7,39 +7,38 @@ export default function Layout({ children }: { children: React.ReactElement }) {
   const { status } = useSession();
   return (
     <>
-      <nav className="bg-white fixed z-10 h-[70px] 2xl:h-[80px]  shadow-md top-0 left-0 flex justify-between w-[100vw] ">
+      <nav className="bg-white/70 backdrop-blur-md  fixed z-10 h-[70px] 2xl:h-[80px] top-0 left-0 flex justify-between w-[100vw] ">
         <div className="w-full max-w-7xl m-auto flex justify-between px-5 sm:px-28 items-center">
           <div className="flex gap-2 items-center">
             <a
               href={"/"}
               className=" relative flex justify-center items-center gap-2"
             >
-              <Image src={LogoText} alt="faqbocs" height={45} />
-              <p className=" text-2xl sm:text-3xl font-bold align-middle font-ssp ">
-                Faqbocs
+              <p className=" text-2xl sm:text-3xl font-black align-middle font-ssp ">
+                Faqbocs.
               </p>
             </a>
             <Link
               href={"/start"}
               className="py-2 px-4 ml-6 hover:bg-gray-100 rounded-xl hidden lg:inline-block transition"
             >
-              <p className=" text-lg font-semibold">Guides</p>
+              <p className="text-lg font-medium">Guides</p>
             </Link>
             <a
               href={"/about"}
               className="py-2 px-4 hover:bg-gray-100 rounded-xl hidden lg:inline-block transition"
             >
-              <p className=" text-lg font-semibold">About</p>
+              <p className="text-lg font-medium">About</p>
             </a>
             <a
               href={"/question"}
               className="py-2 px-4 hover:bg-gray-100 rounded-xl hidden lg:inline-block transition"
             >
-              <p className=" text-lg font-semibold">Questions?</p>
+              <p className="text-lg font-medium">Questions?</p>
             </a>
           </div>
           <Link
-            className=" font-semibold py-3 px-4 2xl:py-4 2xl:px-6 font-poppins rounded-full bg-gray-200 hover:text-white w-fit align-middle transition duration-300 hover:bg-slate-900"
+            className=" font-semibold py-2 px-4 2xl:py-3 2xl:px-6 font-poppins rounded-full bg-slate-950 text-white w-fit align-middle transition duration-300 hover:bg-slate-800"
             href={
               status === "loading"
                 ? "#"
