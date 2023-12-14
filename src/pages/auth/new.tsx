@@ -135,7 +135,7 @@ export default function NewUser() {
             <h1 className="text-5xl font-black mb-3">Welcome to Faqbocs</h1>
             <p className="font-medium text-lg text-slate-500">
               Choose your Faqbocs username. It is unique and you cannot change
-              it later.
+              it.
             </p>
           </div>
 
@@ -180,12 +180,12 @@ export default function NewUser() {
             >
               Create account
             </button>
-            <button
+            {/* <button
               className="py-3 px-4 font-poppins font-semibold rounded-full w-auto bg-gray-200 text-black"
               onClick={() => signOut()}
             >
               Cancel
-            </button>
+            </button> */}
           </form>
         </div>
         <div className="relative w-full h-full hidden sm:block">
