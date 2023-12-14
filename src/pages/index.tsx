@@ -158,12 +158,12 @@ export default function Home() {
           <div className=" sm:my-auto grid grid-cols-1 py-24  h-full min-h-[100vh]  2xl:min-h-fit 2xl:py-0 xl:grid-cols-2 max-w-7xl m-auto">
             <div className="flex flex-col xl:m-0 mt-3 xl:justify-center ">
               <h1 className="sm:text-6xl text-center sm:text-left text-5xl font-black">
-                Share your Faqbocs from wherever you want
+                Share your Faqbocs wherever you want
               </h1>
               <h2 className="font-ssp text-center sm:text-left mt-4 font-[500] text-xl sm:text-2xl">
                 Share your unique Faqbocs link anywhere you find your
                 stakeholder or audience. Add it to any of your social media bio,
-                or your microsite if any.
+                or your microsite.
               </h2>
               <Link
                 className="text-xl sm:text-2xl mx-auto sm:mx-0 font-semibold py-4 px-8 rounded-full bg-blue-600 text-white w-fit align-middle mt-8 shadow-lg hover:scale-105 transition duration-300"
